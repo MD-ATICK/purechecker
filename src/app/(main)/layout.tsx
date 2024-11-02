@@ -1,6 +1,7 @@
 
 
 import { auth } from '@/auth'
+import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import { SessionProvider } from 'next-auth/react'
 import React from 'react'
@@ -14,6 +15,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <div>
         <Navbar />
         {children}
+        <Footer />
       </div>
     </SessionProvider>
   )

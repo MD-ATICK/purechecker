@@ -1,7 +1,8 @@
-import EmailCheckerField from "@/components/EmailCheckerField";
-import HowToUse from "@/components/HowToUse";
-import HowToVerify from "@/components/HowToVerify";
-import RocksWhy from "@/components/RocksWhy";
+import EmailVerificationApi from "@/components/home/EmailVerificationApi";
+import HowToUse from "@/components/home/HowToUse";
+import HowToVerify from "@/components/home/HowToVerify";
+import RocksWhy from "@/components/home/RocksWhy";
+import EmailCheckerField from "@/components/home/SearchField";
 
 export default function Home() {
   return (
@@ -25,6 +26,9 @@ export default function Home() {
 
       {/* how to verify */}
       <HowToVerify />
+
+      {/* Email Verification Api*/}
+      <EmailVerificationApi />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import UserButton from './UserButton'
 export default async function Navbar() {
 
   const user = await getUser()
-  console.log(user)
+  console.log({user})
 
   return (
     <div className=" sticky top-0 w-full backdrop-blur-lg bg-white z-50 dark:bg-background shadow-sm h-16 flex justify-between items-center bg-[#01031017]">
@@ -42,7 +42,7 @@ export default async function Navbar() {
           <ModeToggle />
           {
             user &&
-            <UserButton name={user.name || "John Due"} />
+            <UserButton role={user.role} name={user.name || "John Due"} />
           }
           {!user && (
             <div className='flex items-center gap-3'>

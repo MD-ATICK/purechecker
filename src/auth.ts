@@ -24,20 +24,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const existingUser = await getUserById(token.sub)
             if (!existingUser) return token;
 
+            const isOAuth = await db.account.findFirst({ where: { userId: existingUser.id } })
+
             token.name = existingUser.name
+            token.role = existingUser.role
+            token.isOAuth = !!isOAuth
             token.emailVerified = existingUser.emailVerified;
 
             return token;
         },
+
         async session({ token, session }) {
             if (token.sub && session.user) {
                 session.user.id = token.sub
             }
             session.user.name = token.name as string
+            session.user.role = token.role as "ADMIN" | "USER"
+            session.user.isOAuth = token.isOAuth as boolean
             session.user.emailVerified = token.emailVerified as Date
             return session;
         }
-
     },
     adapter: PrismaAdapter(db),
     session: { strategy: "jwt" },

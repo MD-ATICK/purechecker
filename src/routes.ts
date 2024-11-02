@@ -3,7 +3,7 @@ export const publicRoutes = [
 ]
 
 export const protectedRoutes = [
-    "/",
+    "/admin",
 ]
 
 export const authRoutes = [
@@ -11,6 +11,7 @@ export const authRoutes = [
     "/sign-up",
     "/error",
 ]
+
 
 
 export const loginRoute = "/login"

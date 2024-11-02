@@ -12,23 +12,119 @@ enum Role {
   ADMIN
 }
 
+// user, credit , email verify object , valume , subscription, blog
+
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  username      String?         @unique
-  email         String?         @unique
-  emailVerified DateTime?
-  password      String?
-  image         String?
-  role          Role            @default(USER)
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  username       String?        @unique
+  email          String?        @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  role           Role           @default(USER)
+  subscriptionId String?
+  verifyEmails   VerifyEmail[]
+  credits        Credit[]
+  subscription   Subscription[]
+  blogs          Blog[]
+  volumes        Volume[]
+
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
   Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+enum CreditType {
+  DEFAULT
+  PURCHASE
+  SUBSCRIPTION
+}
+
+enum VolumeType {
+  PURCHASE
+  SUBSCRIPTION
+}
+
+model Blog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  image       String
+  tilte       String
+  category    String
+  description String
+  tags        String[]
+  htmlContent String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User    @relation(fields: [userId], references: [id])
+  userId      String  @db.ObjectId
+}
+
+model Credit {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  User      User       @relation(fields: [userId], references: [id])
+  userId    String     @db.ObjectId
+  credit    Int        @default(0)
+  paymentId String?
+  type      CreditType @default(DEFAULT)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Volume    Volume    @relation(fields: [volumeId], references: [id])
+  volumeId  String    @db.ObjectId
+}
+
+model Volume {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  type        VolumeType @default(PURCHASE)
+  credit      Int
+  dailyCredit Int?
+  credits     Credit[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  User        User      @relation(fields: [userId], references: [id])
+  userId      String    @db.ObjectId
+}
+
+model VerifyEmail {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String
+  smtp          String
+  isExist       Boolean  @default(false)
+  isDisposable  Boolean  @default(false)
+  isValidDomain Boolean  @default(false)
+  isDisable     Boolean  @default(false)
+  is2FA         Boolean  @default(false)
+  mxRecord      String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  User          User    @relation(fields: [userId], references: [id])
+  userId        String  @db.ObjectId
+}
+
+enum SubscriptionType {
+  ACTIVE
+  ISACTIVE
+  REFUND
+  CANCELLED
+}
+
+model Subscription {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  User               User           @relation(fields: [userId], references: [id])
+  userId             String          @db.ObjectId
+  paymentId          String
+  status             SubscriptionType @default(ISACTIVE)
+  currentPeriodStart Int
+  currentPeriodEnd   Int
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+}
+
+// * ----------------------------------------------------------------------------- 
+// * ----------------------------------------------------------------------------- 
 
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId

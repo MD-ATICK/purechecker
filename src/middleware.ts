@@ -9,20 +9,15 @@ const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
     const { nextUrl } = req
-    const isLoggedIn = !!req.auth
+    const isLoggedIn = req.auth
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-    // const isProtectedRoute = protectedRoutes.includes(nextUrl.pathname)
+    const isProtectedRoute = nextUrl.pathname.includes('admin')
 
-    // if (isProtectedRoute) {
-    //     if (!isLoggedIn) {
-    //         return Response.redirect(new URL("/login", nextUrl))
-    //     }
-    // }
-
-    if (isAuthRoute) {
+    if (isAuthRoute || isProtectedRoute) {
         if (isLoggedIn) {
             return Response.redirect(new URL(default_login_redirect, nextUrl))
         }
+
     }
 })
 
