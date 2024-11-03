@@ -8,15 +8,17 @@ import React from 'react'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 
+
   const session = await auth()
 
   return (
-    <SessionProvider session={session}>
-      <div>
+    <div>
+      <SessionProvider session={session}>
         <Navbar />
         {children}
         <Footer />
-      </div>
-    </SessionProvider>
+      </SessionProvider>
+
+    </div>
   )
 }

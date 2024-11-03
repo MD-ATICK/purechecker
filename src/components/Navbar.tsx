@@ -1,27 +1,31 @@
 import logo from '@/assets/logo.png'
-import { getUser } from '@/lib/getUser'
+import { checkSubscription, getUser } from '@/lib/getUser'
 import Image from 'next/image'
 import Link from 'next/link'
+import CreditBox from './CreditBox'
 import { ModeToggle } from './ModeToggle'
 import { Button } from './ui/button'
 import UserButton from './UserButton'
 export default async function Navbar() {
 
   const user = await getUser()
-  console.log({user})
+  if (user && user.subscriptionId) {
+    await checkSubscription({ userId: user.id!, subscriptionId: user.subscriptionId })
+  }
+  console.log(user)
 
   return (
     <div className=" sticky top-0 w-full backdrop-blur-lg bg-white z-50 dark:bg-background shadow-sm h-16 flex justify-between items-center bg-[#01031017]">
       <main className=' container mx-auto flex items-center justify-between'>
 
         {/* LOGO */}
-        <div className='flex items-center gap-2'>
+        <Link href={'/'} className='flex items-center gap-2'>
           <Image alt='' src={logo} height={30} />
           <h1 className=" font-bold text-2xl">PureChecker</h1>
-        </div>
+        </Link>
 
         {/* NAV ITEMS */}
-        <nav className=' flex items-center gap-2'>
+        <nav className=' hidden lg:flex items-center gap-2'>
           <Link href={'/'} className=' font-medium' >
             <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Home</Button>
           </Link>
@@ -41,8 +45,10 @@ export default async function Navbar() {
         <div className=' flex items-center gap-3'>
           <ModeToggle />
           {
-            user &&
-            <UserButton role={user.role} name={user.name || "John Due"} />
+            user && <div className=' flex items-center justify-center gap-4'>
+              <CreditBox userId={user.id!} />
+              <UserButton role={user.role} name={user.name || "John Due"} />
+            </div>
           }
           {!user && (
             <div className='flex items-center gap-3'>

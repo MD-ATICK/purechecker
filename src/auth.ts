@@ -6,8 +6,20 @@ import { db } from "./lib/prisma";
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    events: {
+        async linkAccount({ user }) {
+            if (user.id) {
+                await db.credit.create({
+                    data: {
+                        userId: user.id,
+                        credit: 10,
+                        type: 'DEFAULT',
+                    }
+                })
+            }
+        },
+    },
     callbacks: {
-
         async signIn({ user, account }) {
             if (account?.provider === "credentials") {
                 const existingUser = await getUserById(String(user.id))
@@ -30,6 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.role = existingUser.role
             token.isOAuth = !!isOAuth
             token.emailVerified = existingUser.emailVerified;
+            token.subscriptionId = existingUser.subscriptionId
 
             return token;
         },
@@ -41,6 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             session.user.name = token.name as string
             session.user.role = token.role as "ADMIN" | "USER"
             session.user.isOAuth = token.isOAuth as boolean
+            session.user.subscriptionId = token.subscriptionId as string
             session.user.emailVerified = token.emailVerified as Date
             return session;
         }

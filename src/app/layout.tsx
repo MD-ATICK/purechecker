@@ -15,11 +15,13 @@ export const metadata: Metadata = {
   description: "Best app for email verify",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <body
@@ -31,7 +33,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+
+            {children}
           <Toaster />
         </ThemeProvider>
       </body>

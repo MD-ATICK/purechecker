@@ -11,13 +11,11 @@ export default auth((req) => {
     const { nextUrl } = req
     const isLoggedIn = req.auth
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-    const isProtectedRoute = nextUrl.pathname.includes('admin')
 
-    if (isAuthRoute || isProtectedRoute) {
+    if (isAuthRoute) {
         if (isLoggedIn) {
             return Response.redirect(new URL(default_login_redirect, nextUrl))
         }
-
     }
 })
 

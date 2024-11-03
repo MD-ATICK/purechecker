@@ -6,7 +6,7 @@ import Link from 'next/link'
 import LogoutButton from './LogoutButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from './ui/dropdown-menu'
 
-export default function UserButton({ name, role  }: { name: string, role :Role }) {
+export default function UserButton({ name, role }: { name: string, role: Role }) {
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none'>
@@ -16,14 +16,14 @@ export default function UserButton({ name, role  }: { name: string, role :Role }
                 <DropdownMenuLabel>
                     Hi, @{name || "John Due"}
                 </DropdownMenuLabel>
-                <Link href={'/user/dashboard'}>
                 {
                     role === "ADMIN" &&
-                    <DropdownMenuItem>
-                        Dashboard
-                    </DropdownMenuItem>
+                    <Link href={'/admin/dashboard'}>
+                        <DropdownMenuItem>
+                            Dashboard
+                        </DropdownMenuItem>
+                    </Link>
                 }
-                </Link>
                 <LogoutButton />
             </DropdownMenuContent>
         </DropdownMenu>

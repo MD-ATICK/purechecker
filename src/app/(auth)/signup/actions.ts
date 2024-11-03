@@ -17,7 +17,7 @@ export const signUp = async (values: SignUpValues) => {
 
     const hashedPassword = hashSync(password, 10)
 
-    await db.user.create({
+    const user = await db.user.create({
         data: {
             name,
             email,
@@ -25,9 +25,16 @@ export const signUp = async (values: SignUpValues) => {
         }
     })
 
+    await db.credit.create({
+        data: {
+            userId: user.id,
+            credit: 10,
+            type: 'DEFAULT',
+        }
+    })
+
     try {
         await signIn("credentials", { email, password, redirectTo: '/' })
-        console.log('redirect now')
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

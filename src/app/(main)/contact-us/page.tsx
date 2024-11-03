@@ -15,15 +15,15 @@ export default function page() {
                     <p className="  text-muted-foreground w-[90%]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Iste quaerat autem corrupti asperiores accusantium et fuga! Facere excepturi, quo eos, nobis doloremque dolor labore expedita illum iusto, aut repellat fuga!</p>
                     <div className=' space-y-5 py-8'>
                         <div className="flex items-center gap-3">
-                            <Image alt="" src={locationImage} height={30} />
+                            <Image alt="" src={locationImage} height={25} />
                             <p className="">1700, Surabari, kashimpur, Gazipur, Bangladesh</p>
                         </div>
                         <div className="flex items-center gap-3">
-                            <Image alt="" src={viberImage} height={30} />
+                            <Image alt="" src={viberImage} height={25} />
                             <p className="">8801710115441</p>
                         </div>
                         <div className="flex items-center gap-3">
-                            <Image alt="" src={emailImage} height={30} />
+                            <Image alt="" src={emailImage} height={25} />
                             <p className="">support@purechecker.com</p>
                         </div>
 

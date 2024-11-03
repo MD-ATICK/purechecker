@@ -6,7 +6,7 @@ import { db } from "@/lib/prisma";
 
 export const getUserById = async (id: string) => {
     try {
-        const user = await db.user.findUnique({ where: { id } })
+        const user = await db.user.findFirst({ where: { id } })
         return user;
     } catch (error) {
         console.log(error)
@@ -16,10 +16,25 @@ export const getUserById = async (id: string) => {
 
 export const getUserByEmail = async (email: string) => {
     try {
-        const user = await db.user.findUnique({ where: { email } })
+        const user = await db.user.findFirst({ where: { email } })
         return user;
     } catch (error) {
         console.log(error)
         return null
+
     }
+}
+
+
+export const getSubCredit = async (userId: string) => {
+    const x = await db.credit.aggregate({
+        _sum: {
+            credit: true,
+        },
+        where: {
+            userId: userId
+        },
+    });
+
+    return x._sum.credit
 }

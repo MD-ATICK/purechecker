@@ -4,7 +4,8 @@ import { DefaultSession } from "next-auth";
 
 export type ExtendedUser = DefaultSession['user'] & {
     role: "ADMIN" | "USER",
-    isOAuth : boolean
+    isOAuth: boolean,
+    subscriptionId: string
 }
 
 declare module 'next-auth' {
