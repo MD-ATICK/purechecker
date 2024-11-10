@@ -5,7 +5,7 @@ import Purchase from "./Purchase"
 import Subscription from "./Subscription"
 
 
-export default async function PricingCo() {
+export default async function PricingCo({ route }: { route?: "ADMIN" | "USER" }) {
 
     const user = await getUser()
     if (!user || !user.id) {
@@ -15,17 +15,17 @@ export default async function PricingCo() {
     const subscriptions = await db.volume.findMany({ where: { type: "SUBSCRIPTION" }, orderBy: { credit: 'desc' } })
 
     return (
-        <div className=" container mx-auto flex justify-center items-center p-[2vw]">
-            <Tabs defaultValue="subscription" className=" w-full">
-                <TabsList className=" w-full h-16">
+        <div className=" container mx-auto mt-4 flex justify-center items-center">
+            <Tabs defaultValue="purchase" className=" w-full">
+                <TabsList className=" w-full h-12 md:h-16">
                     <TabsTrigger value="purchase">Pay as You go</TabsTrigger>
                     <TabsTrigger value="subscription">Monthly Subscription</TabsTrigger>
                 </TabsList>
                 <TabsContent value="purchase">
-                    <Purchase purchases={purchases} />
+                    <Purchase route={route} purchases={purchases} />
                 </TabsContent>
                 <TabsContent value="subscription">
-                    <Subscription subscriptions={subscriptions} />
+                    <Subscription route={route} subscriptions={subscriptions} />
                 </TabsContent>
             </Tabs>
 

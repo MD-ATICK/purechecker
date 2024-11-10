@@ -5,7 +5,7 @@ import { DropdownMenuItem } from './ui/dropdown-menu'
 
 export default function LogoutButton() {
   return (
-    <DropdownMenuItem onClick={ async () => {
+    <DropdownMenuItem className='' onClick={ async () => {
         await logout()
         await signOut({redirect: false})
     }}>

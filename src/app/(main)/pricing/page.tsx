@@ -1,8 +1,9 @@
-import PricingCo from './PricingCo'
+import PricingCo from './PricingCo';
 
-export default function page() {
+export default function Page() {
+
     return (
-        <div>
+        <div className=' p-2'>
             <PricingCo />
         </div>
     )

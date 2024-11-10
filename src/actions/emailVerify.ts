@@ -4,12 +4,107 @@ import disposableDomains from 'disposable-email-domains';
 import dns from 'dns';
 import net from 'net';
 
+export const bulkEmailVerify = async (email: string, userId: string) => {
+    try {
+
+
+        if (process.env.NODE_ENV === 'development') {
+            const domain = email.split('@')[1];
+            const isDisposable = isDisposableEmail(domain);
+            const mxRecords = await getMxRecords(domain);
+            const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+            const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
+
+
+            const data = {
+                userId: userId,
+                email,
+                domain,
+                reason: smtpExists.message,
+                isExist: smtpExists.result,
+                isValidSyntax: isValidSyntax(email),
+                isValidDomain: mxRecords.length > 0 ? true : false,
+                riskLevel,
+                mxRecords,
+                isDisposable,
+            }
+
+            const result = await db.verifyEmail.create({
+                data
+            })
+
+            return { data: result }
+        }
+
+        const data = {
+            userId: userId,
+            email: 'mdatick866@gmail.com',
+            domain: 'gmail.com',
+            reason: "pure email address",
+            isExist: true,
+            isValidSyntax: true,
+            isValidDomain: true,
+            riskLevel: 'low',
+            mxRecords: [{ exchange: 'gmail-smtp-in.l.google.com', priority: 0 }],
+            isDisposable: false,
+        }
+
+        const result = await db.verifyEmail.create({
+            data
+        })
+
+        return { data: result }
+
+
+    } catch (error) {
+        return { error: (error as Error).message }
+
+    }
+}
+
+export const checkHaveCreditForBulkCheck = async (checkEmailCount: number, userId: string) => {
+    try {
+        const isUserHaveCredit = await db.credit.findFirst({ where: { userId: userId, credit: { gte: checkEmailCount } } })
+        if (!isUserHaveCredit) {
+            return { error: "you don't have enough credit" }
+        }
+        return {
+            success: true,
+            creditId: isUserHaveCredit.id,
+            credit: isUserHaveCredit.credit
+        }
+    } catch (error) {
+        return { error: (error as Error).message }
+    }
+}
+
+export const reduceCredit = async (checkEmailCount: number, userId: string, creditId: string, credit: number) => {
+    try {
+        console.log({ checkEmailCount })
+        await db.credit.update({
+            where: { id: creditId, userId, credit: { gte: checkEmailCount } },
+            data: {
+                credit: (credit - checkEmailCount)
+            },
+
+        })
+
+        return { success: true }
+
+    } catch (error) {
+        return { error: (error as Error).message }
+    }
+}
+
+
 export const emailVerify = async (email: string, userId: string) => {
     try {
 
         if (!email || !isValidSyntax(email)) {
             console.log('invalid email syntax')
         }
+
+        console.log(process.env.NODE_ENV, 'hi')
 
 
         const user = await db.user.findFirst({ where: { id: userId } })
@@ -21,38 +116,71 @@ export const emailVerify = async (email: string, userId: string) => {
             return { error: "you don't have enough credit" }
         }
 
-        const domain = email.split('@')[1];
-        const isDisposable = isDisposableEmail(domain);
-        const mxRecords = await getMxRecords(domain);
-        const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
-        const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
+        if (process.env.NODE_ENV === 'development') {
+            const domain = email.split('@')[1];
+            const isDisposable = isDisposableEmail(domain);
+            const mxRecords = await getMxRecords(domain);
+            const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+            const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
+
+
+            const data = {
+                userId: user.id,
+                email,
+                domain,
+                reason: smtpExists.message,
+                isExist: smtpExists.result,
+                isValidSyntax: isValidSyntax(email),
+                isValidDomain: mxRecords.length > 0 ? true : false,
+                riskLevel,
+                mxRecords,
+                isDisposable,
+            }
+            await db.credit.update({
+                where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
+                data: {
+                    credit: (isUserHaveCredit.credit - 1)
+                }
+            })
+
+            const result = await db.verifyEmail.create({
+                data
+            })
+
+            return { data: result }
+        }
 
 
         const data = {
-            userId: user.id,
-            email,
-            domain,
-            reason: smtpExists.message,
-            isExist: smtpExists.result,
-            isValidSyntax: isValidSyntax(email),
-            isValidDomain: mxRecords.length > 0 ? true : false,
-            riskLevel,
-            mxRecords,
-            isDisposable,
+            userId: userId,
+            email: 'mdatick866@gmail.com',
+            domain: 'gmail.com',
+            reason: "pure email address",
+            isExist: true,
+            isValidSyntax: true,
+            isValidDomain: true,
+            riskLevel: 'low',
+            mxRecords: [{ exchange: 'gmail-smtp-in.l.google.com-test', priority: 0 }],
+            isDisposable: false,
         }
 
-        const newUser = await db.credit.update({
-            where: { userId: user.id },
+        await db.credit.update({
+            where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
             data: {
                 credit: (isUserHaveCredit.credit - 1)
             }
         })
+
         const result = await db.verifyEmail.create({
             data
         })
-        return { data: result, credit: newUser.credit }
+
+        return { data: result }
+
+
     } catch (error) {
-        throw error
+        return { error: (error as Error).message }
+
     }
 }
 
@@ -63,13 +191,19 @@ function isValidSyntax(email: string): boolean {
     return emailRegex.test(email);
 }
 
+// Assess risk level based on checks
+function getRiskLevel(disposable: boolean, smtpExists: boolean): string {
+    if (!smtpExists) return "high";
+    if (disposable) return "medium";
+    return "low";
+}
 // Check if the email domain is disposable
 function isDisposableEmail(domain: string): boolean {
     return disposableDomains.includes(domain);
 }
 
 // Retrieve MX records for a domain
-async function getMxRecords(domain: string): Promise<dns.MxRecord[]> {
+export async function getMxRecords(domain: string): Promise<dns.MxRecord[]> {
     try {
         return await dns.promises.resolveMx(domain);
     } catch (error) {
@@ -79,7 +213,7 @@ async function getMxRecords(domain: string): Promise<dns.MxRecord[]> {
 }
 
 // Check if email exists using SMTP handshake
-async function checkSmtpExistence(email: string, mxHost: string): Promise<{ result: boolean, message: string }> {
+export async function checkSmtpExistence(email: string, mxHost: string): Promise<{ result: boolean, message: string }> {
     return new Promise((resolve) => {
         const client = net.createConnection(25, mxHost);
         let result = false;
@@ -143,11 +277,4 @@ async function checkSmtpExistence(email: string, mxHost: string): Promise<{ resu
             resolve({ result, message }); // Resolve based on the last `result` value
         });
     });
-}
-
-// Assess risk level based on checks
-function getRiskLevel(disposable: boolean, smtpExists: boolean): string {
-    if (!smtpExists) return "high";
-    if (disposable) return "medium";
-    return "low";
 }

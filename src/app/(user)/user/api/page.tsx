@@ -1,0 +1,28 @@
+import NotFound from "@/app/not-found";
+import { getUser } from "@/lib/getUser";
+import ApiTable from "./ApiTable";
+import ApiTokenCreateDialog from "./ApiTokenCreateDialog";
+import CopyButton from "./CopyButton";
+
+export default async function page() {
+
+  const user = await getUser()
+
+  if (!user || !user.id) {
+    return <NotFound />
+  }
+
+  return (
+    <div className=" p-[1.5vw] space-y-5">
+      <div className=" flex justify-between items-center">
+        <div className="flex-1">
+          <h1 className=" text-lg font-bold">Copy User Id</h1>
+          <p className=" text-muted-foreground text-xs">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
+          <CopyButton text={user.id} />
+        </div>
+        <ApiTokenCreateDialog userId={user.id} />
+      </div>
+      <ApiTable userId={user.id} />
+    </div>
+  )
+}

@@ -15,28 +15,34 @@ enum Role {
 // user, credit , email verify object , valume , subscription, blog
 
 model User {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  username       String?       @unique
-  email          String?       @unique
-  emailVerified  DateTime?
-  password       String?
-  image          String?
-  role           Role          @default(USER)
-  subscriptionId String?       @db.ObjectId
-  verifyEmails   VerifyEmail[]
-  credits        Credit[]
-  blogs          Blog[]
-  volumes        Volume[]
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  username      String?       @unique
+  email         String?       @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          Role          @default(USER)
+  verifyEmails  VerifyEmail[]
+  credits       Credit[]
+  blogs         Blog[]
+  volumes       Volume[]
+  apis          ApiToken[]
 
   accounts      Account[]
   sessions      Session[]
   Authenticator Authenticator[]
+  // extarnal
+  mobile        String?
+  country       String?
+  city          String?
+  state         String?
+  address       String?
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  orders       Order[]
-  Subscription Subscription[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orders        Order[]
+  subscriptions Subscription[]
 }
 
 enum CreditType {
@@ -93,21 +99,35 @@ model Credit {
 }
 
 model Volume {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
-  type          VolumeType     @default(PURCHASE)
-  credit        Int
-  dailyCredit   Int?
-  amount        Int
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  User          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String         @db.ObjectId
-  subscriptions Subscription[]
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  type           VolumeType     @default(PURCHASE)
+  amount         Float
+  perCreditPrice Float
+  discount       Float
+  credit         Int
+  dailyCredit    Int?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  User           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String         @db.ObjectId
+  subscriptions  Subscription[]
 }
 
 type MxRecord {
   exchange String
   priority Int
+}
+
+model ApiToken {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  apiName      String
+  limit        Int?
+  secretKey        String
+  User         User?         @relation(fields: [userId], references: [id])
+  userId       String?       @db.ObjectId
+  verifyEmails VerifyEmail[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model VerifyEmail {
@@ -127,12 +147,14 @@ model VerifyEmail {
   updatedAt     DateTime   @updatedAt
   User          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String     @db.ObjectId
+  ApiToken      ApiToken?  @relation(fields: [apiTokenId], references: [id])
+  apiTokenId    String?    @db.ObjectId
 }
 
 enum SubscriptionType {
   ACTIVE
-  ISACTIVE
   REFUND
+  COMPLETED
   CANCELLED
 }
 
@@ -143,7 +165,7 @@ model Subscription {
   volumeId           String           @db.ObjectId
   volume             Volume           @relation(fields: [volumeId], references: [id], onDelete: Cascade)
   paymentId          String
-  status             SubscriptionType @default(ISACTIVE)
+  status             SubscriptionType @default(ACTIVE)
   currentPeriodStart DateTime
   currentPeriodEnd   DateTime
   createdAt          DateTime         @default(now())

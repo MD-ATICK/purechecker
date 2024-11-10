@@ -4,27 +4,33 @@ import Image from 'next/image'
 
 export default function RocksWhy() {
     return (
-        <div className=' container pb-32 space-y-20 mx-auto text-center flex justify-center items-center flex-col'>
-            <h1 className=' w-1/2 font-bold text-4xl mx-auto'>Pure Checker R@cks (Here&apos;s Why)</h1>
+        <div className=' container md:pb-32 px-2 pt-8 space-y-6 md:space-y-20 mx-auto text-center flex justify-center items-center flex-col'>
+            <h1 className=' w-full md:w-1/2 font-bold text-2xl md:text-4xl mx-auto'>Pure Checker R@cks (Here&apos;s Why)</h1>
 
-            <div className=' flex items-center gap-8'>
-                <div className=' space-y-4 flex flex-col justify-center items-center'>
+            <div className=' flex flex-col md:flex-row items-center gap-6    '>
+                <div className=' space-y-2 md:space-y-4 flex flex-col justify-center items-center'>
                     <Image alt='' src={image1} height={150} />
                     <br />
-                    <h1 className=' font-bold text-2xl'>Save Money on Emails</h1>
-                    <p className=' text-sm text-muted-foreground'>Spend Less, Get More Send emails only to real people. Save money, improve your delivery rates, and boost your email success.</p>
+                    <h1 className=' font-bold text-xl md:text-2xl'>Reliable and Secure</h1>
+                    <p className=' text-xs md:text-sm text-muted-foreground'>Your data is safe with us—top-notch security protocols ensure complete privacy.</p>
                 </div>
-                <div className=' space-y-4 flex flex-col justify-center items-center'>
+                <div className=' space-y-2 md:space-y-4 flex flex-col justify-center items-center'>
                     <Image alt='' src={image1} height={150} />
                     <br />
-                    <h1 className=' font-bold text-2xl'>Save Money on Emails</h1>
-                    <p className=' text-sm text-muted-foreground'>Spend Less, Get More Send emails only to real people. Save money, improve your delivery rates, and boost your email success.</p>
+                    <h1 className=' font-bold text-xl md:text-2xl'>Optimized for Marketers</h1>
+                    <p className=' text-xs md:text-sm text-muted-foreground'>Built with digital marketers in mind, our tool makes list cleaning easy and fast.</p>
                 </div>
-                <div className=' space-y-4 flex flex-col justify-center items-center'>
+                <div className=' space-y-2 md:space-y-4 flex flex-col justify-center items-center'>
                     <Image alt='' src={image1} height={150} />
                     <br />
-                    <h1 className=' font-bold text-2xl'>Save Money on Emails</h1>
-                    <p className=' text-sm text-muted-foreground'>Spend Less, Get More Send emails only to real people. Save money, improve your delivery rates, and boost your email success.</p>
+                    <h1 className=' font-bold text-xl md:text-2xl'>Cheap Prices</h1>
+                    <p className=' text-xs md:text-sm text-muted-foreground'>Get professional email verification without breaking the bank. Our affordable plans fit every budget.</p>
+                </div>
+                <div className=' space-y-2 md:space-y-4 flex flex-col justify-center items-center'>
+                    <Image alt='' src={image1} height={150} />
+                    <br />
+                    <h1 className=' font-bold text-xl md:text-2xl whitespace-nowrap'>Exceptional Support</h1>
+                    <p className=' text-xs md:text-sm text-muted-foreground'>Questions? Our team is here to help, 24/7.</p>
                 </div>
             </div>
         </div>

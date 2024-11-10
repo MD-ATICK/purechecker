@@ -44,7 +44,7 @@ export default function BuyNowButton({ type, volumeId }: { volumeId: string, typ
 
     return (
         <LoadingButton isPending={isPending} disabled={isPending || ((user.subscriptionId && type === 'SUBSCRIPTION') ? true : false)} onClick={type === "PURCHASE" ? buyPurchaseHandler : buySubscriptionHandler}>
-            {(user.subscriptionId && type === 'SUBSCRIPTION') ? 'Subscribed' : type === 'PURCHASE' ? 'Buy Now' : 'Subscribe Now'}
+            {(user.subscriptionId && type === 'SUBSCRIPTION') ? 'Subscribed' : type === 'PURCHASE' ? 'Buy' : 'Subscribe'}
         </LoadingButton>
     )
 }

@@ -71,7 +71,7 @@ export const buySubscription = async ({ userId, volumeId }: { userId: string, vo
         currentPeriodEnd.setDate(currentPeriodEnd.getDate() + 30);
 
 
-        const subscription = await db.subscription.create({
+      await db.subscription.create({
             data: {
                 userId,
                 volumeId: volume.id,
@@ -82,12 +82,6 @@ export const buySubscription = async ({ userId, volumeId }: { userId: string, vo
             }
         })
 
-        await db.user.update({
-            where: { id: userId },
-            data: {
-                subscriptionId: subscription.id
-            }
-        })
 
         await db.order.create({
             data: {

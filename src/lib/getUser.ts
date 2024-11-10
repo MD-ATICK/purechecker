@@ -18,12 +18,12 @@ export const checkSubscription = async ({ userId, subscriptionId }: { userId: st
 
         const subscription = await db.subscription.findUnique({ where: { id: subscriptionId } })
         if (!subscription) {
-            await db.user.update({ where: { id: userId }, data: { subscriptionId: null } })
+            throw new Error('Subscription not found')
         }
 
-        return;
+        return subscription;
     } catch (error) {
-        throw error;
+        return { error: (error as Error).message }
     }
 
 }

@@ -1,11 +1,19 @@
-import { clsx, type ClassValue } from "clsx"
-import { formatDate, formatDistanceToNowStrict } from 'date-fns'
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import crypto from 'crypto';
+import { formatDate, formatDistanceToNowStrict } from 'date-fns';
+import { twMerge } from "tailwind-merge";
+
+import disposableDomains from 'disposable-email-domains';
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+
+export function generateRandomToken(size = 32) {
+  return crypto.randomBytes(size).toString('hex'); // Default size is 32 bytes
+}
 
 export function formatRelativeDate(from: Date) {
   const currentDate = new Date()
@@ -26,4 +34,46 @@ export const formatIndianCurrency = (num: number) => {
 
 export function formatNumber(n: number): string {
   return Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(n)
+}
+
+
+export function extractEmails(inputText: string) {
+  // Regular expression to match valid email addresses
+  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+
+  // Extract all matches and return as an array
+  const emails = inputText.match(emailRegex) || [];
+  return emails;
+}
+
+
+export function isTimeBetween11AMto12PM() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+
+  // Check if the hour is within the range of 11:00 AM to 12:00 PM
+  if (hours === 23) {
+    return true; // Any minute within 11:00 AM to 11:59 AM is valid
+  } else if (hours === 24 && minutes === 0) {
+    return true; // Exactly 12:00 PM is valid
+  }
+
+  return false;
+}
+
+export function isValidSyntax(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Assess risk level based on checks
+export function getRiskLevel(disposable: boolean, smtpExists: boolean): string {
+  if (!smtpExists) return "high";
+  if (disposable) return "medium";
+  return "low";
+}
+// Check if the email domain is disposable
+export function isDisposableEmail(domain: string): boolean {
+  return disposableDomains.includes(domain);
 }

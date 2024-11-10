@@ -2,14 +2,16 @@
 
 import { getSubCredit } from "@/actions/users"
 import Loading from "@/app/loading"
-import { formatNumber } from "@/lib/utils"
+import rocket from '@/assets/rocket.png'
 import { useCreditStore } from "@/store/useCreditStore"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 
 interface props {
-    userId: string
+    userId: string,
+    dashboard?: boolean
 }
-export default function CreditBox({ userId }: props) {
+export default function CreditBox({ userId, dashboard }: props) {
 
     const { credit, setCredit } = useCreditStore()
     const [isPending, setIsPending] = useState(false);
@@ -25,15 +27,28 @@ export default function CreditBox({ userId }: props) {
     }, [userId, setCredit]);
 
     return (
-        <div>
-            <p className=' text-sm text-muted-foreground flex items-center gap-1'>Credit :
-                {
-                    isPending ?
-                        <span> <Loading /></span>
-                        :
-                        <span className=' text-xl font-bold text-primary'>{formatNumber(credit)}</span>
-                }
-            </p>
-        </div>
+        <>
+            {
+                !dashboard &&
+                <div>
+                    <p className=' text-sm text-muted-foreground flex items-center gap-2'>
+                        <Image alt="" src={rocket} height={20} className=" invert" />
+                        {
+                            isPending ?
+                                <span> <Loading /></span>
+                                :
+                                <span className=' text-xl font-bold text-primary'>{credit}</span>
+                        }
+                    </p>
+                </div>
+            }
+            {
+                dashboard &&
+                <div className='flex items-center justify-between w-full'>
+                    <p className=' text-xs'>Total Credit :  </p>
+                    <p className=' text-xs'>{credit}</p>
+                </div>
+            }
+        </>
     )
 }

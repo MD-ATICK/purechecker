@@ -33,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async jwt({ token }) {
 
             if (!token.sub) return token;
-            const existingUser = await getUserById(token.sub)
+            const existingUser = await db.user.findUnique({ where: { id: token.sub }, include: { subscriptions: true } })
             if (!existingUser) return token;
 
             const isOAuth = await db.account.findFirst({ where: { userId: existingUser.id } })
@@ -42,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.role = existingUser.role
             token.isOAuth = !!isOAuth
             token.emailVerified = existingUser.emailVerified;
-            token.subscriptionId = existingUser.subscriptionId
+            token.subscriptionId = existingUser.subscriptions.find(subs => subs.status === 'ACTIVE')?.id
 
             return token;
         },

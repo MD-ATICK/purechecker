@@ -15,6 +15,31 @@ body {
     text-wrap: balance;
   }
 }
+/* Tailwind CSS Utilities for Lists and Headings */
+ol {
+  @apply list-decimal pl-6 space-y-2; /* Numbered list with padding and spacing */
+}
+
+ul {
+  @apply list-disc pl-6 space-y-2; /* Unordered list with padding and spacing */
+}
+
+li {
+  @apply mb-2; /* Margin between list items */
+}
+
+h1 {
+  @apply text-3xl font-bold mt-4 mb-2; /* Styling for H1 */
+}
+
+h2 {
+  @apply text-2xl font-semibold mt-4 mb-2; /* Styling for H2 */
+}
+
+p {
+  @apply mt-2 mb-2; /* Paragraph spacing */
+}
+
 
 @layer base {
   :root {

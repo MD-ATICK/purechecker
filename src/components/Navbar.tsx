@@ -3,6 +3,7 @@ import { checkSubscription, getUser } from '@/lib/getUser'
 import Image from 'next/image'
 import Link from 'next/link'
 import CreditBox from './CreditBox'
+import MenuSheet from './MenuSheet'
 import { ModeToggle } from './ModeToggle'
 import { Button } from './ui/button'
 import UserButton from './UserButton'
@@ -12,16 +13,16 @@ export default async function Navbar() {
   if (user && user.subscriptionId) {
     await checkSubscription({ userId: user.id!, subscriptionId: user.subscriptionId })
   }
-  console.log(user)
+
 
   return (
-    <div className=" sticky top-0 w-full backdrop-blur-lg bg-white z-50 dark:bg-background shadow-sm h-16 flex justify-between items-center bg-[#01031017]">
+    <div className=" sticky top-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-background shadow-sm h-16 flex justify-between items-center bg-[#01031017]">
       <main className=' container mx-auto flex items-center justify-between'>
 
         {/* LOGO */}
         <Link href={'/'} className='flex items-center gap-2'>
           <Image alt='' src={logo} height={30} />
-          <h1 className=" font-bold text-2xl">PureChecker</h1>
+          <h1 className=" font-bold mb-2 text-xl sm:text-2xl">PureChecker</h1>
         </Link>
 
         {/* NAV ITEMS */}
@@ -35,14 +36,18 @@ export default async function Navbar() {
           <Link href={'/contact-us'} className=' font-medium' >
             <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Contact Us</Button>
           </Link>
-          <Link href={'/about-us'} className=' font-medium' >
-            <Button variant={"ghost"} className=' w-[100px] text-[15px]'>About Us</Button>
+          <Link href={'/docs'} className=' font-medium' >
+            <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Docs</Button>
+          </Link>
+          <Link href={'/blog'} className=' font-medium' >
+            <Button variant={"ghost"} className=' w-[80px] text-[15px]'>Blog</Button>
           </Link>
         </nav>
 
 
         {/* ACTIONS BUTTON */}
-        <div className=' flex items-center gap-3'>
+        <div className=' flex items-center gap-2'>
+          <MenuSheet className=' lg:hidden' />
           <ModeToggle />
           {
             user && <div className=' flex items-center justify-center gap-4'>

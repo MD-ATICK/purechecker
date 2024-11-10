@@ -1,10 +1,19 @@
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className='w-[90vw]  sm:w-[400px] rounded-xl shadow-lg p-6 bg-gradient-to-r from-blue-600 to-blue-600 via-sky-500 flex justify-center items-center flex-col text-black font-medium'>
-      <p className=' text-sm'>Page not found.</p> <br />
-      <Link href={'/login'} className=' text-sm underline font-medium' >Back to login</Link>
+    <div className=' h-screen w-full flex p-3 justify-center items-center'>
+      <div className=' space-y-2 text-center flex-col w-full md:w-1/2 flex justify-center items-center'>
+        <h1>Page not found</h1>
+        <p className=' text-sm text-muted-foreground'> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa maiores dolores aliquid a mollitia possimus officiis dicta enim exercitationem. Praesentium?</p>
+        <br />
+        <Link href="/">
+          <Button variant={'secondary'}>
+          Go to Home
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }

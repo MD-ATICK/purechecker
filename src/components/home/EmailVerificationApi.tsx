@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 
 export default function EmailVerificationApi() {
     return (
-        <div className=' container mx-auto flex justify-center items-center py-[7vw]'>
+        <div className=' container mx-auto flex flex-col md:flex-row justify-center items-center py-6 md:py-[7vw]'>
             <div className=' flex-1 flex justify-center items-center'>
                 <div className='w-[90%] relative aspect-[16/10]'>
                     <Image alt='' src={apiImage} fill sizes='500px' className=' w-full object-cover rounded-xl' />

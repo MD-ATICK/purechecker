@@ -1,5 +1,6 @@
 "use server"
 
+import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify"
 import { getUserByEmail } from "@/actions/users"
 import { signIn } from "@/auth"
 import { db } from "@/lib/prisma"
@@ -14,6 +15,13 @@ export const signUp = async (values: SignUpValues) => {
 
     const existingUser = await getUserByEmail(email)
     if (existingUser) return { error: "Email already exists" }
+
+    const domain = email.split('@')[1];
+    const mxRecords = await getMxRecords(domain);
+    const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+    if (!smtpExists.result) {
+        return { error: smtpExists.message }
+    }
 
     const hashedPassword = hashSync(password, 10)
 
