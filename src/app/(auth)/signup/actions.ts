@@ -16,11 +16,13 @@ export const signUp = async (values: SignUpValues) => {
     const existingUser = await getUserByEmail(email)
     if (existingUser) return { error: "Email already exists" }
 
-    const domain = email.split('@')[1];
-    const mxRecords = await getMxRecords(domain);
-    const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
-    if (!smtpExists.result) {
-        return { error: smtpExists.message }
+    if (process.env.NODE_ENV === 'development') {
+        const domain = email.split('@')[1];
+        const mxRecords = await getMxRecords(domain);
+        const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+        if (!smtpExists.result) {
+            return { error: smtpExists.message }
+        }
     }
 
     const hashedPassword = hashSync(password, 10)
