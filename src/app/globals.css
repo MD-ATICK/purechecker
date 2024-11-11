@@ -15,6 +15,15 @@ body {
     text-wrap: balance;
   }
 }
+
+#hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+#hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
 /* Tailwind CSS Utilities for Lists and Headings */
 ol {
   @apply list-decimal pl-6 space-y-2; /* Numbered list with padding and spacing */

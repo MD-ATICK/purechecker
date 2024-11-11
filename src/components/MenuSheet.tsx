@@ -18,8 +18,8 @@ export default function MenuSheet({ className }: { className?: string }) {
         <div className={cn(className, '')}>
             <Sheet>
                 <SheetTrigger asChild>
-                    <Button variant={'secondary'} size={'icon'}>
-                        <Image alt="" src={menuImage} height={20} />
+                    <Button variant={'outline'} className='' size={'icon'}>
+                        <Image alt="" src={menuImage} height={18} />
                     </Button>
                 </SheetTrigger>
                 <SheetContent className=' flex justify-center gap-4 items-center flex-col'>

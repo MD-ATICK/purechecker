@@ -14,6 +14,11 @@ export const metadata: Metadata = {
     default: 'PureChecker'
   },
   description: "Best app for email verify",
+  icons: {
+    icon: '/src/assets/logo-big.png', // Adjust the path as needed
+    shortcut: '/src/assets/logo-big.png', // Optional
+    apple: '/src/assets/logo-big.png', // Optional for Apple devices
+  },
 };
 
 export default async function RootLayout({
@@ -33,7 +38,7 @@ export default async function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >

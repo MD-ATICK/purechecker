@@ -37,13 +37,13 @@ export default function CopyPastePage({ userId }: { userId: string }) {
 
         setCompleteValue({ enter: bulkEmails.length, checked: 0 })
 
-        for (const email of bulkEmails) {
+        bulkEmails.map(async (email) => {
             const res = await bulkEmailVerify(email, userId);
             if (res.data) {
                 setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                 setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])
             }
-        }
+        })
         await reduceCredit(bulkEmails.length, userId, haveCredit.creditId, haveCredit.credit)
         setCredit(credit - bulkEmails.length)
         setCompleteValue(undefined)

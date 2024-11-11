@@ -1,3 +1,4 @@
+import PlanBox from '@/app/(user)/PlanBox';
 import apiImage from '@/assets/api.png';
 import blogImage from '@/assets/blog.png';
 import ordersImage from '@/assets/checkout.png';
@@ -7,11 +8,21 @@ import logo from '@/assets/logo.png';
 import pricingImage from '@/assets/price-tag.png';
 import emailImage from '@/assets/verify-email.png';
 import { Button } from '@/components/ui/button';
+import { getUser } from '@/lib/getUser';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-export default function AdminSideBar({ className }: { className?: string }) {
+export default async function AdminSideBar({ className }: { className?: string }) {
+
+    const user = await getUser()
+    if (!user) {
+        return notFound()
+    }
+
+
+
     return (
         <div className={cn(className, " lg:p-[1vw] p-1 z-50 bg-background flex flex-col justify-between items-start")}>
             <Link href={'/'} className='flex items-center gap-2 p-1 py-2'>
@@ -68,9 +79,8 @@ export default function AdminSideBar({ className }: { className?: string }) {
                     </Link>
                 </Button> */}
             </div>
-            <div>
-                
-            </div>
+            <PlanBox user={user} />
+
         </div>
 
     )

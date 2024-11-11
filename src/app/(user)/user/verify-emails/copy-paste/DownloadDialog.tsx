@@ -68,9 +68,8 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className=' hidden md:block'>Download</Button>
-                <Button className=' md:hidden ' size={'icon'}>
-                    <Image alt='' src={downloadImage} className=' invert' height={15} />
+                <Button className='' variant={'outline'} size={'icon'}>
+                    <Image alt='' src={downloadImage} className='' height={25} />
                 </Button>
             </DialogTrigger>
             <DialogContent>

@@ -6,8 +6,6 @@ import net from 'net';
 
 export const bulkEmailVerify = async (email: string, userId: string) => {
     try {
-
-
         if (process.env.NODE_ENV === 'development') {
             const domain = email.split('@')[1];
             const isDisposable = isDisposableEmail(domain);

@@ -12,7 +12,7 @@ export default async function layout({ children }: { children: React.ReactNode }
         <div className='flex items-start'>
             <SessionProvider session={session}>
                 <UserSideBar className=' min-w-[45px] lg:min-w-[300px] border-r-2 h-screen sticky top-0 left-0' />
-                <div className=' flex-grow'>
+                <div id='hide-scrollbar' className=' flex-grow max-w-[calc(100%-45px)] md:w-full  '>                    
                     {children}
                 </div>
 

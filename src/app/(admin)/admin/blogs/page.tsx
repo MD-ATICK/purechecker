@@ -38,7 +38,7 @@ export default async function UsersPage() {
                 <BlogDialog userId={user.id} />
                 </div>
             </div>
-            <Table>
+            <Table className="">
                 <TableCaption>A list of blogs.</TableCaption>
                 <TableHeader>
                     <TableRow className=" font-medium">

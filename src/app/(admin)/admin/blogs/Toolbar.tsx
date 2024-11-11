@@ -41,7 +41,7 @@ export default function Toolbar({ editor }: props) {
         onPressedChange={() => editor.chain().focus().toggleBold().run()}
         className=' h-full aspect-square rounded-sm'
       >
-        <Image alt='' src={Bold} height={15} />
+        <Image className=' dark:invert' alt='' src={Bold} height={15} />
       </Toggle>
       <Toggle
         size={'sm'}
@@ -49,7 +49,7 @@ export default function Toolbar({ editor }: props) {
         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
         className=' h-full aspect-square rounded-sm'
       >
-        <Image alt='' src={Italic} height={15} />
+        <Image className=' dark:invert' alt='' src={Italic} height={15} />
       </Toggle>
       <Toggle
         size={'sm'}
@@ -57,7 +57,7 @@ export default function Toolbar({ editor }: props) {
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
         className=' h-full aspect-square rounded-sm'
       >
-        <Image alt='' src={StrikeThrough} height={15} />
+        <Image className=' dark:invert' alt='' src={StrikeThrough} height={15} />
       </Toggle>
       <Toggle
         size={'sm'}
@@ -65,7 +65,7 @@ export default function Toolbar({ editor }: props) {
         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
         className=' h-full aspect-square rounded-sm'
       >
-        <Image alt='' src={ListBullet} height={15} />
+        <Image className=' dark:invert' alt='' src={ListBullet} height={15} />
       </Toggle>
       <Toggle
         size={'sm'}
@@ -73,7 +73,7 @@ export default function Toolbar({ editor }: props) {
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
         className=' h-full aspect-square rounded-sm'
       >
-        <Image alt='' src={ListNumber} height={15} />
+        <Image className=' dark:invert' alt='' src={ListNumber} height={15} />
       </Toggle>
     </div>
   )

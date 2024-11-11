@@ -22,7 +22,7 @@ export default async function Navbar() {
         {/* LOGO */}
         <Link href={'/'} className='flex items-center gap-2'>
           <Image alt='' src={logo} height={30} />
-          <h1 className=" font-bold mb-2 text-xl sm:text-2xl">PureChecker</h1>
+          <h1 className=" font-bold mb-3 text-lg sm:text-2xl">PureChecker</h1>
         </Link>
 
         {/* NAV ITEMS */}
@@ -48,20 +48,33 @@ export default async function Navbar() {
         {/* ACTIONS BUTTON */}
         <div className=' flex items-center gap-2'>
           <MenuSheet className=' lg:hidden' />
-          <ModeToggle />
           {
-            user && <div className=' flex items-center justify-center gap-4'>
+            user &&
+            <ModeToggle />
+          }
+          {
+            user && <div className=' flex items-center justify-center gap-2 sm:gap-4'>
               <CreditBox userId={user.id!} />
               <UserButton role={user.role} name={user.name || "John Due"} />
             </div>
           }
           {!user && (
-            <div className='flex items-center gap-3'>
+            <div className='md:flex hidden items-center gap-3'>
               <Link href={'/login'}>
                 <Button variant={'secondary'}>Login</Button>
               </Link>
               <Link href={'/signup'}>
                 <Button>Sign Up</Button>
+              </Link>
+            </div>
+          )}
+          {!user && (
+            <div className='flex md:hidden items-center gap-2'>
+              <Link href={'/login'}>
+                <Button variant={'outline'} size={'sm'}>Login</Button>
+              </Link>
+              <Link href={'/signup'}>
+                <Button size={'sm'}>Sign Up</Button>
               </Link>
             </div>
           )}
