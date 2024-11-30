@@ -13,21 +13,21 @@ export default function HowToUse() {
             <div className='flex py-4 md:py-20 w-full px-2 md:px-[4vw] flex-col-reverse md:flex-row gap-y-8 items-center justify-center'>
                 <div className='  w-full md:flex-1 space-y-12 text-start flex flex-col'>
                     <div className=' space-y-3'>
-                        <div className='  flex items-center gap-3 font-bold text-xl md:text-3xl'>
-                            <div className=' h-8 md:h-11 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center '>1</div>
+                        <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
+                            <div className=' h-8 md:h-10 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center text-xl '>1</div>
                             Create a FREE account
                         </div>
                         <p className=' text-xs md:text-sm text-muted-foreground'>Get 100 email verifications for FREE.</p>
                     </div>
                     <div className=' space-y-3'>
-                        <div className='  flex items-center gap-3 font-bold text-xl md:text-3xl'>
-                            <div className=' h-8 md:h-11 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center '>2</div>
+                        <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
+                            <div className=' h-8 md:h-11 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center text-xl '>2</div>
                             Upload your dirty list</div>
                         <p className=' text-xs md:text-sm text-muted-foreground'>We accept CSV, XLS, TXT and other formats</p>
                     </div>
                     <div className=' space-y-3'>
-                        <div className='  flex items-center gap-3 font-bold text-xl md:text-3xl'>
-                            <div className=' h-8 md:h-11 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center '>3</div>
+                        <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
+                            <div className=' h-8 md:h-11 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center text-xl '>3</div>
                             Download a clean list
                         </div>
                         <p className=' text-xs md:text-sm text-muted-foreground'>You will be notified within a few minutes</p>

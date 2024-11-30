@@ -6,7 +6,6 @@ import dashboardImage from '@/assets/dashboard-small.png';
 import usersImage from '@/assets/group.png';
 import logo from '@/assets/logo.png';
 import pricingImage from '@/assets/price-tag.png';
-import emailImage from '@/assets/verify-email.png';
 import { Button } from '@/components/ui/button';
 import { getUser } from '@/lib/getUser';
 import { cn } from "@/lib/utils";
@@ -54,12 +53,12 @@ export default async function AdminSideBar({ className }: { className?: string }
                         <p className=' hidden  lg:block'>Blogs</p>
                     </Link>
                 </Button>
-                <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
+                {/* <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
                     <Link href={'/admin/verify-emails'} className=' h-full w-full flex justify-start items-center gap-4'>
                         <Image alt='' className=' invert-0 dark:invert' src={emailImage} height={20} />
                         <p className=' hidden  lg:block'>Verify Emails</p>
                     </Link>
-                </Button>
+                </Button> */}
                 <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
                     <Link href={'/admin/pricing'} className=' h-full w-full flex justify-start items-center gap-4'>
                         <Image alt='' className=' invert-0 dark:invert' src={pricingImage} height={20} />

@@ -3,6 +3,9 @@ import EmailVerificationApi from "@/components/home/EmailVerificationApi";
 import HowToUse from "@/components/home/HowToUse";
 import HowToVerify from "@/components/home/HowToVerify";
 import RocksWhy from "@/components/home/RocksWhy";
+import Testimonial from "@/components/home/Testimonial";
+import Faq from "./faq/Faq";
+import PricingCo from "./pricing/PricingCo";
 
 export default function Home() {
 
@@ -52,6 +55,17 @@ export default function Home() {
 
       {/* Email Verification Api*/}
       <EmailVerificationApi />
+
+
+    {/* Pricing */}
+    <PricingCo />
+
+    {/* Testimonial */}
+    <Testimonial />
+    
+    {/* FAQ */}
+    <Faq />
+
     </div>
   );
 }

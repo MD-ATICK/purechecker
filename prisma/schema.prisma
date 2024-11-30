@@ -43,6 +43,7 @@ model User {
   updatedAt     DateTime       @updatedAt
   orders        Order[]
   subscriptions Subscription[]
+  uploadFiles   UploadFile[]
 }
 
 enum CreditType {
@@ -122,7 +123,7 @@ model ApiToken {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   apiName      String
   limit        Int?
-  secretKey        String
+  secretKey    String
   User         User?         @relation(fields: [userId], references: [id])
   userId       String?       @db.ObjectId
   verifyEmails VerifyEmail[]
@@ -131,24 +132,45 @@ model ApiToken {
 }
 
 model VerifyEmail {
-  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   email         String // remain. it's checking email not user email.
   domain        String
   reason        String
-  isExist       Boolean    @default(false)
-  isDisposable  Boolean    @default(false)
-  isValidSyntax Boolean    @default(false)
-  isValidDomain Boolean    @default(false)
+  isExist       Boolean     @default(false)
+  isDisposable  Boolean     @default(false)
+  isValidSyntax Boolean     @default(false)
+  isValidDomain Boolean     @default(false)
   riskLevel     String
   isDisable     Boolean?
   is2FA         Boolean?
   mxRecords     MxRecord[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  User          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String     @db.ObjectId
-  ApiToken      ApiToken?  @relation(fields: [apiTokenId], references: [id])
-  apiTokenId    String?    @db.ObjectId
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  User          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String      @db.ObjectId
+  ApiToken      ApiToken?   @relation(fields: [apiTokenId], references: [id])
+  apiTokenId    String?     @db.ObjectId
+  UploadFile    UploadFile? @relation(fields: [uploadFileId], references: [id])
+  uploadFileId  String?     @db.ObjectId
+}
+
+enum UploadFileStatus {
+  PENDING
+  COMPLETED
+}
+
+model UploadFile {
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  enterEmails   String[]
+  fileName      String
+  fileType      String
+  status        UploadFileStatus
+  fileSize      Float
+  checkedEmails VerifyEmail[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  User          User?            @relation(fields: [userId], references: [id])
+  userId        String?          @db.ObjectId
 }
 
 enum SubscriptionType {

@@ -21,7 +21,7 @@ import * as XLSX from 'xlsx';
 export type BulkDownloadEmailType = { email: string, reason: string, isExist: boolean, isDisposable: boolean }
 
 
-export const generatePDF = async (data: { email: string; reason: string; isExist: boolean; isDisposable: boolean }[]) => {
+export const generatePDF = async (fileName: string, data: { email: string; reason: string; isExist: boolean; isDisposable: boolean }[]) => {
     const doc = await PDFDocument.create();
     let page = doc.addPage([600, 800]); // Increase page height for more rows
 
@@ -91,29 +91,29 @@ export const generatePDF = async (data: { email: string; reason: string; isExist
 
     // Create a Blob from the PDF bytes
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    saveFile(blob, 'pdf')
+    saveFile(blob, 'pdf', fileName)
 };
-export const generateXLSX = (data: BulkDownloadEmailType[]) => {
+export const generateXLSX = (fileName: string, data: BulkDownloadEmailType[]) => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Results');
     const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
 
-    saveFile(blob, 'xlsx')
+    saveFile(blob, 'xlsx', fileName)
 };
 
-export const generateCSV = (data: BulkDownloadEmailType[]) => {
+export const generateCSV = (fileName: string, data: BulkDownloadEmailType[]) => {
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    saveFile(blob, 'csv')
+    saveFile(blob, 'csv', fileName)
 };
 
 
-export const saveFile = (bolb: Blob, type: "csv" | "pdf" | "xlsx") => {
+export const saveFile = (bolb: Blob, type: "csv" | "pdf" | "xlsx", fileName: string) => {
     const link = document.createElement('a');
     link.href = URL.createObjectURL(bolb);
-    link.download = `email_verification_results.${type}`;
+    link.download = `${fileName}.${type}`;
     link.click();
 }
 
@@ -126,7 +126,7 @@ export const extractEmailsFromFile = async (file: File): Promise<string[]> => {
     } else if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
         const text = await file.text();
         extractEmailsFromCSV(text, emailRegex, emails);
-    } else {    
+    } else {
         throw new Error('Unsupported file type');
     }
 

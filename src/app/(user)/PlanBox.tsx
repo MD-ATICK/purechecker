@@ -7,18 +7,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Separator } from '@/components/ui/separator'
 import { db } from '@/lib/prisma'
 import { ExtendedUser } from '@/types/nextauth'
-import { formatDate } from 'date-fns'
+import { differenceInCalendarDays, formatDate } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 export default async function PlanBox({ user }: { user: ExtendedUser }) {
 
-    const subscription = await db.subscription.findFirst({ where: { id: user.subscriptionId } })
     if (!user || !user?.id) {
         return notFound()
     }
-
+    const subscription = user.subscriptionId ? await db.subscription.findFirst({ where: { id: user.subscriptionId } }) : undefined
+    console.log(user.subscriptionId, subscription)
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none w-full'>
@@ -62,8 +62,8 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                             <p className=' text-xs'>Monthly</p>
                         </div>
                         <div className='flex items-center justify-between w-full'>
-                            <p className=' text-xs'>Start At :  </p>
-                            <p className=' text-xs'>{formatDate(subscription.currentPeriodStart, "MMMM d, yyyy")}</p>
+                            <p className=' text-xs'>Left :  </p>
+                            <p className=' text-xs'>{differenceInCalendarDays( new Date(),subscription.currentPeriodStart)} days</p>
                         </div>
                         <div className='flex items-center justify-between w-full'>
                             <p className=' text-xs'>End At :  </p>

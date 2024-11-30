@@ -2,19 +2,15 @@ import {
     Table,
     TableBody,
     TableCaption,
-    TableCell,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "@/components/ui/table"
-import { db } from "@/lib/prisma"
-import { formatRelativeDate } from "@/lib/utils"
-import VerifyEmailsActionButtons from "./VerifyEmailsActionButtons"
 
 export default async function UsersPage() {
 
 
-    const verifyEmails = await db.verifyEmail.findMany({ include: { User: true }, take: 50, orderBy: { createdAt: "desc" } })
+    // const verifyEmails = await db.verifyEmail.findMany({ include: { User: true }, take: 50, orderBy: { createdAt: "desc" } })
 
     return (
         <div>
@@ -38,7 +34,8 @@ export default async function UsersPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {
+                    coming soon!
+                    {/* {
                         verifyEmails.map((verifyEmail) => {
 
                             return (
@@ -62,7 +59,7 @@ export default async function UsersPage() {
                                 </TableRow>
                             )
                         })
-                    }
+                    } */}
                 </TableBody>
             </Table>
         </div>

@@ -42,6 +42,9 @@ export default async function Navbar() {
           <Link href={'/blog'} className=' font-medium' >
             <Button variant={"ghost"} className=' w-[80px] text-[15px]'>Blog</Button>
           </Link>
+          <Link href={'/faq'} className=' font-medium' >
+            <Button variant={"ghost"} className=' w-[80px] text-[15px]'>FAQS</Button>
+          </Link>
         </nav>
 
 

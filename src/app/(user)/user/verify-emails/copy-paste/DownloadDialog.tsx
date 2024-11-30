@@ -24,6 +24,7 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
             type: "pdf",
             skip: 1,
             take: 1,
+            fileName : "",
             filter: "all"
         }
     })
@@ -50,11 +51,11 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
 
         startTransition(async () => {
             if (values.type === "pdf") {
-                await generatePDF(margeData)
+                await generatePDF(values.fileName, margeData)
             } else if (values.type === "xlsx") {
-                await generateXLSX(margeData)
+                await generateXLSX(values.fileName, margeData)
             } else if (values.type === "csv") {
-                await generateCSV(margeData)
+                await generateCSV(values.fileName, margeData)
             }
 
             setOpen(false)
@@ -108,6 +109,19 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
 
 
                         </div>
+                        <FormField
+                                control={form.control}
+                                name="fileName"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className=" flex items-center gap-1">File Name <FormMessage /></FormLabel>
+                                        <FormControl>
+                                            <Input disabled={false} placeholder="enter your file name" {...field} />
+                                        </FormControl>
+
+                                    </FormItem>
+                                )}
+                            />
                         <FormField
                             control={form.control}
                             name="type"

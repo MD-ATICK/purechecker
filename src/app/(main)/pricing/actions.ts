@@ -70,7 +70,7 @@ export const buySubscription = async ({ userId, volumeId }: { userId: string, vo
         const currentPeriodEnd = new Date(currentPeriodStart);
         currentPeriodEnd.setDate(currentPeriodEnd.getDate() + 30);
 
-
+    console.log('creating sub', volume.id)
       await db.subscription.create({
             data: {
                 userId,

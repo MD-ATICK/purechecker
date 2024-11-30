@@ -1,6 +1,6 @@
 import NotFound from "@/app/not-found";
 import { getUser } from "@/lib/getUser";
-import UploadFilePage from "./UploadFilePage";
+import UploadFileCo from "./UploadFileCo";
 
 export default async function page() {
 
@@ -13,7 +13,7 @@ export default async function page() {
 
   return (
     <div className=" p-[1.5vw]">
-      <UploadFilePage userId={user.id} />
+      <UploadFileCo userId={user.id} />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import disposableDomains from 'disposable-email-domains';
 import dns from 'dns';
 import net from 'net';
 
-export const bulkEmailVerify = async (email: string, userId: string) => {
+export const bulkEmailVerify = async (email: string, userId: string, uploadFileId?: string) => {
     try {
         if (process.env.NODE_ENV === 'development') {
             const domain = email.split('@')[1];
@@ -25,6 +25,7 @@ export const bulkEmailVerify = async (email: string, userId: string) => {
                 riskLevel,
                 mxRecords,
                 isDisposable,
+                uploadFileId
             }
 
             const result = await db.verifyEmail.create({
