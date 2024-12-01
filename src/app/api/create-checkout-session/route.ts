@@ -5,7 +5,6 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
     const { credits, userId, email, price } = await req.json();
 
-    console.log({ credits, userId, email, price, vendorId: process.env.PADDLE_VENDOR_ID, apiKey: process.env.PADDLE_API_KEY })
 
     try {
         const response = await fetch('https://vendors.paddle.com/api/2.0/product/generate_pay_link', {
@@ -25,9 +24,7 @@ export async function POST(req: Request) {
             }),
         });
         const data = await response.json()
-        console.log({ data })
         if (data.success) {
-            console.log(data.response.url)
             return NextResponse.json({ url: data.response.url });
         } else {
             return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });

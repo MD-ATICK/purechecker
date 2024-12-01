@@ -6,10 +6,20 @@ import { extractEmailsFromFile } from "@/utils/BulkConvertFile"
 
 
 
+export const getUploadFilesById = async (uploadFileId: string) => {
+    try {
+
+        const uploadFile = await db.uploadFile.findFirstOrThrow({ where: { id: uploadFileId }, include: { checkedEmails: true } })
+        return { success: true, uploadFile }
+
+    } catch (error) {
+        return { error: (error as Error).message }
+    }
+}
 export const getUploadFilesByUserId = async (userId: string) => {
     try {
 
-        const uploadFiles = await db.uploadFile.findMany({ where: { userId: userId } })
+        const uploadFiles = await db.uploadFile.findMany({ where: { userId: userId }, include: { checkedEmails: true } })
         return { success: true, uploadFiles }
 
     } catch (error) {
@@ -22,7 +32,6 @@ export const createUploadFile = async (formData: FormData, userId: string) => {
         const file = formData.get('file') as File
 
         const bulkEmails = await extractEmailsFromFile(file);
-        console.log('bulkEmails', bulkEmails)
 
         const uploadFile = await db.uploadFile.create({
             data: {

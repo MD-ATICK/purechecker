@@ -1,3 +1,4 @@
+"use client"
 import girlImage from '@/assets/girl.jpg'
 import {
     Carousel,

@@ -49,7 +49,6 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
         (Number(form.watch("perCreditPrice")) * Number(form.watch('credit')) || 0)
 
     const onsubmit = async (values: VolumeValues) => {
-        console.log(values)
         setError('')
         startTransition(async () => {
 
@@ -58,7 +57,6 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
                 :
                 await createVolume({ discount: discountCalculate, perCreditPrice: values.perCreditPrice, credit: Number(values.credit), type: values.type, amount: amountCalculate, userId })
             if (data.volume) {
-                console.log(data.volume)
                 toast.success('Volume Created Successfully')
                 setOpen(false)
                 router.refresh()
@@ -74,7 +72,6 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
     const isSubscription = form.watch('type') === 'SUBSCRIPTION'
 
 
-    console.log({ volume })
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>

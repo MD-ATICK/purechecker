@@ -4,25 +4,24 @@ import csvImage from '@/assets/csv.png';
 import pdfImage from '@/assets/pdf.png';
 import xlsImage from '@/assets/xls.png';
 import { useCreditStore } from "@/store/useCreditStore";
+import { useFileStore } from "@/store/useFileStore";
 import { UploadFile } from "@prisma/client";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { getUploadFilesById, uploadUploadFileStatus } from "./actions";
 import { processingEmailProps } from "./UploadFileCo";
-import { uploadUploadFileStatus } from "./actions";
 
 export interface PendingFileCardProps {
   userId: string,
-  processingEmails: processingEmailProps[]
   file: UploadFile,
-  setCompletedFiles: React.Dispatch<React.SetStateAction<UploadFile[]>>
-  setPendingFiles: React.Dispatch<React.SetStateAction<UploadFile[]>>
-  setProcessingEmails: React.Dispatch<React.SetStateAction<processingEmailProps[]>>
 }
 
-export default function PendingFileCard({ file, userId, processingEmails, setPendingFiles, setCompletedFiles, setProcessingEmails }: PendingFileCardProps) {
+export default function PendingFileCard({ file, userId }: PendingFileCardProps) {
 
   const { credit, setCredit } = useCreditStore()
+  const { setPendingFiles, setCompletedFiles, completedFiles, pendingFiles } = useFileStore()
+  const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
 
   useEffect(() => {
     const fileEmailVerifyHandler = async () => {
@@ -42,29 +41,36 @@ export default function PendingFileCard({ file, userId, processingEmails, setPen
         }
 
         setProcessingEmails(prev => [...prev, { uploadFileId: file.id, enter: file.enterEmails.length, checked: 0, status: "PENDING" }])
+
         file.enterEmails.map(async (email) => {
-          const res = await bulkEmailVerify(email, userId);
+          console.count(file.id)
+          const res = await bulkEmailVerify(email, userId, file.id);
+          console.count('res')
           if (res.data) {
             setProcessingEmails(prev => prev.map((pe) => pe.uploadFileId === file.id ? { ...pe, checked: pe.checked++, status: 'PENDING' } : pe))
           }
         })
 
+
+
         await reduceCredit(file.enterEmails.length, userId, haveCredit.creditId, haveCredit.credit)
         await uploadUploadFileStatus(file.id)
+        const res = await getUploadFilesById(file.id)
+        if (res.uploadFile?.checkedEmails) {
+          setCompletedFiles([...completedFiles, res.uploadFile])
+        }
         setCredit(credit - file.enterEmails.length)
+        setPendingFiles(pendingFiles.filter(pe => pe.id !== file.id))
         setProcessingEmails(prev => prev.map((pe) => pe.uploadFileId === file.id ? { ...pe, status: "COMPLETED" } : pe))
-        setPendingFiles(prev => prev.filter(pe => pe.id !== file.id))
-        setCompletedFiles(prev => [...prev, file])
 
       } catch (error) {
         toast.error((error as Error).message)
-        console.log((error as Error).message)
       }
     }
-    return () => {
-      fileEmailVerifyHandler()
-    }
-  }, []);
+    // return () => {
+    fileEmailVerifyHandler()
+    // }
+  }, [userId, file]);
 
   return (
     <div className=" h-20 rounded-sm bg-secondary/80 p-4 flex justify-between items-center">
@@ -81,7 +87,7 @@ export default function PendingFileCard({ file, userId, processingEmails, setPen
 
       {/* RIGHT */}
       <div className="flex items-center gap-4">
-        <p>{processingEmails.find(pe => pe.uploadFileId === file.id)?.checked}/{file.enterEmails.length}</p>
+        <p>{processingEmails.find(pe => pe.uploadFileId === file.id)?.checked || 0}/{file.enterEmails.length}</p>
         <div className="flex items-center gap-2">
           <Loading className=" h-8" />
           <p className=" text-sm text-gray-400">Processing</p>

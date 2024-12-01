@@ -32,7 +32,6 @@ export default function TipTapEditor({ description, onChange }: props) {
             },
         },
         onUpdate: ({ editor }) => {
-            console.log("editor", editor.getHTML());
             onChange(editor.getHTML());
         },
     });

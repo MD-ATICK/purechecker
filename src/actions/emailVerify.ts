@@ -31,7 +31,7 @@ export const bulkEmailVerify = async (email: string, userId: string, uploadFileI
             const result = await db.verifyEmail.create({
                 data
             })
-
+            console.count('result of email')
             return { data: result }
         }
 
@@ -79,7 +79,6 @@ export const checkHaveCreditForBulkCheck = async (checkEmailCount: number, userI
 
 export const reduceCredit = async (checkEmailCount: number, userId: string, creditId: string, credit: number) => {
     try {
-        console.log({ checkEmailCount })
         await db.credit.update({
             where: { id: creditId, userId, credit: { gte: checkEmailCount } },
             data: {
@@ -100,11 +99,7 @@ export const emailVerify = async (email: string, userId: string) => {
     try {
 
         if (!email || !isValidSyntax(email)) {
-            console.log('invalid email syntax')
         }
-
-        console.log(process.env.NODE_ENV, 'hi')
-
 
         const user = await db.user.findFirst({ where: { id: userId } })
         if (!user || !user.id) return { error: "unauthorized" }
@@ -229,7 +224,6 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
 
         client.on('data', (data) => {
             const response = data.toString();
-            console.log(response)
 
             switch (true) {
                 case response.includes('550-5.1.1'):

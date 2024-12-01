@@ -21,7 +21,6 @@ export default async function UsersPage() {
     const user = await getUser()
     const blogs = await db.blog.findMany({ include: { User : true } })
 
-    console.log('blogs', blogs)
     
     if (!user || !user.id) {
         return notFound()

@@ -3,7 +3,9 @@
 import LoadingButton from "@/components/LoadingButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import WelcomeEmail from "@/emails/WelcomeMail";
 import { FormEvent, useState, useTransition } from "react";
+import ReactDOMServer from 'react-dom/server';
 import { toast } from "sonner";
 import { contactUs } from "./actions";
 
@@ -15,10 +17,13 @@ export default function ContactForm() {
 
   const [isPending, startTransition] = useTransition()
 
+
+
   const onsubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     startTransition(async () => {
-      const data = await contactUs({ name, email, message })
+      const contactUsHtml = ReactDOMServer.renderToStaticMarkup(WelcomeEmail({ userFirstname: name }))
+      const data = await contactUs({ name, email, message }, contactUsHtml)
       if (data?.success) {
         toast.success('Message sent successfully')
       }

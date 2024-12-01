@@ -37,7 +37,6 @@ export default function ApiTokenCreateDialog({ userId, apiToken }: { userId: str
 
 
     const onsubmit = async (values: ApiTokenValue) => {
-        console.log(values)
         setError('')
         startTransition(async () => {
             const data = await createApiToken({ values, userId })

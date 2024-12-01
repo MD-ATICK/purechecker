@@ -6,7 +6,8 @@ import pdfImage from '@/assets/pdf.png';
 import xlsImage from '@/assets/xls.png';
 import LoadingButton from '@/components/LoadingButton';
 import { Button } from "@/components/ui/button";
-import { UploadFile } from "@prisma/client";
+import { useFileStore } from '@/store/useFileStore';
+import { UploadFile, VerifyEmail } from "@prisma/client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from 'sonner';
@@ -21,14 +22,18 @@ export interface processingEmailProps {
   status: "PENDING" | "COMPLETED"
 }
 
+export interface ExtendedUploadFile extends UploadFile {
+  checkedEmails: VerifyEmail[]
+}
+
 export default function UploadFileCo({ userId }: { userId: string }) {
 
   // const { setCredit, credit } = useCreditStore()
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [pendingFiles, setPendingFiles] = useState<UploadFile[]>([]);
-  const [completedFiles, setCompletedFiles] = useState<UploadFile[]>([]);
-  const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
-
+  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  // const [pendingFiles, setPendingFiles] = useState<UploadFile[]>([]);
+  // const [completedFiles, setCompletedFiles] = useState<ExtendedUploadFile[]>([]);
+  // const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
+  const { selectedFiles, setSelectedFiles, setPendingFiles, pendingFiles, setCompletedFiles } = useFileStore()
 
   const [isPending, setIsPending] = useState(false);
 
@@ -53,21 +58,18 @@ export default function UploadFileCo({ userId }: { userId: string }) {
     setSelectedFiles([...selectedFiles, file]);
   };
 
-  console.log(processingEmails)
-
-
 
   const handleUploadSelectedFiles = async () => {
     try {
-    
+
       setIsPending(true)
-     
+
       for (const file of selectedFiles) {
         const formData = new FormData()
         formData.set('file', file)
         const data = await createUploadFile(formData, userId)
         if (data.uploadFile) {
-          setPendingFiles((prev) => [...prev, data.uploadFile])
+          setPendingFiles([...pendingFiles, data.uploadFile])
         }
         if (data.error) {
           toast.error(data.error)
@@ -152,8 +154,8 @@ export default function UploadFileCo({ userId }: { userId: string }) {
             <h2>Upload History</h2>
             <p className=' text-gray-500 text-sm font-medium'> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur quod architecto aliquam reprehenderit sit ducimus?</p>
           </div>
-          <PendingFiles processingEmails={processingEmails} userId={userId} setCompletedFiles={setCompletedFiles} setProcessingEmails={setProcessingEmails} pendingFiles={pendingFiles} setPendingFiles={setPendingFiles} />
-          <CompletedFiles completedFiles={completedFiles} setCompletedFiles={setCompletedFiles} />
+          <PendingFiles userId={userId} />
+          <CompletedFiles userId={userId} />
         </div>
 
       </div>

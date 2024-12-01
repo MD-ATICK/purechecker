@@ -22,7 +22,6 @@ export default function CopyPastePage({ userId }: { userId: string }) {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(value)
         const bulkEmails = extractEmails(value)
         if (!bulkEmails.length) {
             toast.error('please enter an email')

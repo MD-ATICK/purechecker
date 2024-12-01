@@ -37,8 +37,6 @@ export async function GET(request: Request) {
             })
         }
 
-        console.log('updated credit successfully!')
-
     }
 
     // Your cron job logic here

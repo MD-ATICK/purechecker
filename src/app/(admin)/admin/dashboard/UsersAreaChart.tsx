@@ -8,8 +8,6 @@ interface UserAreaChartProps {
 
 export default function UserAreaChart({ data }: UserAreaChartProps) {
 
-    console.log(data)
-
     return (
         <div className=' w-full aspect-[10/5] md:aspect-[10/3] '>
             <ResponsiveContainer width="100%" style={{}} height="100%">

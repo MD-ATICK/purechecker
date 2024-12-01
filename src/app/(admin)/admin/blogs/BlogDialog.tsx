@@ -29,7 +29,6 @@ export default function BlogDialog({ blog }: { userId: string, blog?: Blog }) {
   const [error, setError] = useState<string>("");
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
-  console.log({ blog })
 
   const form = useForm<BlogValues>({
     resolver: zodResolver(BlogSchema),

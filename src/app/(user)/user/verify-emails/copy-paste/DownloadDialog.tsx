@@ -24,7 +24,7 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
             type: "pdf",
             skip: 1,
             take: 1,
-            fileName : "",
+            fileName: "",
             filter: "all"
         }
     })
@@ -110,18 +110,18 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
 
                         </div>
                         <FormField
-                                control={form.control}
-                                name="fileName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className=" flex items-center gap-1">File Name <FormMessage /></FormLabel>
-                                        <FormControl>
-                                            <Input disabled={false} placeholder="enter your file name" {...field} />
-                                        </FormControl>
+                            control={form.control}
+                            name="fileName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className=" flex items-center gap-1">File Name <FormMessage /></FormLabel>
+                                    <FormControl>
+                                        <Input disabled={false} placeholder="enter your file name" {...field} />
+                                    </FormControl>
 
-                                    </FormItem>
-                                )}
-                            />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="type"

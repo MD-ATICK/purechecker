@@ -58,8 +58,6 @@ export default function EmailCheckerField() {
     }
   };
 
-  console.log('result', result)
-
   return (
     <div className=' w-full'>
       <form onSubmit={onsubmit} className='w-full flex items-center gap-2'>

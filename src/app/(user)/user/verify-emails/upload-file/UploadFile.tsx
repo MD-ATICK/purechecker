@@ -50,12 +50,10 @@ export default function UploadFilePage({ userId }: { userId: string }) {
 
             setCompleteValue({ enter: bulkEmails.length, checked: 0 })
 
-            console.log({bulkEmails})
 
             for (const email of bulkEmails) {
                 const res = await bulkEmailVerify(email, userId);
                 if (res.data) {
-                    console.log('done', res.data.email)
                     setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                     setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])
                 }
