@@ -1,13 +1,15 @@
 import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify";
 import { db } from "@/lib/prisma";
 import { getRiskLevel, isDisposableEmail, isValidSyntax } from "@/lib/utils";
+import { NextRequest } from "next/server";
 
 
+export const dynamic = 'force-dynamic'; // Mark the route as dynamic
 
-export async function GET(req: Request) {
+
+export async function GET(req: NextRequest) {
     try {
-        const url = new URL(req.url);
-        const email = url.searchParams.get('email');
+        const email = "atick@gmail.com";
         const userId = req.headers.get('x-user-id');
         const secretKey = req.headers.get('x-secret-key');
 
