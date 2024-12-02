@@ -18,11 +18,22 @@ export const checkHasSubscriptionAccess = async (subscriptionId: string, userId:
             return null
         };
 
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
+
+        const credit = await db.credit.findUnique({ where: { userId, type: 'SUBSCRIPTION', createdAt: { gte: startOfDay, lte: endOfDay } } })
+        if (credit) {
+            return null;
+        }
+
         return subscription
 
     } catch (error) {
         console.log(error)
-        return null
+        return null;
     }
 }
 

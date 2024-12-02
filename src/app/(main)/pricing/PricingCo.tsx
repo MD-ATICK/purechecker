@@ -1,5 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getUser } from "@/lib/getUser"
 import { db } from "@/lib/prisma"
 import Purchase from "./Purchase"
 import Subscription from "./Subscription"
@@ -7,10 +6,6 @@ import Subscription from "./Subscription"
 
 export default async function PricingCo({ route }: { route?: "ADMIN" | "USER" }) {
 
-    const user = await getUser()
-    if (!user || !user.id) {
-        return (<p>Not user found!</p>)
-    }
     const purchases = await db.volume.findMany({ where: { type: 'PURCHASE' }, orderBy: { credit: 'desc' } })
     const subscriptions = await db.volume.findMany({ where: { type: "SUBSCRIPTION" }, orderBy: { credit: 'desc' } })
 

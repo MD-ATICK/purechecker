@@ -12,7 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 await db.credit.create({
                     data: {
                         userId: user.id,
-                        credit: 10,
+                        credit: Number(process.env.NEXT_PUBLIC_PER_DAY_FREE_CREDIT || 100),
                         type: 'DEFAULT',
                     }
                 })

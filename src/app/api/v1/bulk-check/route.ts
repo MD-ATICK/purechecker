@@ -1,14 +1,21 @@
 import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify";
 import { db } from "@/lib/prisma";
 import { getRiskLevel, isDisposableEmail, isValidSyntax } from "@/lib/utils";
+import { VerifyEmail } from "@prisma/client";
 import { NextRequest } from "next/server";
 
-
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const email = new URL(req.url).searchParams.get('email');
+        const email = "atick@gmail.com"; // This seems like a static test value. You might want to replace it with dynamic logic.
         const userId = req.headers.get('x-user-id');
         const secretKey = req.headers.get('x-secret-key');
+        const bulkEmails: string[] = await req.json()
+
+        if (bulkEmails.length === 0) {
+            return new Response(JSON.stringify({ error: "Email is not valid" }), {
+                status: 401
+            })
+        }
 
         if (!email || !isValidSyntax(email)) {
             return new Response(JSON.stringify({ error: "Email is not valid" }), {
@@ -32,14 +39,13 @@ export async function GET(req: NextRequest) {
             }
         })
 
-
         if (!apiToken) {
             return new Response(JSON.stringify({ error: "Unauthorized token" }), {
                 status: 401
             })
         }
 
-        if (apiToken && apiToken.limit && apiToken.limit <= apiToken.verifyEmails.length) {
+        if (apiToken && apiToken.limit && apiToken.limit <= (apiToken.verifyEmails.length + bulkEmails.length)) {
             return new Response(JSON.stringify({ error: "you have reached your limit" }), {
                 status: 401
             })
@@ -50,10 +56,9 @@ export async function GET(req: NextRequest) {
             return new Response(JSON.stringify({ error: 'Unauthorized' }), {
                 status: 401
             })
-
         }
 
-        const isUserHaveCredit = await db.credit.findFirst({ where: { userId: user.id, credit: { gt: 0 } } })
+        const isUserHaveCredit = await db.credit.findFirst({ where: { userId: user.id, credit: { gt: bulkEmails.length } } })
 
         if (!isUserHaveCredit) {
             return new Response(JSON.stringify({ error: "you don't have enough credit" }), {
@@ -61,16 +66,17 @@ export async function GET(req: NextRequest) {
             })
         }
 
+        const results: VerifyEmail[] = [];  // Initialize the results array
 
-        if (process.env.NODE_ENV === 'development') {
+        // Use for loop instead of map to handle async code properly
+        for (const email of bulkEmails) {
             const domain = email.split('@')[1];
             const isDisposable = isDisposableEmail(domain);
             const mxRecords = await getMxRecords(domain);
             const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
             const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
 
-
-            const data = {
+            const verifyEmailData = {
                 userId: user.id,
                 email,
                 domain,
@@ -83,61 +89,27 @@ export async function GET(req: NextRequest) {
                 isDisposable,
             }
 
-            await db.credit.update({
-                where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
-                data: {
-                    credit: (isUserHaveCredit.credit - 1)
-                }
-            })
-
             const result = await db.verifyEmail.create({
                 data: {
-                    ...data,
+                    ...verifyEmailData,
                     apiTokenId: apiToken?.id
                 },
-
             })
 
-            return new Response(JSON.stringify({ data: result }), {
-                status: 200
-            })
-
-
+            results.push(result) // Push the result into the initialized array
         }
 
-
-        const data = {
-            userId: userId,
-            email: 'mdatick866@gmail.com',
-            domain: 'gmail.com',
-            reason: "pure email address",
-            isExist: true,
-            isValidSyntax: true,
-            isValidDomain: true,
-            riskLevel: 'low',
-            mxRecords: [{ exchange: 'gmail-smtp-in.l.google.com', priority: 0 }],
-            isDisposable: false,
-        }
-
+        // Decrease the credit after processing all emails
         await db.credit.update({
             where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
             data: {
-                credit: (isUserHaveCredit.credit - 1)
+                credit: (isUserHaveCredit.credit - bulkEmails.length)
             }
         })
 
-        const result = await db.verifyEmail.create({
-            data: {
-                ...data,
-                apiTokenId: apiToken?.id
-            },
-
-        })
-
-        return new Response(JSON.stringify({ data: result }), {
+        return new Response(JSON.stringify({ data: results }), {
             status: 200
         })
-
 
     } catch (error) {
         console.log(error)
@@ -146,4 +118,3 @@ export async function GET(req: NextRequest) {
         })
     }
 }
-
