@@ -21,5 +21,5 @@ export const useFileStore = create<useFileStoreProps>((set) => ({
     setSelectedFiles: (files) => set({ selectedFiles: files }),
     setPendingFiles: (files) => set({ pendingFiles: files }),
     setCompletedFiles: (files) => set({ completedFiles: files }),
-    setProcessingEmails: (files) => set({ processingEmails: files }),
+    setProcessingEmails: (files) => set({ processingEmails: files }),   
 }))

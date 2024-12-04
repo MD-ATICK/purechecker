@@ -37,7 +37,6 @@ export default function UploadFileCo({ userId }: { userId: string }) {
 
   const [isPending, setIsPending] = useState(false);
 
-
   const fileUploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;

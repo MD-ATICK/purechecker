@@ -1,5 +1,6 @@
 import { checkHasSubscriptionAccess } from "@/actions/users";
 import { db } from "@/lib/prisma";
+import { isTimeBetween11AMto1AM } from "@/lib/utils";
 
 export async function GET(request: Request) {
     const cronToken = process.env.CRON_JOB_TOKEN;
@@ -7,9 +8,12 @@ export async function GET(request: Request) {
     const date = new Date()
 
     if (tokenFromRequest !== cronToken) {
-        return Response.json({ error: 'Unauthorized' }, { status: 403 });
+        return Response.json({ error: 'Unauthorized' }, { status: 200 });
     }
-
+    
+    if (!isTimeBetween11AMto1AM()) {
+        return Response.json({ error: 'Unauthorized-T' }, { status: 200 });
+    }
 
     const subscriptionUsers = await db.user.findMany({ where: { subscriptions: { some: { status: "ACTIVE" } } }, include: { subscriptions: true } });
 
@@ -20,10 +24,6 @@ export async function GET(request: Request) {
 
         const volume = await db.volume.findUnique({ where: { id: subscription.volumeId } })
         if (!volume) return;
-
-        // if (!isTimeBetween11AMto12PM()) {
-        //     return Response.json({ error: 'Unauthorized-T' }, { status: 403 });
-        // }
 
         console.log('has access check')
         const checkHasAccessToCredit = await checkHasSubscriptionAccess(subscription.id, user.id)

@@ -42,14 +42,21 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
         setProcessingEmails(prev => [...prev, { uploadFileId: file.id, enter: file.enterEmails.length, checked: 0, status: "PENDING" }])
 
-        file.enterEmails.map(async (email) => {
-          console.count(file.id)
+        for (const email of file.enterEmails) {
+          console.count(file.id);
           const res = await bulkEmailVerify(email, userId, file.id);
-          console.count('res')
+          console.count('res');
+  
           if (res.data) {
-            setProcessingEmails(prev => prev.map((pe) => pe.uploadFileId === file.id ? { ...pe, checked: pe.checked++, status: 'PENDING' } : pe))
+            setProcessingEmails((prev) =>
+              prev.map((pe) =>
+                pe.uploadFileId === file.id
+                  ? { ...pe, checked: pe.checked + 1, status: 'PENDING' }
+                  : pe
+              )
+            );
           }
-        })
+        }
 
 
 
@@ -67,10 +74,11 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
         toast.error((error as Error).message)
       }
     }
-    // return () => {
-    fileEmailVerifyHandler()
-    // }
-  }, [userId, file]);
+ 
+
+    fileEmailVerifyHandler(); // Call the handler once
+
+  }, [file.enterEmails, file.id, userId]);
 
   return (
     <div className=" h-20 rounded-sm bg-secondary/80 p-4 flex justify-between items-center">

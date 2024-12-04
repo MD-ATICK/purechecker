@@ -1,11 +1,11 @@
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
 import { getUser } from "@/lib/getUser"
 import { db } from "@/lib/prisma"
@@ -16,7 +16,7 @@ export default async function CreditHistoryPage() {
 
   const user = await getUser()
 
-  const creditHistory = await db.credit.findMany({ where: { userId: user?.id }, include: { User: true } })
+  const creditHistory = await db.credit.findMany({ where: { userId: user?.id }, include: { User: true }, orderBy: {createdAt: 'desc'} })
 
 
   if (!user || !user.id) {

@@ -144,7 +144,7 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
                             <FormItem>
                                 <FormLabel className=" flex items-center gap-1">Daily Credit <FormMessage /></FormLabel>
                                 <FormControl>
-                                    <Input type="text" value={Math.floor(Number(form.watch("credit")) / Number(process.env.NEXT_PUBLIC_CREDIT_LENGTH || "30"))} disabled={true} placeholder="enter amount" />
+                                    <Input type="text" value={Math.floor(Number(form.watch("credit")) / Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_DAY_LENGTH || "30"))} disabled={true} placeholder="enter amount" />
                                 </FormControl>
                             </FormItem>
                         }

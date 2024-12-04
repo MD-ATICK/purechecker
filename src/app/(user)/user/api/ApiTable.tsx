@@ -29,7 +29,7 @@ export default async function ApiTable({ userId }: { userId: string }) {
                 <TableCaption>A list of Api Token.</TableCaption>
                 <TableHeader>
                     <TableRow className=" font-medium">
-                        <TableHead className="w-[50px]">ID</TableHead>
+                        <TableHead className="w-[50px]">No</TableHead>
                         <TableHead>Secret Key</TableHead>
                         <TableHead className=" whitespace-nowrap">Limit</TableHead>
                         <TableHead className=" text-center">Deliverable</TableHead>
@@ -41,13 +41,13 @@ export default async function ApiTable({ userId }: { userId: string }) {
                 </TableHeader>
                 <TableBody>
                     {
-                        data?.apiTokens?.map((apiToken) => {
+                        data?.apiTokens?.map((apiToken, index) => {
                             return (
                                 <TableRow key={apiToken.id} >
                                     <TableCell className="w-[50px] text-xs font-medium">
-                                        {apiToken.id}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
+                                        {index + 1}
+                                    </TableCell>    
+                                    <TableCell className="font-medium min-w-[300px]">
                                         <CopyButton text={apiToken.secretKey} short={true} />
                                     </TableCell>
                                     <TableCell className=" text-center">{apiToken.limit || "N/A"}</TableCell>

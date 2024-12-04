@@ -47,7 +47,7 @@ export function extractEmails(inputText: string) {
 }
 
 
-export function isTimeBetween11AMto12PM() {
+export function isTimeBetween11AMto1AM() {
   const now = new Date();
   const hours = now.getHours();
   const minutes = now.getMinutes();
@@ -55,7 +55,7 @@ export function isTimeBetween11AMto12PM() {
   // Check if the hour is within the range of 11:00 AM to 12:00 PM
   if (hours === 23) {
     return true; // Any minute within 11:00 AM to 11:59 AM is valid
-  } else if (hours === 24 && minutes === 0) {
+  } else if (hours === 24 && minutes < 59) {
     return true; // Exactly 12:00 PM is valid
   }
 

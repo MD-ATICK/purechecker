@@ -17,7 +17,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
     if (!user || !user?.id) {
         return notFound()
     }
-    const subscription = user.subscriptionId ? await db.subscription.findFirst({ where: { id: user.subscriptionId } }) : undefined
+    const subscription = user.subscriptionId ? await db.subscription.findFirst({ where: { id: user.subscriptionId } , include: {volume: true}}) : undefined
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none w-full'>
@@ -56,6 +56,10 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                 {
                     subscription && <DropdownMenuItem className=' flex flex-col gap-0'>
                         <CreditBox userId={user.id} dashboard={true} />
+                        <div className='flex items-center justify-between w-full'>
+                            <p className=' text-xs'>Per Day Credit :  </p>
+                            <p className=' text-xs'>{subscription.volume.dailyCredit || (subscription.volume.credit / Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_DAY_LENGTH || 30))}</p>
+                        </div>
                         <div className='flex items-center justify-between w-full'>
                             <p className=' text-xs'>Subscription Type :  </p>
                             <p className=' text-xs'>Monthly</p>
