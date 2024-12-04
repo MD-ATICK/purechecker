@@ -10,7 +10,6 @@ export default async function page() {
       return NotFound()
   }
 
-
   return (
     <div className=" p-[1.5vw]">
       <UploadFileCo userId={user.id} />

@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from '@/app/loading';
 import csvImage from '@/assets/csv.png';
 import deleteImage from '@/assets/delete.png';
 import pdfImage from '@/assets/pdf.png';
@@ -9,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useFileStore } from '@/store/useFileStore';
 import { UploadFile, VerifyEmail } from "@prisma/client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { toast } from 'sonner';
 import { createUploadFile, getUploadFilesByUserId } from './actions';
 import CompletedFiles from './CompletedFiles';
@@ -83,17 +84,25 @@ export default function UploadFileCo({ userId }: { userId: string }) {
     }
   }
 
+
+  const [isFileGetPending, startTransition] = useTransition()
+
   useEffect(() => {
+    toast.success('run useEffect')
     const getAllFiles = async () => {
-      const data = await getUploadFilesByUserId(userId)
-      if (data.uploadFiles) {
-        setPendingFiles(data.uploadFiles.filter(file => file.status === "PENDING"))
-        setCompletedFiles(data.uploadFiles.filter(file => file.status === "COMPLETED"))
-      }
+      startTransition(async () => {
+        toast.success('run fetch')
+        const data = await getUploadFilesByUserId(userId)
+        console.log('data')
+        toast.success('get data uploadfiles length ' + data.uploadFiles?.length)
+        if (data.uploadFiles) {
+          setPendingFiles(data.uploadFiles.filter(file => file.status === "PENDING"))
+          setCompletedFiles(data.uploadFiles.filter(file => file.status === "COMPLETED"))
+        }
+      })
     }
-    return () => {
-      getAllFiles()
-    }
+
+    getAllFiles()
   }, [userId]);
 
   return (
@@ -154,6 +163,13 @@ export default function UploadFileCo({ userId }: { userId: string }) {
             <p className=' text-gray-500 text-sm font-medium'> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur quod architecto aliquam reprehenderit sit ducimus?</p>
           </div>
           <PendingFiles userId={userId} />
+          {
+            isFileGetPending && (
+              <div className=" w-full h-10 flex items-center justify-center">
+                <Loading />
+              </div>
+            )
+          }
           <CompletedFiles userId={userId} />
         </div>
 
