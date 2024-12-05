@@ -5,20 +5,20 @@ import { useEffect } from "react";
 
 export default function Test() {
 
-  const handlePayment =   () => { 
-      if(window.Paddle) {
-        window.Paddle.Checkout.open({
-           items: [
-             {
-              priceId: 'pri_01je3z6kkvyxtzsqzpcaw4wm4h',
-              quantity: 1
-             }
-           ],
-           customer : {
-            email : 'customer@gmail.com'
-           }
-        })
-      }
+  const handlePayment = async () => {
+    if (window.Paddle) {
+      await window.Paddle.Checkout.open({
+        items: [
+          {
+            priceId: 'pri_01je3x5306ed7aqpfmy39awjdp',
+            quantity: 1
+          }
+        ],
+        customer: {
+          email: 'customer@gmail.com'
+        }
+      })
+    }
   }
 
   useEffect(() => {
@@ -32,9 +32,9 @@ export default function Test() {
 
   return (
     <div className=" container mx-auto p-10">
-<Button onClick={handlePayment}>
-  Buy Plan
-</Button>
+      <Button onClick={handlePayment}>
+        Buy Plan
+      </Button>
     </div>
   )
 }
