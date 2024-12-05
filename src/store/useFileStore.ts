@@ -1,4 +1,4 @@
-import { ExtendedUploadFile, processingEmailProps } from '@/app/(user)/user/verify-emails/upload-file/UploadFileCo';
+import { processingEmailProps } from '@/app/(user)/user/verify-emails/upload-file/UploadFileCo';
 import { UploadFile } from '@prisma/client';
 import { create } from 'zustand';
 
@@ -7,8 +7,8 @@ interface useFileStoreProps {
     setSelectedFiles: (files: File[]) => void
     pendingFiles: UploadFile[]
     setPendingFiles: (files: UploadFile[]) => void
-    completedFiles: ExtendedUploadFile[],
-    setCompletedFiles: (files: ExtendedUploadFile[]) => void
+    completedFiles: UploadFile[],
+    setCompletedFiles: (files: UploadFile[]) => void
     processingEmails: processingEmailProps[],
     setProcessingEmails: (files: processingEmailProps[]) => void
 }

@@ -88,13 +88,9 @@ export default function UploadFileCo({ userId }: { userId: string }) {
   const [isFileGetPending, startTransition] = useTransition()
 
   useEffect(() => {
-    toast.success('run useEffect')
     const getAllFiles = async () => {
       startTransition(async () => {
-        toast.success('run fetch')
         const data = await getUploadFilesByUserId(userId)
-        console.log('data')
-        toast.success('get data uploadfiles length ' + data.uploadFiles?.length)
         if (data.uploadFiles) {
           setPendingFiles(data.uploadFiles.filter(file => file.status === "PENDING"))
           setCompletedFiles(data.uploadFiles.filter(file => file.status === "COMPLETED"))
@@ -103,6 +99,7 @@ export default function UploadFileCo({ userId }: { userId: string }) {
     }
 
     getAllFiles()
+    // eslint-disable-next-line
   }, [userId]);
 
   return (

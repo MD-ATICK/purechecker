@@ -19,13 +19,24 @@ export const getUploadFilesById = async (uploadFileId: string) => {
 export const getUploadFilesByUserId = async (userId: string) => {
     try {
 
-        const uploadFiles = await db.uploadFile.findMany({ where: { userId: userId }, include: { checkedEmails: true } })
+        const uploadFiles = await db.uploadFile.findMany({ where: { userId: userId } })
         return { success: true, uploadFiles }
 
     } catch (error) {
         return { error: (error as Error).message }
     }
 }
+export const getCheckEmailsByUploadFileId = async (fileId: string, userId: string) => {
+    try {
+
+        const uploadFiles = await db.uploadFile.findUnique({ where: { id: fileId, userId }, include: { checkedEmails: true } })
+        return { success: true, checkedEmails: uploadFiles?.checkedEmails }
+
+    } catch (error) {
+        return { error: (error as Error).message }
+    }
+}
+
 
 export const createUploadFile = async (formData: FormData, userId: string) => {
     try {

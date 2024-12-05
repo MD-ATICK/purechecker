@@ -78,6 +78,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
     fileEmailVerifyHandler(); // Call the handler once
 
+    // eslint-disable-next-line
   }, [file.enterEmails, file.id, userId]);
 
   return (
