@@ -80,11 +80,19 @@ export default function ApiDocs() {
             </Tabs>
             <div className=" flex text-sm text-yellow-400 items-center gap-4">
                 <Info size={18} />
-                <p>You can get your USER_ID from your dashboard Api Section. <Link href={'/user/api'} className=" underline">Go now</Link></p>
+                <div>
+                    <p>You can get your USER_ID from your dashboard Api Section. </p>
+                    <Link href={'/user/api'} className=" underline">Go now</Link>
+                </div>
             </div>
             <div className=" flex text-sm text-yellow-400 items-center gap-4">
                 <Info size={18} />
-                <p>You can get your SECRET_ID from your dashboard Api. But Create will be decreased by 1 from which you use secret_key in your fetch request. <Link href={'/user/api'} className=" underline">Go now</Link></p>
+                <div>
+                    <p>
+                        You can get your SECRET_ID from your dashboard Api. But Create will be decreased by 1 from which you use secret_key in your fetch request.
+                    </p>
+                    <Link href={'/user/api'} className=" underline">Go now</Link>
+                </div>
             </div>
             <div className=" mt-12">
                 <h1>Request Result</h1>

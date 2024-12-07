@@ -21,7 +21,11 @@ export default function ContactForm() {
     e.preventDefault()
     startTransition(async () => {
 
-      const contactUsHtml = `<p>${name}</p> <br/> <p>${email}</p> <br/> <p>${message}</p>`
+      const contactUsHtml = `
+      <div>
+      <p>${name}</p> <br/> <p>${email}</p> <br/> <p>${message}</p>
+      </div>
+      `
       const data = await contactUs({ name, email, message }, contactUsHtml)
       if (data?.success) {
         toast.success('Message sent successfully')

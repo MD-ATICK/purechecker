@@ -19,8 +19,9 @@ export default function CompletedFileCard({ file, userId }: { file: UploadFile, 
         const getCheckedEmails = async () => {
             setIsPending(true)
             try {
+                toast.success('file.id' + file.id + 'userid' + userId)
                 const data = await getCheckEmailsByUploadFileId(file.id, userId)
-                console.log('check', data.checkedEmails)
+                toast.success(data.checkedEmails?.length)
                 if (data.checkedEmails) {
                     setCheckedEmails(data.checkedEmails)
                 }

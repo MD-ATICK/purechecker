@@ -13,11 +13,11 @@ export const metadata: Metadata = {
     template: `PureChecker: %s`,
     default: 'PureChecker'
   },
-  description: "Best app for email verify",
+  description: "Best app fo r email verify",
   icons: {
-    icon: '/src/assets/logo-big.png', // Adjust the path as needed
-    shortcut: '/src/assets/logo-big.png', // Optional
-    apple: '/src/assets/logo-big.png', // Optional for Apple devices
+    icon: '/logo.png', // Adjust the path as needed
+    shortcut: '/logo.png', // Optional
+    apple: '/logo.png', // Optional for Apple devices
   },
 };
 
@@ -29,7 +29,7 @@ export default async function RootLayout({
 
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <Script src="https://cdn.paddle.com/paddle/v2/paddle.js"></Script>
       </head>

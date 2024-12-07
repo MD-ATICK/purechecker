@@ -64,6 +64,8 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
 
     useEffect(() => {
         form.setValue("take", checkEmails.length)
+
+        // eslint-disable-next-line
     }, [checkEmails]);
 
     return (

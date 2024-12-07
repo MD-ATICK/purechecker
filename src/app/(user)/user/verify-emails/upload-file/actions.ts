@@ -29,7 +29,7 @@ export const getUploadFilesByUserId = async (userId: string) => {
 export const getCheckEmailsByUploadFileId = async (fileId: string, userId: string) => {
     try {
 
-        const uploadFiles = await db.uploadFile.findUnique({ where: { id: fileId, userId }, include: { checkedEmails: true } })
+        const uploadFiles = await db.uploadFile.findFirstOrThrow({ where: { id: fileId, userId }, include: { checkedEmails: true } })
         return { success: true, checkedEmails: uploadFiles?.checkedEmails }
 
     } catch (error) {

@@ -3,7 +3,7 @@ import { emailVerify } from '@/actions/emailVerify';
 import searchImage from '@/assets/search.png';
 import LoadingButton from '@/components/LoadingButton';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
@@ -90,7 +90,7 @@ export default function EmailCheckerField() {
             <DialogContent className={cn('w-[95%] md:min-w-[60%] p-6 md:p-10 rounded-xl border-2', result.isExist ? ' border-green-500' : 'border-destructive')}>
               <div className=' w-full space-y-3 md:space-y-8'>
                 <div className=' text-center flex-col flex justify-center items-center'>
-                  <p className=' font-bold text-xl md:text-3xl'>{result.email}</p>
+                  <DialogTitle className=' font-bold text-xl md:text-3xl'>{result.email}</DialogTitle>
                   <p className='text-sm md:text-lg text-muted-foreground'>is <span className={cn('font-bold', result.isExist ? ' text-green-500' : 'text-red-500')}>{result.isExist ? 'deliverable' : "undeliverable"}</span> email address</p>
                 </div>
                 <div className=' grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10'>

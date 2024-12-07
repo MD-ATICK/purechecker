@@ -4,6 +4,7 @@ import {
     Sheet,
     SheetClose,
     SheetContent,
+    SheetTitle,
     SheetTrigger
 } from "@/components/ui/sheet"
 import { cn } from '@/lib/utils'
@@ -23,6 +24,9 @@ export default function MenuSheet({ className }: { className?: string }) {
                     </Button>
                 </SheetTrigger>
                 <SheetContent className=' flex justify-center gap-4 items-center flex-col'>
+                    <SheetTitle>
+                        Menu Bar
+                    </SheetTitle>
                     <Link href={'/'} className=' text-sm hover:underline font-medium'>
                         <SheetClose>
                             Home

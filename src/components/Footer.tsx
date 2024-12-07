@@ -14,9 +14,9 @@ export default function Footer() {
             <div className=" container mx-auto px-3">
                 <div className="flex flex-col md:flex-row gap-6 justify-between items-start w-full py-[2vw]">
                     <div className=' space-y-2 flex-1'>
-                        <div className='flex items-center'>
-                            <Image alt='' src={logo} height={40} />
-                            <h1 className=" font-bold text-2xl md:text-3xl">PureChecker</h1>
+                        <div className='flex items-center gap-2'>
+                            <Image alt='' src={logo} height={35} />
+                            <h1 className=" font-bold text-2xl md:text-2xl">PureChecker</h1>
                         </div>
                         <div className=' md:space-y-2 md:py-8'>
                         <div className="flex items-center gap-3">
