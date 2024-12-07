@@ -6,9 +6,13 @@ import Image from "next/image"
 import Link from 'next/link'
 import { notFound } from "next/navigation"
 
+interface PageProps {
+  params: Promise<{ blogId: string }>
+}
 
-export async function generateMetadata({ params }: { params: { blogId: string } }) {
-  const data = await getBlogById(params.blogId)
+export async function generateMetadata({ params }: PageProps) {
+
+  const data = await getBlogById((await params)?.blogId)
 
   return {
     title: data.blog?.title,
@@ -24,9 +28,6 @@ export async function generateMetadata({ params }: { params: { blogId: string } 
           alt: data.blog?.title,
         },
       ],
-      type: 'website', // or 'article' depending on your content
-      locale: 'en_US',
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/blog/${data.blog?.id}`, // Replace with your page URL
     },
   }
 
@@ -34,20 +35,20 @@ export async function generateMetadata({ params }: { params: { blogId: string } 
 
 
 
-export default async function SingleBlog({ params }: { params: { blogId: string } }) {
+export default async function SingleBlog({ params }: PageProps) {
 
 
-  if (!params.blogId) {
+  if (!(await params)?.blogId) {
     return notFound()
   }
 
-  const data = await getBlogById(params.blogId)
+  const data = await getBlogById((await params)?.blogId)
 
   if (data.error || !data.blog) {
     return notFound()
   }
 
-  const { image, title, description, htmlContent, createdAt,id } = data.blog
+  const { image, title, description, htmlContent, createdAt, id } = data.blog
 
   return (
     <div className=" max-w-7xl mx-auto p-2  space-y-6 py-4 md:py-10">
@@ -56,7 +57,7 @@ export default async function SingleBlog({ params }: { params: { blogId: string 
         <p>blog</p>
         <Image alt='' src={leftChevron} className=' dark:invert' height={10} />
         <p>{id}</p>
-        </Link>
+      </Link>
       <div className=" flex flex-col md:flex-row items-start  gap-3 md:gap-8">
         <div className="w-full flex-1 aspect-[3/2] rounded-lg relative">
           <Image alt={title} src={image} fill sizes='200px' className=' rounded-lg object-cover' />

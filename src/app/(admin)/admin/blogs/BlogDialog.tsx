@@ -95,7 +95,7 @@ export default function BlogDialog({ blog }: { userId: string, blog?: Blog }) {
         shouldValidate: true
       })
     }
-  }, [image]);
+  }, [image, form]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
