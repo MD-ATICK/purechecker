@@ -34,7 +34,7 @@ export default function UploadFileCo({ userId }: { userId: string }) {
   // const [pendingFiles, setPendingFiles] = useState<UploadFile[]>([]);
   // const [completedFiles, setCompletedFiles] = useState<ExtendedUploadFile[]>([]);
   // const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
-  const { selectedFiles, setSelectedFiles, setPendingFiles, pendingFiles, setCompletedFiles } = useFileStore()
+  const { selectedFiles, setSelectedFiles, setPendingFiles, setPendingFile, setCompletedFiles } = useFileStore()
 
   const [isPending, setIsPending] = useState(false);
 
@@ -69,7 +69,8 @@ export default function UploadFileCo({ userId }: { userId: string }) {
         formData.set('file', file)
         const data = await createUploadFile(formData, userId)
         if (data.uploadFile) {
-          setPendingFiles([...pendingFiles, data.uploadFile])
+          toast.success('add upload file' + data.uploadFile.fileName)
+          setPendingFile(data.uploadFile)
         }
         if (data.error) {
           toast.error(data.error)

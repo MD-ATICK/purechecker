@@ -20,7 +20,7 @@ export interface PendingFileCardProps {
 export default function PendingFileCard({ file, userId }: PendingFileCardProps) {
 
   const { credit, setCredit } = useCreditStore()
-  const { setPendingFiles, setCompletedFiles, completedFiles, pendingFiles } = useFileStore()
+  const { setPendingFiles,setCompletedFile, pendingFiles } = useFileStore()
   const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
 
   useEffect(() => {
@@ -40,6 +40,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
           return toast.error(haveCredit.error)
         }
 
+        // todo: remove processingEmails and its state form useFileStore()
         setProcessingEmails(prev => [...prev, { uploadFileId: file.id, enter: file.enterEmails.length, checked: 0, status: "PENDING" }])
 
         for (const email of file.enterEmails) {
@@ -64,7 +65,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
         await uploadUploadFileStatus(file.id)
         const res = await getUploadFilesById(file.id)
         if (res.uploadFile?.checkedEmails) {
-          setCompletedFiles([...completedFiles, res.uploadFile])
+          setCompletedFile(res.uploadFile)
         }
         setCredit(credit - file.enterEmails.length)
         setPendingFiles(pendingFiles.filter(pe => pe.id !== file.id))

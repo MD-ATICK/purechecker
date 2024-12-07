@@ -46,6 +46,7 @@ export const bulkEmailVerify = async (email: string, userId: string, uploadFileI
             riskLevel: 'low',
             mxRecords: [{ exchange: 'gmail-smtp-in.l.google.com', priority: 0 }],
             isDisposable: false,
+            uploadFileId : uploadFileId
         }
 
         const result = await db.verifyEmail.create({
