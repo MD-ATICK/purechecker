@@ -17,7 +17,8 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
     if (!user || !user?.id) {
         return notFound()
     }
-    const subscription = user.subscriptionId ? await db.subscription.findFirst({ where: { id: user.subscriptionId } , include: {volume: true}}) : undefined
+    const subscription = user.subscriptionId ? await db.subscription.findUnique({ where: { id: user.subscriptionId } , include: {volume: true}}) : undefined
+
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none w-full'>

@@ -1,10 +1,11 @@
 "use server"
 
 import { db } from "@/lib/prisma"
+import { TransactionStatus } from "@paddle/paddle-node-sdk"
 import { revalidatePath } from "next/cache"
 
 
-export const buyPurchase = async ({ userId, volumeId }: { userId: string, volumeId: string }) => {
+export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId: string, volumeId: string, transactionId: string }) => {
 
     try {
 
@@ -15,7 +16,6 @@ export const buyPurchase = async ({ userId, volumeId }: { userId: string, volume
         const user = await db.user.findUnique({ where: { id: userId } })
         if (!user) return { error: "User not found" }
 
-        const paymentId = '64bff5d4c8e4d2a59f1b7f41' // just for test there will be add the payment gateway id
 
         const newCredit = await db.credit.create({
             data: {
@@ -25,17 +25,16 @@ export const buyPurchase = async ({ userId, volumeId }: { userId: string, volume
             }
         })
 
-        await db.order.create({
+        await db.purchase.create({
             data: {
                 userId,
-                paymentId,
+                transactionId,
                 amount: volume.amount,
-                plan: "PURCHASE",
                 credit: volume.credit
             }
         })
 
-
+        revalidatePath('/')
         return { success: true, data: newCredit }
     } catch (error) {
         throw error
@@ -44,10 +43,10 @@ export const buyPurchase = async ({ userId, volumeId }: { userId: string, volume
 }
 
 
-export const buySubscription = async ({ userId, volumeId }: { userId: string, volumeId: string }) => {
+export const buySubscription = async ({ userId, volumeId, status, subscriptionId, transactionId }: { userId: string, volumeId: string,subscriptionId : string, transactionId : string, 
+    status : TransactionStatus }) => {
 
     // initial credit, subscription , order, userUpdate
-
     try {
         const volume = await db.volume.findUnique({ where: { id: volumeId } })
         if (!volume) return { error: "Volume not found" }
@@ -55,8 +54,6 @@ export const buySubscription = async ({ userId, volumeId }: { userId: string, vo
 
         const user = await db.user.findUnique({ where: { id: userId } })
         if (!user) return { error: "User not found" }
-
-        const paymentId = '64bff5d4c8e4d2a59f1b7f41' // just for test there will be add the payment gateway id
 
         const newCredit = await db.credit.create({
             data: {
@@ -70,25 +67,15 @@ export const buySubscription = async ({ userId, volumeId }: { userId: string, vo
         const currentPeriodEnd = new Date(currentPeriodStart);
         currentPeriodEnd.setDate(currentPeriodEnd.getDate() + 30);
 
-      await db.subscription.create({
+        await db.subscription.create({
             data: {
                 userId,
                 volumeId: volume.id,
-                paymentId,
-                status: "ACTIVE",
+                subscriptionId,
+                transactionId,
+                status,
                 currentPeriodStart,
                 currentPeriodEnd,
-            }
-        })
-
-
-        await db.order.create({
-            data: {
-                userId,
-                paymentId,
-                amount: volume.amount,
-                plan: "SUBSCRIPTION",
-                credit: volume.credit
             }
         })
 

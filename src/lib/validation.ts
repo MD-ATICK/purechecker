@@ -31,6 +31,7 @@ export type SignUpValues = z.infer<typeof SignUpSchema>
 export const VolumeSchema = z.object({
   perCreditPrice: requiredNumber,
   credit: requiredNumber,
+  paddlePriceId : requiredString,
   type: z.enum(['SUBSCRIPTION', 'PURCHASE']),
 })
 

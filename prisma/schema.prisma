@@ -32,6 +32,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Authenticator Authenticator[]
+  customerId    String
   // extarnal
   mobile        String?
   country       String?
@@ -41,7 +42,7 @@ model User {
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  orders        Order[]
+  purchases     Purchase[]
   subscriptions Subscription[]
   uploadFiles   UploadFile[]
 }
@@ -76,18 +77,6 @@ enum BuyType {
   SUBSCRIPTION
 }
 
-model Order {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.ObjectId
-  paymentId String
-  amount    Int
-  plan      BuyType
-  credit    Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Credit {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   User      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -109,6 +98,7 @@ model Volume {
   dailyCredit    Int?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  paddlePriceId  String
   User           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String         @db.ObjectId
   subscriptions  Subscription[]
@@ -174,24 +164,39 @@ model UploadFile {
 }
 
 enum SubscriptionType {
-  ACTIVE
-  REFUND
-  COMPLETED
-  CANCELLED
+  completed
+  ready
+  draft
+  billed
+  paid
+  canceled
+  past_due
+}
+
+model Purchase {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String   @db.ObjectId
+  transactionId String
+  amount        Int
+  credit        Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Subscription {
-  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
-  User               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId             String           @db.ObjectId
-  volumeId           String           @db.ObjectId
-  volume             Volume           @relation(fields: [volumeId], references: [id], onDelete: Cascade)
-  paymentId          String
-  status             SubscriptionType @default(ACTIVE)
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  User               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             String   @db.ObjectId
+  volumeId           String   @db.ObjectId
+  volume             Volume   @relation(fields: [volumeId], references: [id], onDelete: Cascade)
+  transactionId      String
+  subscriptionId     String
+  status             String
   currentPeriodStart DateTime
   currentPeriodEnd   DateTime
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 // * ----------------------------------------------------------------------------- 

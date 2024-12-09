@@ -16,7 +16,8 @@ export default async function OrderPage() {
 
     const user = await getUser()
 
-    const orders = await db.order.findMany({ where: { userId: user?.id }, include: { User: true } })
+    // todo: in future do a order model.
+    const orders = await db.purchase.findMany({ where: { userId: user?.id }, include: { User: true } })
 
 
     if (!user || !user.id) {
@@ -47,9 +48,9 @@ export default async function OrderPage() {
                                     <TableCell className="w-[100px] font-medium">{order.id}</TableCell>
                                     <TableCell>{order.User.name}</TableCell>
                                     <TableCell>{order.User.email}</TableCell>
-                                    <TableCell>{order.paymentId}</TableCell>
+                                    <TableCell>{order.transactionId}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.amount)}$</TableCell>
-                                    <TableCell className=" text-center">{order.plan}</TableCell>
+                                    <TableCell className=" text-center">{"KICH NEHI"}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.credit)}</TableCell>
                                     <TableCell>{formatRelativeDate(order.createdAt)}</TableCell>
 

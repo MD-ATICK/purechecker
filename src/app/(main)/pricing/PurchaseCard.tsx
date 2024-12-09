@@ -5,7 +5,7 @@ import BuyNowButton from './BuyNowButton'
 
 export default function PurchaseCard({ purchase, route }: { purchase: Volume, route?: "ADMIN" | "USER" }) {
 
-    const { amount, credit, type } = purchase
+    const { amount, credit, type , paddlePriceId} = purchase
 
     return (
         <div className='  dark:hover:bg-gray-700 border-b-2 rounded-md mb-2 border-white dark:border-background bg-secondary/80 shadow-sm w-full flex justify-between items-center p-2 px-3 md:py-5 md:px-8'>
@@ -20,7 +20,7 @@ export default function PurchaseCard({ purchase, route }: { purchase: Volume, ro
                         ) :
                         (
 
-                            <BuyNowButton volumeId={purchase.id} type={type} />
+                            <BuyNowButton volumeId={purchase.id} type={type} paddlePriceId={paddlePriceId}/>
                         )
                 }
             </div>

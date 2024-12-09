@@ -42,6 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.role = existingUser.role
             token.isOAuth = !!isOAuth
             token.emailVerified = existingUser.emailVerified;
+            token.customerId = existingUser.customerId;
             token.subscriptionId = existingUser.subscriptions.find(subs => subs.status === 'ACTIVE')?.id
 
             return token;
@@ -55,6 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             session.user.role = token.role as "ADMIN" | "USER"
             session.user.isOAuth = token.isOAuth as boolean
             session.user.subscriptionId = token.subscriptionId as string
+            session.user.customerId = token.customerId as string
             session.user.emailVerified = token.emailVerified as Date
             return session;
         }

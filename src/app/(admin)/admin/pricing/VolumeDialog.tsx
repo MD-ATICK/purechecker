@@ -17,6 +17,7 @@ import { VolumeSchema, VolumeValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Volume } from "@prisma/client";
 import Image from "next/image";
+import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -38,9 +39,10 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
     const form = useForm<VolumeValues>({
         resolver: zodResolver(VolumeSchema),
         defaultValues: volume || {
-            perCreditPrice: undefined,
-            credit: undefined,
-            type: undefined
+            perCreditPrice: 0,
+            credit: 0,
+            paddlePriceId: "",
+            type: "PURCHASE",
         }
     })
     const discountCalculate = form.watch('type') === "PURCHASE" ? Math.floor(((20 - (Number(form.watch("perCreditPrice")) * 10000)) / 20) * 100) || 0 : 0
@@ -53,9 +55,18 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
         startTransition(async () => {
 
             const data = volume ?
-                await updateVolume(volume.id, { discount: discountCalculate, perCreditPrice: values.perCreditPrice, credit: Number(values.credit), amount: amountCalculate, userId })
+                await updateVolume(volume.id, { ...values, discount: discountCalculate, credit: Number(values.credit), amount: amountCalculate, userId })
                 :
-                await createVolume({ discount: discountCalculate, perCreditPrice: values.perCreditPrice, credit: Number(values.credit), type: values.type, amount: amountCalculate, userId })
+                await createVolume({
+                    // paddlePriceId: values.paddlePriceId,
+                    // perCreditPrice: values.perCreditPrice,
+                    ...values,
+                    discount: discountCalculate,
+                    credit: Number(values.credit),
+                    type: values.type,
+                    amount: amountCalculate,
+                    userId
+                })
             if (data.volume) {
                 toast.success('Volume Created Successfully')
                 setOpen(false)
@@ -96,6 +107,23 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-4 my-4">
 
+                        <FormField
+                            control={form.control}
+                            name="paddlePriceId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className=" flex items-center gap-1">
+                                        Paddle Price Id.
+                                        <Link className=' text-primary underline' href={'https://sandbox-vendors.paddle.com/products-v2'}>Go Now</Link>
+                                        <FormMessage />
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input type="text" disabled={isPending} placeholder="enter paddle price id" {...field} />
+                                    </FormControl>
+
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="perCreditPrice"

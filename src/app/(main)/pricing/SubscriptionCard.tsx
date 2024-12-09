@@ -14,7 +14,7 @@ export default function SubscriptionCard({ subscription, route }: { subscription
             {
                 route === 'ADMIN' ?
                     (<VolumeActionButtons volume={subscription} />) :
-                    (<BuyNowButton volumeId={subscription.id} type={subscription.type} />)
+                    (<BuyNowButton volumeId={subscription.id} type={subscription.type} paddlePriceId={subscription.paddlePriceId} />)
             }
         </div>
     )
