@@ -19,7 +19,7 @@ export default async function UsersPage() {
 
 
     const user = await getUser()
-    const blogs = await db.blog.findMany({ include: { User : true } })
+    const blogs = await db.blog.findMany({ include: { User : true },orderBy: {createdAt: 'desc'},take: 50 })
 
     
     if (!user || !user.id) {

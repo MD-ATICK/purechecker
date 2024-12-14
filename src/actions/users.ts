@@ -7,14 +7,14 @@ import { db } from "@/lib/prisma";
 export const checkHasSubscriptionAccess = async (subscriptionId: string, userId: string) => {
     try {
 
-        const subscription = await db.subscription.findFirstOrThrow({ where: { id: subscriptionId, userId, status: 'ACTIVE' } })
+        const subscription = await db.subscription.findFirstOrThrow({ where: { id: subscriptionId, userId, status: "active" } })
 
         if (!subscription) return null;
 
         const endDate = new Date(subscription.currentPeriodEnd)
         if (endDate < new Date()) {
 
-            await db.subscription.update({ where: { id: subscriptionId, userId, status: 'ACTIVE' }, data: { status: "COMPLETED" } })
+            await db.subscription.update({ where: { id: subscriptionId, userId, status: "active" }, data: { status: "canceled" } })
             return null
         };
 
@@ -32,7 +32,7 @@ export const checkHasSubscriptionAccess = async (subscriptionId: string, userId:
         return subscription
 
     } catch (error) {
-        console.log(error)
+        console.log((error as Error).message)
         return null;
     }
 }
@@ -43,7 +43,7 @@ export const getUserById = async (id: string) => {
         const user = await db.user.findFirst({ where: { id } })
         return user;
     } catch (error) {
-        console.log(error)
+        console.log((error as Error).message)
         return null
     }
 }
@@ -53,7 +53,7 @@ export const getUserByIdWithCredit = async (id: string) => {
         const user = await db.user.findFirst({ where: { id }, include: { credits: true } })
         return user;
     } catch (error) {
-        console.log(error)
+        console.log((error as Error).message)
         return null
     }
 }
@@ -63,7 +63,7 @@ export const getUserByEmail = async (email: string) => {
         const user = await db.user.findFirst({ where: { email } })
         return user;
     } catch (error) {
-        console.log(error)
+        console.log((error as Error).message)
         return null
 
     }
@@ -80,7 +80,7 @@ export const userCreditReduce = async (credit: number, reduceCredit: number, use
 
         return { success: true, credit: newUser.credit }
     } catch (error) {
-        console.log(error)
+        console.log((error as Error).message)
         return null
 
     }

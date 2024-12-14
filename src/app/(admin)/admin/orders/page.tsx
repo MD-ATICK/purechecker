@@ -14,7 +14,7 @@ import OrderActionButtons from "./OrderActionButtons"
 export default async function OrderPage() {
 
     // todo : make a model of order. just 1 min work.
-    const orders = await db.purchase.findMany({ include: { User: true } })
+    const orders = await db.purchase.findMany({ include: { User: true },orderBy: {createdAt: 'desc'},take: 50 })
 
     return (
         <div>
@@ -42,7 +42,7 @@ export default async function OrderPage() {
                                     <TableCell className="w-[100px] font-medium">{order.id}</TableCell>
                                     <TableCell>{order.User.name}</TableCell>
                                     <TableCell>{order.User.email}</TableCell>
-                                    <TableCell>{order.transactionId}</TableCell>
+                                    <TableCell>{order.paddleTransactionId}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.amount)}</TableCell>
                                     <TableCell className=" text-center">{"order.plan"}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.credit)}</TableCell>

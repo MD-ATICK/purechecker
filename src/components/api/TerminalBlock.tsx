@@ -1,42 +1,51 @@
-import { Copy } from "lucide-react";
-import { useState } from "react";
+import apiImage from '@/assets/api.png';
+import packingImage from '@/assets/packaging.png';
+import Image from "next/image";
+import CommandCard from "./CommandCard";
 
 interface TerminalCodeBlockProps {
-    command: string;
+    command: {
+        installs: string[];
+        singleCheck: string;
+        bulkCheck: string;
+    };
 }
 
 export function TerminalCodeBlock({ command }: TerminalCodeBlockProps) {
-    const [copied, setCopied] = useState(false);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(command);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
 
     return (
-        <div className="relative bg-gray-900 overflow-auto justify-between  text-gray-300 rounded-md p-4 my-7 shadow-md">
-            {/* MacOS-like header */}
-            <div className="flex items-center gap-2 pb-4">
-                <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                <div className="h-3 w-3 rounded-full bg-yellow-400"></div>
-                <div className="h-3 w-3 rounded-full bg-green-500"></div>
+        <div className=' space-y-6 py-4'>
+            <div>
+                <div className="flex items-center gap-3">
+                    <Image src={packingImage} height={20} width={20} alt="" className=' dark:invert' />
+                    <p className=" text-gray-500 text-sm text-start">Installation Packages</p>
+                </div>
+                {
+                    command.installs.map((install, index) => (
+                        <CommandCard key={index} command={install} />
+                    ))
+                }
             </div>
 
-            {/* Command */}
-            <div className="flex items-start justify-between">
-                <pre className="  text-start w-full">
-                    <code>
-                        {command}
-                    </code>
-                </pre>
-                <button
-                    onClick={handleCopy}
-                    className="flex items-center gap-1 bg-gray-800 text-white rounded-md px-2 py-1 text-xs shadow-sm hover:bg-gray-700"
-                >
-                    {copied ? "Copied!" : <Copy size={14} />}
-                </button>
+            {/* Single Command */}
+            <div>
+                <div className="flex items-center gap-3">
+                    <Image src={apiImage} height={20} width={20} alt="" className=' dark:invert' />
+                    <p className=" text-gray-500 text-sm text-start">Single Email Checking Api</p>
+                </div>
+                <CommandCard command={command.singleCheck} />
             </div>
+
+            {/* Bulk Command */}
+            <div>
+                <div className="flex items-center gap-3">
+                    <Image src={apiImage} height={20} width={20} alt="" className=' dark:invert' />
+                    <p className=" text-gray-500 text-sm text-start">Bulk Emails Checking Api</p>
+                </div>
+                <CommandCard command={command.bulkCheck} />
+            </div>
+
         </div>
     );
 }

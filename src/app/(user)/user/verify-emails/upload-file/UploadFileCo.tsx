@@ -28,12 +28,7 @@ export interface ExtendedUploadFile extends UploadFile {
 }
 
 export default function UploadFileCo({ userId }: { userId: string }) {
-
-  // const { setCredit, credit } = useCreditStore()
-  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  // const [pendingFiles, setPendingFiles] = useState<UploadFile[]>([]);
-  // const [completedFiles, setCompletedFiles] = useState<ExtendedUploadFile[]>([]);
-  // const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
+  
   const { selectedFiles, setSelectedFiles, setPendingFiles, setPendingFile, setCompletedFiles } = useFileStore()
 
   const [isPending, setIsPending] = useState(false);

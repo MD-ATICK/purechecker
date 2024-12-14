@@ -14,7 +14,7 @@ import UserActionButtons from "./UserActionButtons"
 export default async function UsersPage() {
 
 
-    const users = await db.user.findMany({ include: { credits: true, subscriptions: true, verifyEmails: true, _count: { select: { verifyEmails: true } } } })
+    const users = await db.user.findMany({orderBy: {createdAt: 'desc'},take: 50, include: { credits: true, subscriptions: true, verifyEmails: true, _count: { select: { verifyEmails: true } } } })
 
     return (
         <div>
@@ -46,7 +46,7 @@ export default async function UsersPage() {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.role}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(subCredit)}</TableCell>
-                                    <TableCell className=" text-center">{user.subscriptions.find((sub) => sub.status === "ACTIVE")?.id || "null"}</TableCell>
+                                    <TableCell className=" text-center">{user.subscriptions.find((sub) => sub.status === "active")?.id || "null"}</TableCell>
                                     <TableCell className="  text-center">{formatNumber(user._count.verifyEmails)}</TableCell>
                                     <TableCell>{formatRelativeDate(user.createdAt)}</TableCell>
                                     <TableCell>

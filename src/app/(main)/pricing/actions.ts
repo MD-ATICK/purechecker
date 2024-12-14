@@ -1,10 +1,38 @@
 "use server"
 
 import { db } from "@/lib/prisma"
-import { TransactionStatus } from "@paddle/paddle-node-sdk"
+import { Interval, SubscriptionStatus } from "@paddle/paddle-node-sdk"
+import { CreditType } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 
+
+export const createCredit = async (userId: string, volumeId: string, type: CreditType) => {
+    try {
+
+
+        console.log({ userId, volumeId, type })
+        if (!userId || !volumeId || !type) return { error: "something is wrong" }
+
+        const volume = await db.volume.findUnique({ where: { id: volumeId } })
+        if (!volume) return { error: "Volume not found" }
+
+        const createdCredit = await db.credit.create({
+            data: {
+                userId,
+                credit: type === "SUBSCRIPTION" ? Math.floor(volume.credit / parseInt(process.env.NEXT_PUBLIC_SUBSCRIPTION_DAY_LENGTH || "30")) : volume.credit,
+                type
+            }
+        })
+
+        console.log('---------------- created credit ----------------------', createdCredit)
+
+        return { success: true }
+    } catch (error) {
+        console.log((error as Error).message)
+        return { error: "something is wrong" }
+    }
+}
 export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId: string, volumeId: string, transactionId: string }) => {
 
     try {
@@ -16,26 +44,17 @@ export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId:
         const user = await db.user.findUnique({ where: { id: userId } })
         if (!user) return { error: "User not found" }
 
-
-        const newCredit = await db.credit.create({
-            data: {
-                userId,
-                credit: volume.credit,
-                type: 'PURCHASE',
-            }
-        })
-
         await db.purchase.create({
             data: {
                 userId,
-                transactionId,
+                paddleTransactionId: transactionId,
                 amount: volume.amount,
                 credit: volume.credit
             }
         })
 
         revalidatePath('/')
-        return { success: true, data: newCredit }
+        return { success: true }
     } catch (error) {
         throw error
     }
@@ -43,10 +62,43 @@ export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId:
 }
 
 
-export const buySubscription = async ({ userId, volumeId, status, subscriptionId, transactionId }: { userId: string, volumeId: string,subscriptionId : string, transactionId : string, 
-    status : TransactionStatus }) => {
+type subscriptionFucProps = {
+    userId: string,
+    volumeId: string,
+    subscriptionId: string,
+    subscriptionScheduleChange: boolean,
+    status: SubscriptionStatus,
+    currentPeriodStart: string,
+    currentPeriodEnd: string,
+    billingCycleInterval?: Interval
+}
 
-    // initial credit, subscription , order, userUpdate
+
+export const updateSubscription = async ({ userId, volumeId, status, subscriptionId, currentPeriodEnd, currentPeriodStart, subscriptionScheduleChange }: subscriptionFucProps) => {
+    try {
+        await db.subscription.updateMany({
+            where: {
+                paddleSubscriptionId: subscriptionId,
+                volumeId,
+                userId,
+            },
+            data: {
+                subscriptionScheduleChange,
+                status,
+                currentPeriodStart,
+                currentPeriodEnd,
+            }
+        })
+
+        revalidatePath('/pricing')
+        return { success: true }
+    } catch (error) {
+        throw error
+    }
+
+}
+export const buySubscription = async ({ userId, volumeId, status, billingCycleInterval, subscriptionId, currentPeriodEnd, currentPeriodStart, subscriptionScheduleChange }: subscriptionFucProps) => {
+
     try {
         const volume = await db.volume.findUnique({ where: { id: volumeId } })
         if (!volume) return { error: "Volume not found" }
@@ -55,32 +107,29 @@ export const buySubscription = async ({ userId, volumeId, status, subscriptionId
         const user = await db.user.findUnique({ where: { id: userId } })
         if (!user) return { error: "User not found" }
 
-        const newCredit = await db.credit.create({
-            data: {
-                userId,
-                credit: volume.dailyCredit || (volume.credit / parseInt(process.env.CREDIT_LENGTH || "30")),
-                type: 'SUBSCRIPTION',
-            }
-        })
-
-        const currentPeriodStart = new Date();
-        const currentPeriodEnd = new Date(currentPeriodStart);
-        currentPeriodEnd.setDate(currentPeriodEnd.getDate() + 30);
+        // const newCredit = await db.credit.create({
+        //     data: {
+        //         userId,
+        //         credit: volume.dailyCredit || (volume.credit / parseInt(process.env.CREDIT_LENGTH || "30")),
+        //         type: 'SUBSCRIPTION',
+        //     }
+        // })
 
         await db.subscription.create({
             data: {
                 userId,
                 volumeId: volume.id,
-                subscriptionId,
-                transactionId,
+                paddleSubscriptionId: subscriptionId,
+                subscriptionScheduleChange,
                 status,
                 currentPeriodStart,
                 currentPeriodEnd,
+                billingCycleInterval: billingCycleInterval || "month"
             }
         })
 
         revalidatePath('/pricing')
-        return { success: true, credit: newCredit.credit }
+        return { success: true }
     } catch (error) {
         throw error
     }

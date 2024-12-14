@@ -1,6 +1,6 @@
 "use client"
 
-import { bulkEmailVerify, checkHaveCreditForBulkCheck, reduceCredit } from "@/actions/emailVerify";
+import { checkHaveCreditForBulkCheck, reduceCredit, singleBulkEmailVerify } from "@/actions/emailVerify";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { extractEmails } from "@/lib/utils";
@@ -37,7 +37,7 @@ export default function CopyPastePage({ userId }: { userId: string }) {
         setCompleteValue({ enter: bulkEmails.length, checked: 0 })
 
         bulkEmails.map(async (email) => {
-            const res = await bulkEmailVerify(email, userId);
+            const res = await singleBulkEmailVerify(email, userId);
             if (res.data) {
                 setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                 setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])

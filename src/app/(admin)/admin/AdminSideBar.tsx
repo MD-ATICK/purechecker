@@ -4,6 +4,7 @@ import blogImage from '@/assets/blog.png';
 import ordersImage from '@/assets/checkout.png';
 import dashboardImage from '@/assets/dashboard-small.png';
 import usersImage from '@/assets/group.png';
+import jobImage from '@/assets/job.png';
 import logo from '@/assets/logo.png';
 import pricingImage from '@/assets/price-tag.png';
 import { Button } from '@/components/ui/button';
@@ -45,6 +46,12 @@ export default async function AdminSideBar({ className }: { className?: string }
                     <Link href={'/admin/orders'} className=' h-full w-full flex justify-start items-center gap-4'>
                         <Image alt='' className=' invert-0 dark:invert' src={ordersImage} height={20} />
                         <p className=' hidden  lg:block'>Orders</p>
+                    </Link>
+                </Button>
+                <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
+                    <Link href={'/admin/jobs'} className=' h-full w-full flex justify-start items-center gap-4'>
+                        <Image alt='' className=' invert-0 dark:invert' src={jobImage} height={20} />
+                        <p className=' hidden  lg:block'>Jobs</p>
                     </Link>
                 </Button>
                 <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>

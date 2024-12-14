@@ -16,7 +16,7 @@ export default async function CreditHistoryPage() {
 
   const user = await getUser()
 
-  const creditHistory = await db.credit.findMany({ where: { userId: user?.id }, include: { User: true }, orderBy: {createdAt: 'desc'} })
+  const creditHistory = await db.credit.findMany({ where: { userId: user?.id }, include: { User: true }, orderBy: {createdAt: 'desc'},take: 50 })
 
 
   if (!user || !user.id) {

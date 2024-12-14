@@ -9,6 +9,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     events: {
         async linkAccount({ user }) {
             if (user.id) {
+
+                const response = await fetch(`${process.env.NEXT_PUBLIC_PADDLE_SANDBOX_API}/customers`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: user.email,
+                        name: user.name
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PADDLE_API_KEY}`,
+                    },
+                })
+                const customer = await response.json()
+
+                if (customer?.data?.id) {
+                    await db.user.update({
+                        where: { id: user.id },
+                        data: {
+                            customerId: customer?.data?.id
+                        }
+                    })
+                }
+
                 await db.credit.create({
                     data: {
                         userId: user.id,
@@ -16,9 +39,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         type: 'DEFAULT',
                     }
                 })
+                
             }
         },
     },
+
     callbacks: {
         async signIn({ user, account }) {
             if (account?.provider === "credentials") {
@@ -43,7 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.isOAuth = !!isOAuth
             token.emailVerified = existingUser.emailVerified;
             token.customerId = existingUser.customerId;
-            token.subscriptionId = existingUser.subscriptions.find(subs => subs.status === 'ACTIVE')?.id
+            token.subscriptionId = existingUser.subscriptions.find(subs => subs.status === 'active')?.id
 
             return token;
         },
@@ -61,7 +86,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return session;
         }
     },
-    adapter: PrismaAdapter(db),
+    adapter: {
+        ...PrismaAdapter(db)
+    },
     session: { strategy: "jwt" },
     ...authConfig
 })

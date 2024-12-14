@@ -42,7 +42,18 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {
+            process.env.NEXT_PUBLIC_APP_MAINTENANCE === "off" &&
+            children
+          }
+          {
+            process.env.NEXT_PUBLIC_APP_MAINTENANCE === "on" &&
+            <div className="flex flex-col justify-center items-center">
+              <br /> <br />
+              <h1 className=" text-2xl md:text-3xl text-center font-bold">Web Under Maintenance 😥</h1>
+            </div>
+          }
+
           <Toaster />
         </ThemeProvider>
       </body>

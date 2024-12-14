@@ -14,7 +14,7 @@ export async function POST(req: Request) {
         const res = await utapi.deleteFiles(imageKey)
         return NextResponse.json(res)
     } catch (error) {
-        console.log('api/uploadthing/delete', error)
+        console.log(error)
         return new NextResponse("Internal Server Error", { status: 500 })
     }
 }

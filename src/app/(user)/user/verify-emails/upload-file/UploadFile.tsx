@@ -1,6 +1,6 @@
 "use client";
 
-import { bulkEmailVerify, checkHaveCreditForBulkCheck, reduceCredit } from "@/actions/emailVerify";
+import { checkHaveCreditForBulkCheck, reduceCredit, singleBulkEmailVerify } from "@/actions/emailVerify";
 import Loading from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import { useCreditStore } from "@/store/useCreditStore";
@@ -52,7 +52,7 @@ export default function UploadFilePage({ userId }: { userId: string }) {
 
 
             for (const email of bulkEmails) {
-                const res = await bulkEmailVerify(email, userId);
+                const res = await singleBulkEmailVerify(email, userId);
                 if (res.data) {
                     setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                     setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])

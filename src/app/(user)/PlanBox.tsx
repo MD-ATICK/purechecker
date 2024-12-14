@@ -1,7 +1,6 @@
 import defaultUserImage from '@/assets/girl.jpg'
 import priceTag from '@/assets/price-tag.png'
 import unfold from '@/assets/unfold.png'
-import CreditBox from '@/components/CreditBox'
 import LogoutButton from '@/components/LogoutButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Separator } from '@/components/ui/separator'
@@ -56,7 +55,11 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                 }
                 {
                     subscription && <DropdownMenuItem className=' flex flex-col gap-0'>
-                        <CreditBox userId={user.id} dashboard={true} />
+                        {/* <CreditBox userId={user.id} dashboard={true} /> */}
+                        <div className='flex items-center justify-between w-full'>
+                            <p className=' text-xs'>Total Credit :  </p>
+                            <p className=' text-xs'>{subscription.volume.credit}</p>
+                        </div>
                         <div className='flex items-center justify-between w-full'>
                             <p className=' text-xs'>Per Day Credit :  </p>
                             <p className=' text-xs'>{subscription.volume.dailyCredit || (subscription.volume.credit / Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_DAY_LENGTH || 30))}</p>

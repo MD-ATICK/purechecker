@@ -1,46 +1,42 @@
-import { buyPurchase } from '@/app/(main)/pricing/actions';
-import { EventName, Paddle } from '@paddle/paddle-node-sdk';
+import { buyPurchase, buySubscription, updateSubscription } from '@/app/(main)/pricing/actions';
+import { db } from '@/lib/prisma';
+import { EventName, Paddle, SubscriptionNotification, TransactionNotification } from '@paddle/paddle-node-sdk';
 
-const paddle = new Paddle('d2fc0d93483be40943d596c118c8577fbcf68c7d88fce33f2e')
+const paddle = new Paddle(process.env.NEXT_PUBLIC_PADDLE_API_KEY!)
+
+
 
 export async function POST(req: Request) {
     try {
+
         const signature = req.headers.get('paddle-signature') as string || ''
         const rawRequestBody = await req.text()
-        const secretKey = 'pdl_ntfset_01jekpxcrhngnj3chc6j0dkyb3_DKGuiZpWgIP0UiI32PrUCMVKozSEWOcB'
+        const secretKey = process.env.NEXT_PUBLIC_PADDLE_SIMULATOR_SECKET_KEY
 
         if (!signature || typeof signature !== 'string') {
             return new Response(JSON.stringify({ error: 'No signature' }), { status: 401 });
         }
 
 
-        if (signature && rawRequestBody) {
+        if (secretKey && signature && rawRequestBody) {
 
             const eventData = await paddle.webhooks.unmarshal(rawRequestBody, secretKey, signature);
 
 
             switch (eventData?.eventType) {
                 case EventName.TransactionCompleted:
-                    const { volumeId, userId } = eventData.data.customData as { volumeId: string, userId: string }
-
-                    if (volumeId && userId) {
-                        await buyPurchase({ volumeId, userId, transactionId: eventData.data.id })
-                    }
+                    await handleTransactionCreated(eventData.eventType, eventData.data)
                     break;
 
-                // const { id, transactionId, currentBillingPeriod, status} = eventData.data
                 case EventName.SubscriptionCreated:
                 case EventName.SubscriptionUpdated:
-                    // todo: eventData.data.scheduledChange means cancel(if hit when this current period end)
-                    console.log('showing important data ------------------------------', eventData.data.billingCycle, eventData.data.currentBillingPeriod, eventData.data.scheduledChange)
-                    console.log({ 'subscription updated or created ': eventData.data.status })
+                    await handleSubscriptionUpsert(eventData.eventType, eventData.data);
                     break;
-                case EventName.SubscriptionPastDue:
-                    console.log({ 'subscription past due ': eventData.data.status })
-                    break;
+
                 case EventName.SubscriptionCanceled:
-                    console.log({ 'subscription canceled': eventData.data.status })
+                    await handleSubscriptionCanceled(eventData.eventType, eventData.data);
                     break;
+
                 default:
                     break;
             }
@@ -49,8 +45,122 @@ export async function POST(req: Request) {
 
 
     } catch (error) {
-        console.log('webhook error', (error as Error).message)
-        return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500 })
+        console.log(error)
+        return new Response(JSON.stringify({ error: "Something is wrong" }), { status: 500 })
     }
 
+}
+
+
+const handleTransactionCreated = async (eventType: EventName, data: TransactionNotification) => {
+    try {
+        const { volumeId, userId } = data.customData as { volumeId: string, userId: string, customerId: string }
+
+        if (eventType !== EventName.TransactionCompleted) {
+            throw new Error('Invalid event type')
+        }
+
+        const user = await db.user.findUnique({ where: { id: userId } })
+        if (!user) {
+            throw new Error('User not found')
+        }
+
+        const volume = await db.volume.findUnique({ where: { id: volumeId } })
+        if (!volume) {
+            throw new Error('Volume not found')
+        }
+
+
+        await buyPurchase({ volumeId: volume.id, userId: user.id, transactionId: data.id })
+
+    } catch (error) {
+        throw new Error((error as Error).message)
+    }
+}
+
+
+const handleSubscriptionUpsert = async (eventType: EventName.SubscriptionCreated | EventName.SubscriptionUpdated, data: SubscriptionNotification) => {
+    try {
+
+
+        const { volumeId, userId } = data.customData as { volumeId: string, userId: string, customerId: string }
+
+        if (eventType !== EventName.SubscriptionCreated && eventType !== EventName.SubscriptionUpdated) {
+            throw new Error('Invalid event type')
+        }
+
+        const user = await db.user.findUnique({ where: { id: userId } })
+        if (!user) {
+            throw new Error('User not found')
+        }
+
+        const volume = await db.volume.findUnique({ where: { id: volumeId } })
+        if (!volume) {
+            throw new Error('Volume not found')
+        }
+
+        const subscription = await db.subscription.findFirst({ where: { paddleSubscriptionId: data.id, userId: user.id } })
+        if (data.currentBillingPeriod?.endsAt && data.currentBillingPeriod?.startsAt) {
+
+            if (subscription) {
+
+                await updateSubscription({
+                    volumeId: volume.id,
+                    userId: user.id,
+                    subscriptionId: data.id,
+                    status: data.status,
+                    currentPeriodStart: data.currentBillingPeriod?.startsAt,
+                    currentPeriodEnd: data.currentBillingPeriod?.endsAt,
+                    subscriptionScheduleChange: data.scheduledChange ? true : false,
+                })
+
+            } else {
+
+                // if : currently buying a subscription
+                await buySubscription({
+                    volumeId: volume.id,
+                    userId: user.id,
+                    subscriptionId: data.id,
+                    status: data.status,
+                    currentPeriodStart: data.currentBillingPeriod?.startsAt,
+                    currentPeriodEnd: data.currentBillingPeriod?.endsAt,
+                    subscriptionScheduleChange: data.scheduledChange ? true : false,
+                    billingCycleInterval: data.items[0].price?.billingCycle?.interval
+                })
+
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+        throw new Error("something is wrong")
+    }
+}
+const handleSubscriptionCanceled = async (eventType: EventName.SubscriptionCanceled | EventName.SubscriptionUpdated, data: SubscriptionNotification) => {
+    try {
+
+        const { volumeId, userId } = data.customData as { volumeId: string, userId: string, customerId: string }
+
+        if (eventType !== EventName.SubscriptionCanceled) {
+            throw new Error('Invalid event type')
+        }
+
+        const user = await db.user.findUnique({ where: { id: userId } })
+        if (!user) {
+            throw new Error('User not found')
+        }
+
+        const volume = await db.volume.findUnique({ where: { id: volumeId } })
+        if (!volume) {
+            throw new Error('Volume not found')
+        }
+
+        await db.subscription.updateMany({
+            where: { userId: user.id, volumeId: volume.id, paddleSubscriptionId: data.id },
+            data: { status: data.status },
+        });
+
+    } catch (error) {
+        throw new Error((error as Error).message)
+    }
 }

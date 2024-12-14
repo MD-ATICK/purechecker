@@ -32,7 +32,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Authenticator Authenticator[]
-  customerId    String
+  customerId    String?
   // extarnal
   mobile        String?
   country       String?
@@ -70,11 +70,6 @@ model Blog {
   updatedAt   DateTime @updatedAt
   User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String   @db.ObjectId
-}
-
-enum BuyType {
-  PURCHASE
-  SUBSCRIPTION
 }
 
 model Credit {
@@ -163,40 +158,62 @@ model UploadFile {
   userId        String?          @db.ObjectId
 }
 
-enum SubscriptionType {
-  completed
-  ready
-  draft
-  billed
-  paid
+enum SubscriptionStatusEnum {
+  active
   canceled
+  paused
   past_due
+  trialing
 }
 
 model Purchase {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId        String   @db.ObjectId
-  transactionId String
-  amount        Int
-  credit        Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  User                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String   @db.ObjectId
+  paddleTransactionId String
+  amount              Int
+  credit              Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+enum billingCycleIntervalEnum {
+  day
+  week
+  month
+  year
 }
 
 model Subscription {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  User               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId             String   @db.ObjectId
-  volumeId           String   @db.ObjectId
-  volume             Volume   @relation(fields: [volumeId], references: [id], onDelete: Cascade)
-  transactionId      String
-  subscriptionId     String
-  status             String
-  currentPeriodStart DateTime
-  currentPeriodEnd   DateTime
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                         String                   @id @default(auto()) @map("_id") @db.ObjectId
+  User                       User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                     String                   @db.ObjectId
+  volumeId                   String                   @db.ObjectId
+  volume                     Volume                   @relation(fields: [volumeId], references: [id], onDelete: Cascade)
+  paddleSubscriptionId       String
+  subscriptionScheduleChange Boolean
+  billingCycleInterval       billingCycleIntervalEnum
+  status                     SubscriptionStatusEnum
+  currentPeriodStart         DateTime
+  currentPeriodEnd           DateTime
+  createdAt                  DateTime                 @default(now())
+  updatedAt                  DateTime                 @updatedAt
+}
+
+enum CronJobEnum {
+  subscription
+  free
+}
+
+model CronJob {
+  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  type                CronJobEnum
+  detectedUsers       String[]
+  executedUsers       String[]
+  detectedUsersLength Int
+  executedUsersLength Int
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
 }
 
 // * ----------------------------------------------------------------------------- 

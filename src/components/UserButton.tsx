@@ -21,6 +21,11 @@ export default function UserButton({ name, role }: { name: string, role: Role })
                         Dashboard
                     </DropdownMenuItem>
                 </Link>
+                <Link href={`/billing`}>
+                    <DropdownMenuItem>
+                        Billing
+                    </DropdownMenuItem>
+                </Link>
                 <LogoutButton />
             </DropdownMenuContent>
         </DropdownMenu>

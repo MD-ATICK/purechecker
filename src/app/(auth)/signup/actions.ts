@@ -1,11 +1,14 @@
 "use server"
 
+import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify"
 import { getUserByEmail } from "@/actions/users"
 import { signIn } from "@/auth"
 import { db } from "@/lib/prisma"
+import { isDisposableEmail } from "@/lib/utils"
 import { SignUpSchema, SignUpValues } from "@/lib/validation"
 import { hashSync } from "bcryptjs"
 import { AuthError } from "next-auth"
+
 
 
 
@@ -13,21 +16,25 @@ export const signUp = async (values: SignUpValues) => {
 
     const { name, email, password } = SignUpSchema.parse(values)
 
+    
+    if (process.env.NEXT_PUBLIC_SMTP_RUN === 'on') {
+        const domain = email.split('@')[1];
+        const isDisposable = isDisposableEmail(domain);
+        const mxRecords = await getMxRecords(domain);
+        const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+        
+        if (!smtpExists.result || isDisposable) {
+            return { error: "Email is not usable!" }
+        }
+    }
+    
+    console.log('processing signup')
     const existingUser = await getUserByEmail(email)
     if (existingUser) return { error: "Email already exists" }
 
-    // if (process.env.NODE_ENV === 'development') {
-    //     const domain = email.split('@')[1];
-    //     const mxRecords = await getMxRecords(domain);
-    //     const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
-    //     if (!smtpExists.result) {
-    //         return { error: smtpExists.message }
-    //     }
-    // }
-
     const hashedPassword = hashSync(password, 10)
 
-    const response = await fetch(`https://sandbox-api.paddle.com/customers`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_PADDLE_SANDBOX_API}/customers`, {
         method: 'POST',
         body: JSON.stringify({
             email,
@@ -35,19 +42,19 @@ export const signUp = async (values: SignUpValues) => {
         }),
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': "Bearer d2fc0d93483be40943d596c118c8577fbcf68c7d88fce33f2e",
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PADDLE_API_KEY}`,
         },
     })
 
     const customer = await response.json()
 
-    if (!response.ok) {        
-        return { error: "Something is wrong" }
+    if (!response.ok) {
+        return { error: "Something is wrong- customer" }
     }
 
 
     if (!customer?.data?.id) {
-        return { error: "Something is fun wrong" };
+        return { error: "Something is wrong- customer data" };
     }
 
     const user = await db.user.create({

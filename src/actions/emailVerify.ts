@@ -4,9 +4,10 @@ import disposableDomains from 'disposable-email-domains';
 import dns from 'dns';
 import net from 'net';
 
-export const bulkEmailVerify = async (email: string, userId: string, uploadFileId?: string) => {
+
+export const singleBulkEmailVerify = async (email: string, userId: string, uploadFileId?: string, apiTokenId?:string) => {
     try {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NEXT_PUBLIC_SMTP_RUN === 'on') {
             const domain = email.split('@')[1];
             const isDisposable = isDisposableEmail(domain);
             const mxRecords = await getMxRecords(domain);
@@ -25,7 +26,8 @@ export const bulkEmailVerify = async (email: string, userId: string, uploadFileI
                 riskLevel,
                 mxRecords,
                 isDisposable,
-                uploadFileId
+                uploadFileId,
+                apiTokenId
             }
 
             const result = await db.verifyEmail.create({
@@ -46,7 +48,8 @@ export const bulkEmailVerify = async (email: string, userId: string, uploadFileI
             riskLevel: 'low',
             mxRecords: [{ exchange: 'gmail-smtp-in.l.google.com', priority: 0 }],
             isDisposable: false,
-            uploadFileId : uploadFileId
+            uploadFileId : uploadFileId,
+            apiTokenId
         }
 
         const result = await db.verifyEmail.create({
@@ -100,6 +103,7 @@ export const emailVerify = async (email: string, userId: string) => {
     try {
 
         if (!email || !isValidSyntax(email)) {
+            return { error: "Email is not valid" }
         }
 
         const user = await db.user.findFirst({ where: { id: userId } })
@@ -111,7 +115,7 @@ export const emailVerify = async (email: string, userId: string) => {
             return { error: "you don't have enough credit" }
         }
 
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NEXT_PUBLIC_SMTP_RUN === 'on') {
             const domain = email.split('@')[1];
             const isDisposable = isDisposableEmail(domain);
             const mxRecords = await getMxRecords(domain);

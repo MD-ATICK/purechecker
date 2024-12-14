@@ -25,7 +25,7 @@ export const createVolume = async ({ userId, credit, type, amount, discount, per
         switch (type) {
             case "SUBSCRIPTION":
                 const dailyCredit = Math.floor(credit / parseInt(process.env.CREDIT_LENGTH || "30"));
-                volume = await db.volume.create({ data: { discount,paddlePriceId, perCreditPrice, amount, userId, credit, dailyCredit, type: "SUBSCRIPTION" } })
+                volume = await db.volume.create({ data: { discount, paddlePriceId, perCreditPrice, amount, userId, credit, dailyCredit, type: "SUBSCRIPTION" } })
                 break;
             case "PURCHASE":
                 volume = await db.volume.create({ data: { discount, paddlePriceId, perCreditPrice, amount, userId, credit, type: "PURCHASE" } })
@@ -34,6 +34,15 @@ export const createVolume = async ({ userId, credit, type, amount, discount, per
 
         return { volume }
 
+    } catch (error) {
+        return { error: (error as Error).message }
+    }
+}
+
+export const getVolumeById = async (id: string) => {
+    try {
+      const volume = await db.volume.findFirstOrThrow({ where: { id } })
+        return { success: true, volume }
     } catch (error) {
         return { error: (error as Error).message }
     }

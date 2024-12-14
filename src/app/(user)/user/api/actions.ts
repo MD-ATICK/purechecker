@@ -51,7 +51,7 @@ export const getAllApiTokens = async () => {
             throw new Error("Unauthorized")
         }
 
-        const apiTokens = await db.apiToken.findMany({ include: { verifyEmails: true, User: true } })
+        const apiTokens = await db.apiToken.findMany({orderBy: {createdAt: 'desc'},take: 50, include: { verifyEmails: true, User: true } })
         return { success: true, apiTokens }
     } catch (error) {
         return { error: (error as Error).message }
