@@ -5,7 +5,7 @@ import dns from 'dns';
 import net from 'net';
 
 
-export const singleBulkEmailVerify = async (email: string, userId: string, uploadFileId?: string, apiTokenId?:string) => {
+export const singleBulkEmailVerify = async (email: string, userId: string, uploadFileId?: string, apiTokenId?: string) => {
     try {
         if (process.env.NEXT_PUBLIC_SMTP_RUN === 'on') {
             const domain = email.split('@')[1];
@@ -39,7 +39,6 @@ export const singleBulkEmailVerify = async (email: string, userId: string, uploa
 
         const data = {
             userId: userId,
-            email: 'mdatick866@gmail.com',
             domain: 'gmail.com',
             reason: "pure email address",
             isExist: true,
@@ -48,12 +47,15 @@ export const singleBulkEmailVerify = async (email: string, userId: string, uploa
             riskLevel: 'low',
             mxRecords: [{ exchange: 'gmail-smtp-in.l.google.com', priority: 0 }],
             isDisposable: false,
-            uploadFileId : uploadFileId,
+            uploadFileId: uploadFileId,
             apiTokenId
         }
 
         const result = await db.verifyEmail.create({
-            data
+            data: {
+                ...data,
+                email: `test${Date.now()}@gmail.com`
+            }
         })
 
         return { data: result }
@@ -152,7 +154,6 @@ export const emailVerify = async (email: string, userId: string) => {
 
         const data = {
             userId: userId,
-            email: 'mdatick866@gmail.com',
             domain: 'gmail.com',
             reason: "pure email address",
             isExist: true,
@@ -171,7 +172,10 @@ export const emailVerify = async (email: string, userId: string) => {
         })
 
         const result = await db.verifyEmail.create({
-            data
+            data: {
+                ...data,
+                email: `test${Date.now()}@gmail.com`
+            }
         })
 
         return { data: result }

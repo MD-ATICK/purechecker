@@ -81,7 +81,8 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-6 my-4">
 
-                        <div className=' grid grid-cols-2 gap-4'>
+                        {/* skip and take field */}
+                        {/* <div className=' grid grid-cols-2 gap-4'>
                             <FormField
                                 control={form.control}
                                 name="skip"
@@ -109,8 +110,9 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
                                 )}
                             />
 
+                        </div> */}
 
-                        </div>
+
                         <FormField
                             control={form.control}
                             name="fileName"

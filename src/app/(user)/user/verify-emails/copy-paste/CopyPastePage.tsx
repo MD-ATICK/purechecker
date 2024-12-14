@@ -13,7 +13,7 @@ import ResultPart from "./ResultPart";
 export default function CopyPastePage({ userId }: { userId: string }) {
 
 
-    const [value, setValue] = useState("atick@gamil.com\nmdatick866@gmail.com\njaif@gmail.com");
+    const [value, setValue] = useState("");
     const isPending = false;
     const { setCredit, credit } = useCreditStore()
     const [checkedEmails, setCheckedEmails] = useState<{ email: string, reason: string, isExist: boolean, isDisposable: boolean }[]>([]);
