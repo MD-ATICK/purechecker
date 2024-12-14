@@ -24,13 +24,13 @@ export default function Page() {
   const manageBillingHandler = async () => {
     startTransitionMB(async () => {
       try {
-        if(user?.customerId){
+        if (user?.customerId) {
           const data = await customerPortal(user?.customerId as string)
-          
+
           if (data?.error) {
             toast.error(data.error)
           }
-          
+
           if (data?.success) {
             window.location.href = data.url
           }
@@ -45,13 +45,15 @@ export default function Page() {
   useEffect(() => {
     const getSubscriptionHandler = async () => {
       startTransitionSB(async () => {
-        const res = await getSubscriptionById(user?.subscriptionId as string)
-        if (res.error) {
-          toast.error(res.error)
-        }
+        if (user?.subscriptionId) {
+          const res = await getSubscriptionById(user?.subscriptionId as string)
+          if (res.error) {
+            toast.error(res.error)
+          } 
 
-        if (res.success) {
-          setSubscription(res.subscription)
+          if (res.success) {
+            setSubscription(res.subscription)
+          }
         }
       })
     }

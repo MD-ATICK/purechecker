@@ -5,7 +5,7 @@ import { db } from "@/lib/prisma"
 
 export const getSubscriptionById = async (subscriptionId : string) => {
     try {   
-
+        
         const subscription = await db.subscription.findUnique({ where: { id: subscriptionId } })
         if (!subscription) return { error: "Subscription not found" }
 

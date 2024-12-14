@@ -15,7 +15,7 @@ export default async function HeaderStats() {
     }
 
     return (
-        <div className=" w-full md:h-[90vh] md:sticky top-0 right-0 md:w-[300px] flex flex-col gap-6">
+        <div className=" w-full md:h-[90vh] md:sticky top-0 right-0 md:w-[260px] flex flex-col gap-6">
             <div className=" h-full w-full py-3 md:px-10  shadow-sm  border-b-2">
                 <h2 className=" text-2xl md:text-2xl font-bold">Deliverable</h2>
                 <div className=" flex items-end justify-between pr-4">

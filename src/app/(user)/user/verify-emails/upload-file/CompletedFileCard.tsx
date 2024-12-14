@@ -35,29 +35,37 @@ export default function CompletedFileCard({ file, userId }: { file: UploadFile, 
     }, []);
 
     return (
-        <div className=" h-20 border border-green-500 rounded-sm bg-secondary/80 p-4 flex justify-between items-center">
+        <div className=" h-20 border border-green-500 rounded-sm bg-secondary/80 p-2 md:p-4 flex justify-between items-center">
 
             {/* LEFT */}
             <div className="">
-                <div className=" flex items-center justify-start gap-4 px-2">
+                <div className=" flex items-center justify-start gap-2 md:gap-4 px-2">
                     <Image alt='' height={25} width={25} src={file.fileName.includes('pdf') ? pdfImage : file.fileName.includes('csv') ? csvImage : xlsImage} />
-                    <p className="">{file.fileName} <span className=' text-gray-500 text-sm'>({(file.fileSize / 1000).toFixed(1)}kb)</span> </p>
-                    <p>({file.enterEmails.length} emails)</p>
+                    <p className=" text-sm md:text-lg flex flex-col" title={file.fileName}>
+                        {file.fileName.length > 25 ? file.fileName.slice(0, 25) + '...' : file.fileName}
+                        <div className=" flex items-center gap-2">
+                            <span className=' text-gray-500 text-sm'>({(file.fileSize / 1000).toFixed(1)}kb)</span>
+                            <span className=" text-xs sm:text-sm whitespace-nowrap">({file.enterEmails.length} emails)</span>
+                        </div>
+                    </p>
                 </div>
 
             </div>
 
             {/* RIGHT */}
-            <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                    {
-                        isPending &&
-                        <Loading />
-                    }
-                    {
-                        !isPending && checkedEmails.length > 0 &&
-                        <DownloadDialog checkEmails={checkedEmails} />
-                    }
+            <div className=' flex items-center gap-2'>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        {
+                            isPending &&
+                            <Loading />
+                        }
+                        {
+                            !isPending && checkedEmails.length > 0 &&
+                            <DownloadDialog checkEmails={checkedEmails} />
+                        }
+                    </div>
                 </div>
             </div>
         </div>

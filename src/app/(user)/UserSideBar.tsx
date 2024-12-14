@@ -22,7 +22,7 @@ export default async function UserSideBar({ className }: { className?: string })
     }
 
     return (
-        <div className={cn(className, " lg:px-[1vw] min-w-[50px] overflow-hidden p-1 z-50 bg-background flex flex-col justify-between items-start")}>
+        <div className={cn(className, " lg:px-[1vw] min-w-[50px] overflow-hidden h-screen p-1 z-50 bg-background flex flex-col justify-between items-start")}>
             <Link href={'/'} className='flex items-center gap-2 p-1 '>
                 <Image alt='' src={logo} height={30} />
                 <h1 className=" hidden lg:block font-bold pb-2 text-2xl">PureChecker</h1>

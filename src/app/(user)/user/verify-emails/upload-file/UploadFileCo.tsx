@@ -130,10 +130,10 @@ export default function UploadFileCo({ userId }: { userId: string }) {
           <div className=' space-y-2 w-full'>
             {
               selectedFiles.map((file, index) => (
-                <div key={index} className=" h-16 rounded-sm bg-secondary/80 p-4 flex justify-between items-center">
-                  <div className=" flex items-center gap-4 p-2">
+                <div key={index} className=" h-16 rounded-sm bg-secondary/80 p-2 md:p-4 flex justify-between items-center">
+                  <div className=" flex items-center gap-2 md:gap-4 p-2">
                     <Image alt='' height={25} width={25} src={file.name.includes('pdf') ? pdfImage : file.name.includes('csv') ? csvImage : xlsImage} />
-                    <p className="">{file.name} <span className=' text-gray-500 text-sm'>({(file.size / 1000).toFixed(1)}kb)</span> </p>
+                    <p className=" text-xs md:text-sm flex flex-col">{file.name} <span className=' text-gray-500 text-sm'>({(file.size / 1000).toFixed(1)}kb)</span> </p>
                   </div>
                   <Button variant={"destructive"} size={'icon'} onClick={() => setSelectedFiles(selectedFiles.filter((f, i) => i !== index))}>
                     <Image alt="" src={deleteImage} className=' dark:invert' height={15} width={15} />

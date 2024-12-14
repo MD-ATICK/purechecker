@@ -26,7 +26,7 @@ export default function CopyPastePage({ userId }: { userId: string }) {
         if (!bulkEmails.length) {
             toast.error('please enter an email')
         }
-        if (bulkEmails.length > 50) {
+        if (bulkEmails.length > Number(process.env.NEXT_PUBLIC_UPLOAD_FILE_EMAIL_LIMIT || 50)) {
             return toast.error('You can only check 50 emails at a time')
          }
         const haveCredit = await checkHaveCreditForBulkCheck(bulkEmails.length, userId)

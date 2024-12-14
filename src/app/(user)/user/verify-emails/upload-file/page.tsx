@@ -11,7 +11,7 @@ export default async function page() {
   }
 
   return (
-    <div className=" p-[1.5vw]">
+    <div className=" p-[1vw] ">
       <UploadFileCo userId={user.id} />
     </div>
   )
