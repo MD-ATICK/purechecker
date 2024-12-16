@@ -16,18 +16,18 @@ export const signUp = async (values: SignUpValues) => {
 
     const { name, email, password } = SignUpSchema.parse(values)
 
-    
+
     if (process.env.NEXT_PUBLIC_SMTP_RUN === 'on') {
         const domain = email.split('@')[1];
         const isDisposable = isDisposableEmail(domain);
         const mxRecords = await getMxRecords(domain);
         const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
-        
+
         if (!smtpExists.result || isDisposable) {
             return { error: "Email is not usable!" }
         }
     }
-    
+
     console.log('processing signup')
     const existingUser = await getUserByEmail(email)
     if (existingUser) return { error: "Email already exists" }
@@ -49,7 +49,7 @@ export const signUp = async (values: SignUpValues) => {
     const customer = await response.json()
 
     if (!response.ok) {
-        return { error: "Something is wrong- customer" }
+        return { error: `Something is wrong- ${response.statusText}` }
     }
 
 
