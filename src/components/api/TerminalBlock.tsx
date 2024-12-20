@@ -4,25 +4,29 @@ import Image from "next/image";
 import CommandCard from "./CommandCard";
 
 interface TerminalCodeBlockProps {
-    command: {
+    codeSnippet: {
+        language: string,
         installs: string[];
         singleCheck: string;
         bulkCheck: string;
     };
 }
 
-export function TerminalCodeBlock({ command }: TerminalCodeBlockProps) {
+export function TerminalCodeBlock({ codeSnippet }: TerminalCodeBlockProps) {
 
 
     return (
         <div className=' space-y-6 py-4'>
             <div>
+                {
+                    codeSnippet.installs.length > 0 &&
                 <div className="flex items-center gap-3">
                     <Image src={packingImage} height={20} width={20} alt="" className=' dark:invert' />
-                    <p className=" text-gray-500 text-sm text-start">Installation Packages</p>
+                    <p className=" text-gray-500 text-sm text-start">Installation Packages ({codeSnippet.language})</p>
                 </div>
+                }
                 {
-                    command.installs.map((install, index) => (
+                    codeSnippet.installs.map((install, index) => (
                         <CommandCard key={index} command={install} />
                     ))
                 }
@@ -32,18 +36,18 @@ export function TerminalCodeBlock({ command }: TerminalCodeBlockProps) {
             <div>
                 <div className="flex items-center gap-3">
                     <Image src={apiImage} height={20} width={20} alt="" className=' dark:invert' />
-                    <p className=" text-gray-500 text-sm text-start">Single Email Checking Api</p>
+                    <p className=" text-gray-500 text-sm text-start">Single Email Checking Api ({codeSnippet.language})</p>
                 </div>
-                <CommandCard command={command.singleCheck} />
+                <CommandCard command={codeSnippet.singleCheck} />
             </div>
 
             {/* Bulk Command */}
             <div>
                 <div className="flex items-center gap-3">
                     <Image src={apiImage} height={20} width={20} alt="" className=' dark:invert' />
-                    <p className=" text-gray-500 text-sm text-start">Bulk Emails Checking Api</p>
+                    <p className=" text-gray-500 text-sm text-start">Bulk Emails Checking Api ({codeSnippet.language})</p>
                 </div>
-                <CommandCard command={command.bulkCheck} />
+                <CommandCard command={codeSnippet.bulkCheck} />
             </div>
 
         </div>

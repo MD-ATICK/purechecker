@@ -1,27 +1,16 @@
 import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Img,
-  Preview,
-  Section,
-  Text,
+    Body,
+    Container,
+    Head,
+    Hr,
+    Html,
+    Img,
+    Preview,
+    Section,
+    Text
 } from "@react-email/components";
 
-interface KoalaWelcomeEmailProps {
-  userFirstname: string;
-}
-
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
-
-export const WelcomeEmail = ({
-  userFirstname,
-}: KoalaWelcomeEmailProps) => (
+export const WelcomeEmail = (values: { name: string }) => (
   <Html>
     <Head />
     <Preview>
@@ -29,47 +18,65 @@ export const WelcomeEmail = ({
     </Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img
-          src={`${baseUrl}/static/koala-logo.png`}
-          width="170"
-          height="50"
-          alt="Koala"
-          style={logo}
-        />
-        <Text style={paragraph}>Hi {userFirstname},</Text>
-        <Text style={paragraph}>
-          Welcome to Koala, the sales intelligence platform that helps you
-          uncover qualified leads and close deals faster.
-        </Text>
-        <Section style={btnContainer}>
-          <Button style={button} href="https://getkoala.com">
-            Get started
-          </Button>
-        </Section>
-        <Text style={paragraph}>
-          Best,
+        <Section style={{ backgroundColor: "#03172b", borderRadius: '10px', padding: '30px' }}>
+          <Img
+            src={`${process.env.NEXT_PUBLIC_APP_URL}/logo.png`}
+            width="30"
+            height="30"
+            alt="1Dropbox"
+          />
+
+          <Text style={paragraph}>Hi {values.name},</Text>
+          <Text style={paragraph}>
+            Welcome to PureChecker! 🎉 We&apos;re excited to have you on board as part of our mission to simplify and enhance email verification processes.
+          </Text>
+          <Text style={paragraph}>
+            Here&apos;s what you can look forward to:
+          </Text>
+          <ul style={listStyle}>
+            <li style={listItemStyle}>Accurate Email Verification: Instantly verify email addresses to maintain a clean and effective contact list.</li>
+            <li style={listItemStyle}>Seamless Integration: Use our tools effortlessly with your workflow, saving you time and effort.</li>
+            <li style={listItemStyle}>Boost Deliverability: Ensure your emails reach the right inboxes and improve your campaign performance.</li>
+          </ul>
+
+          <Text style={paragraph}>
+            If you have any questions or need help, feel free to contact us at support@purechecker.com or reply to this message.
+          </Text>
+          <Text style={paragraph}>
+            Thanks for choosing PureChecker – we’re here to make email verification easy and reliable for you.
+          </Text>
           <br />
-          The Koala team
-        </Text>
-        <Hr style={hr} />
-        <Text style={footer}>
-          470 Noor Ave STE B #1148, South San Francisco, CA 94080
-        </Text>
+          <Text style={paragraph}>
+            Best,
+            <br />
+            The PureChecker Team,
+          </Text>
+          <Hr style={hr} />
+          <Text style={footer}>
+            1700, Surabari, kashimpur, Gazipur, Bangladesh
+          </Text>
+        </Section>
       </Container>
     </Body>
   </Html>
 );
 
-WelcomeEmail.PreviewProps = {
-  userFirstname: "Alan",
-} as KoalaWelcomeEmailProps;
-
 export default WelcomeEmail;
 
 const main = {
-  backgroundColor: "#ffffff",
+  backgroundColor: "#001121",
   fontFamily:
     '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+};
+const listStyle = {
+  paddingLeft: '20px',
+  margin: '10px 0',
+};
+
+const listItemStyle = {
+  fontSize: '16px',
+  lineHeight: '1.5',
+  color: '#ffffff',
 };
 
 const container = {
@@ -77,36 +84,19 @@ const container = {
   padding: "20px 0 48px",
 };
 
-const logo = {
-  margin: "0 auto",
-};
-
 const paragraph = {
   fontSize: "16px",
   lineHeight: "26px",
-};
-
-const btnContainer = {
-  textAlign: "center" as const,
-};
-
-const button = {
-  backgroundColor: "#5F51E8",
-  borderRadius: "3px",
-  color: "#fff",
-  fontSize: "16px",
-  textDecoration: "none",
-  textAlign: "center" as const,
-  display: "block",
-  padding: "12px",
+  color: '#ffffff'
 };
 
 const hr = {
-  borderColor: "#cccccc",
+  borderColor: "#ffffff",
   margin: "20px 0",
+  color: "#ffffff"
 };
 
 const footer = {
-  color: "#8898aa",
+  color: "#ffffff",
   fontSize: "12px",
 };

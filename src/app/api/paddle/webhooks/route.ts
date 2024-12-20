@@ -70,7 +70,6 @@ const handleTransactionCreated = async (eventType: EventName, data: TransactionN
             throw new Error('Volume not found')
         }
 
-
         await buyPurchase({ volumeId: volume.id, userId: user.id, transactionId: data.id })
 
     } catch (error) {

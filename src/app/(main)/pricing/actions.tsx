@@ -1,8 +1,12 @@
 "use server"
 
+import { sendEmail } from "@/actions/sendMail"
+import PurchaseMail from "@/emails/PurchanseMail"
+import SubscriptionMail from "@/emails/SubscriptionMail"
 import { db } from "@/lib/prisma"
 import { Interval, SubscriptionStatus } from "@paddle/paddle-node-sdk"
 import { CreditType } from "@prisma/client"
+import { render } from "@react-email/components"
 import { revalidatePath } from "next/cache"
 
 
@@ -48,10 +52,22 @@ export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId:
             data: {
                 userId,
                 paddleTransactionId: transactionId,
+                volumeId: volume.id
+            }
+        })
+
+        await db.order.create({
+            data: {
+                name: user.name!,
+                email: user.email!,
                 amount: volume.amount,
+                type: volume.type,
                 credit: volume.credit
             }
         })
+        const html = await render(<PurchaseMail name={user.name!} email={user.email!} amount={volume.amount} credit={volume.credit} createdAt={new Date().toISOString()} type={volume.type} />)
+        const subject = `You have been made a purchase from our website. ⚡`
+        await sendEmail({ to: user.email!, html, subject })
 
         revalidatePath('/')
         return { success: true }
@@ -127,6 +143,21 @@ export const buySubscription = async ({ userId, volumeId, status, billingCycleIn
                 billingCycleInterval: billingCycleInterval || "month"
             }
         })
+
+        await db.order.create({
+            data: {
+                name: user.name!,
+                email: user.email!,
+                amount: volume.amount,
+                type: volume.type,
+                credit: volume.credit
+            }
+        })
+
+        const html = await render(<SubscriptionMail name={user.name!} email={user.email!} amount={volume.amount} credit={volume.credit} perDayCredit={Math.floor(volume.credit / 30)} createdAt={new Date().toISOString()} type={volume.type} />)
+        const subject = `You have been brought a subscription from our website. 🔥❤️`
+        await sendEmail({ to: user.email!, html, subject })
+
 
         revalidatePath('/pricing')
         return { success: true }

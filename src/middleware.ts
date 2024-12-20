@@ -11,12 +11,21 @@ export default auth((req) => {
     const { nextUrl } = req
     const isLoggedIn = req.auth
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+    const isUserRoute = nextUrl.pathname.includes("user")
+    const isAdminRoute = nextUrl.pathname.includes("admin")
 
-    if (isAuthRoute) {
-        if (isLoggedIn) {
+    if (!isLoggedIn) {
+        if (isUserRoute || isAdminRoute) {
+            return Response.redirect(new URL('/login', nextUrl))
+        }
+    }
+    
+    if (isLoggedIn) {
+        if (isAuthRoute) {
             return Response.redirect(new URL(default_login_redirect, nextUrl))
         }
     }
+
 })
 
 

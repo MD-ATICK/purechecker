@@ -9,7 +9,7 @@ import { extractEmailsFromFile } from "@/utils/BulkConvertFile"
 export const getUploadFilesById = async (uploadFileId: string) => {
     try {
 
-        const uploadFile = await db.uploadFile.findFirstOrThrow({ where: { id: uploadFileId }, include: { checkedEmails: true } })
+        const uploadFile = await db.uploadFile.findFirstOrThrow({ where: { id: uploadFileId }, include: { checkedEmails: true, User: true } })
         return { success: true, uploadFile }
 
     } catch (error) {

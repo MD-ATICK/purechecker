@@ -26,6 +26,10 @@ export default function EmailCheckerField() {
   const onsubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if(!user?.emailVerified){
+      return toast.error('Please verify your email first');
+    }
+
     if (!search.length) {
       return toast.error('Enter something');
     }
@@ -78,7 +82,7 @@ export default function EmailCheckerField() {
         <LoadingButton
           isPending={isPending}
           disabled={isPending || !search.length}
-          type='submit'
+          type="submit"
           className='h-14 hidden md:block'
         >
           Check Email

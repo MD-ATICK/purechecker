@@ -44,7 +44,7 @@ export const generatePDF = async (fileName: string, data: { email: string; reaso
     yPosition -= 40;
 
     // Draw table headers
-    const headers = ['Email', 'Reason', 'Exists?', 'Disposable?'];
+    const headers = ['Email', 'Reason', 'Deliverable', 'Disposable'];
     const colPositions = [margin, margin + 200, margin + 350, margin + 450];
 
     headers.forEach((header, index) => {

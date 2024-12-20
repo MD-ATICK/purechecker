@@ -49,7 +49,7 @@ export default function Page() {
           const res = await getSubscriptionById(user?.subscriptionId as string)
           if (res.error) {
             toast.error(res.error)
-          } 
+          }
 
           if (res.success) {
             setSubscription(res.subscription)
@@ -99,9 +99,12 @@ export default function Page() {
               <br />
 
               {/* manage billing button */}
-              <div onClick={manageBillingHandler} className=" flex items-center justify-end">
-                <LoadingButton disabled={isPendingMB} isPending={isPendingMB}>Manage Billing</LoadingButton>
-              </div>
+              {
+                user.emailVerified && subscription &&
+                <div onClick={manageBillingHandler} className=" flex items-center justify-end">
+                  <LoadingButton disabled={isPendingMB} isPending={isPendingMB}>Manage Billing</LoadingButton>
+                </div>
+              }
             </div>
           }
           {

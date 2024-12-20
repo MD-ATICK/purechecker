@@ -31,7 +31,7 @@ export type SignUpValues = z.infer<typeof SignUpSchema>
 export const VolumeSchema = z.object({
   perCreditPrice: requiredNumber,
   credit: requiredNumber,
-  paddlePriceId : requiredString,
+  paddlePriceId: requiredString,
   type: z.enum(['SUBSCRIPTION', 'PURCHASE']),
 })
 
@@ -72,20 +72,28 @@ export const ChangePasswordSchema = z.object({
 export type ChangePasswordValues = z.infer<typeof ChangePasswordSchema>
 
 
+export const ForgotPasswordSchema = z.object({
+  password: requiredString.min(8, { message: 'must be at least 8 characters' }),
+  confirmPassword: requiredString.min(8, { message: 'must be at least 8 characters' }),
+})
+
+export type ForgotPasswordValues = z.infer<typeof ForgotPasswordSchema>
+
+
 export const DownloadEmailSchema = z.object({
   type: z.enum(['pdf', 'xlsx', 'csv']),
   take: requiredNumber,
   skip: requiredNumber,
-  fileName : requiredString,
-  filter:  z.enum(['all', 'deliverable', 'undeliverable', 'disposable'])
+  fileName: requiredString,
+  filter: z.enum(['all', 'deliverable', 'undeliverable', 'disposable'])
 })
 
 export type DownloadEmailValues = z.infer<typeof DownloadEmailSchema>
 
 
 export const ApiTokenSchema = z.object({
-  apiName : requiredString,
-  limit : z.coerce.number().positive("Value must be a positive number").optional(),
+  apiName: requiredString,
+  limit: z.coerce.number().positive("Value must be a positive number").optional(),
 })
 
 export type ApiTokenValue = z.infer<typeof ApiTokenSchema>

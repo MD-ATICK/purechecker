@@ -98,36 +98,53 @@ export default function HowToVerify() {
                     <div className=" flex items-center gap-3">
                         <div className=' h-7 md:h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>9</div>
                         <h1 className=' font-bold text-lg md:text-2xl'>
-                            Save Money on Emails
-
+                            Role-Based Email Identifier
                         </h1>
                     </div>
                     <p className=' text-sm text-muted-foreground md:text-lg '>
-                        Send emails only to real recipients. Save money, enhance delivery rates, and boost your email marketing success with our verified email list.                                                     </p>
-                </div>
-                <div className=' space-y-2 text-start'>
-                    <div className=" flex items-center gap-3">
-                        <div className=' h-7 md:h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>10</div>
-                        <h1 className=' font-bold text-lg md:text-2xl'>
-                            Get Better Results
-                        </h1>
-                    </div>
-                    <p className=' text-sm text-muted-foreground md:text-lg '>
-                        Stop wasting money on undeliverable emails. Use our verified list to improve your results and maximize the effectiveness of your email marketing campaigns.                   </p>
-                </div>
-                <div className=' space-y-2 text-start'>
-                    <div className=" flex items-center gap-3">
-                        <div className=' h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>11</div>
-                        <h1 className=' font-bold text-lg md:text-2xl'>
-                            Keep Your Reputation Safe
-
-                        </h1>
-                    </div>
-                    <p className=' text-sm text-muted-foreground md:text-lg '>
-                        Avoid spam traps and bad emails that can harm your reputation. Clean your list to ensure your emails reach the inbox and maintain your credibility.
+                        We identify role-based email addresses like info@, support@, or admin@, helping you decide how to handle these addresses in your campaigns.
                     </p>
                 </div>
+            </div>
+            <br />
+            <br />
+            <div>
+                <h1>Secure, Save, and Succeed</h1>
+                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 py-12">
+                    <div className=' space-y-2 text-center'>
+                        <div className=" flex items-center justify-center gap-3 ">
+                            <h1 className=' font-bold text-lg md:text-2xl text-center'>
+                                Save Money on Email
+                            </h1>
+                        </div>
+                        <p className=' text-sm text-muted-foreground md:text-lg '>
+                            Send emails only to real recipients. Save money, enhance delivery rates, and boost your email marketing success with our verified email
+                            list.
+                        </p>
+                    </div>
+                    <div className=' space-y-2 text-center'>
+                        <div className=" flex items-center justify-center gap-3 ">
 
+                            <h1 className=' font-bold text-lg md:text-2xl text-center'>
+                                Get Better Results
+                            </h1>
+                        </div>
+                        <p className=' text-sm text-muted-foreground md:text-lg '>
+                            Stop wasting money on undeliverable emails. Use our verified list to improve your results and maximize the effectiveness of your email marketing campaigns.                   </p>
+                    </div>
+                    <div className=' space-y-2 text-center'>
+                        <div className=" flex items-center justify-center gap-3 ">
+
+                            <h1 className=' font-bold text-lg md:text-2xl text-center'>
+                                Keep Your Reputation Safe
+
+                            </h1>
+                        </div>
+                        <p className=' text-sm text-muted-foreground md:text-lg '>
+                            Avoid spam traps and bad emails that can harm your reputation. Clean your list to ensure your emails reach the inbox and maintain your credibility.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     )

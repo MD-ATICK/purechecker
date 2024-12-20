@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
         const email = new URL(req.url).searchParams.get('email');
         const userId = req.headers.get('x-user-id');
         const secretKey = req.headers.get('x-secret-key');
-        
+
         if (!userId || !secretKey) {
             return new Response(JSON.stringify({ error: "Unauthorized" }), {
                 status: 401

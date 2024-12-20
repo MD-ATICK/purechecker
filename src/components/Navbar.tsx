@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import CreditBox from './CreditBox'
 import MenuSheet from './MenuSheet'
-import { ModeToggle } from './ModeToggle'
 import { Button } from './ui/button'
 import UserButton from './UserButton'
 export default async function Navbar() {
@@ -51,10 +50,12 @@ export default async function Navbar() {
         {/* ACTIONS BUTTON */}
         <div className=' flex items-center gap-2'>
           <MenuSheet className=' lg:hidden' />
-          {
+
+          {/* comment mode toggle because of jamela. in future, i will uncomment again. */}
+          {/* {
             user &&
             <ModeToggle />
-          }
+          } */}
           {
             user && <div className=' flex items-center justify-center gap-2 sm:gap-4'>
               <CreditBox userId={user.id!} />

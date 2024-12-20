@@ -1,13 +1,16 @@
 import { checkHaveCreditForBulkCheck, reduceCredit, singleBulkEmailVerify } from "@/actions/emailVerify";
+import { sendEmail } from "@/actions/sendMail";
 import Loading from "@/app/loading";
 import csvImage from '@/assets/csv.png';
 import pdfImage from '@/assets/pdf.png';
 import reloadImage from '@/assets/reload.png';
 import xlsImage from '@/assets/xls.png';
 import { Button } from "@/components/ui/button";
+import UploadedFileMail from "@/emails/UploadedFileMail";
 import { useCreditStore } from "@/store/useCreditStore";
 import { useFileStore } from "@/store/useFileStore";
 import { UploadFile } from "@prisma/client";
+import { render } from "@react-email/components";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -49,7 +52,6 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
       for (const email of file.enterEmails) {
         console.count(file.id);
         const res = await singleBulkEmailVerify(email, userId, file.id);
-        console.count('res');
 
         if (res.data) {
           setProcessingEmails((prev) =>
@@ -60,6 +62,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
             )
           );
         }
+
       }
 
 
@@ -70,7 +73,18 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
       setCredit(credit - file.enterEmails.length)
       setProcessingEmails(prev => prev.map((pe) => pe.uploadFileId === file.id ? { ...pe, status: "COMPLETED" } : pe))
       if (res.uploadFile?.checkedEmails) {
-        toast.success('find upload file checkedEmails')
+        const totalCheck = res.uploadFile.checkedEmails.length
+        const disposableEmails = res.uploadFile.checkedEmails.filter((email) => email.isDisposable).length
+        const deliverableEmails = res.uploadFile.checkedEmails.filter((email) => email.isExist).length
+        const unDeliverableEmails = res.uploadFile.checkedEmails.filter((email) => !email.isExist).length
+        const fileName = res.uploadFile.fileName
+        const html = await render(<UploadedFileMail totalCheck={totalCheck} disposable={disposableEmails} deliverable={deliverableEmails} undeliverable={unDeliverableEmails} fileName={fileName} />)
+        const subject = `${fileName} file has been uploaded successfully. ⚡`
+        const data = await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject })
+
+        if (data?.success) {
+          console.log('upload file message sent successfully')
+        }
         setCompletedFile(res.uploadFile)
         removePendingFile(file.id)
       }
@@ -91,8 +105,8 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
           <p className=" text-sm md:text-lg flex flex-col" title={file.fileName}>
             {file.fileName.length > 20 ? file.fileName.slice(0, 20) + '...' : file.fileName}
             <div className=" flex items-center gap-2">
-            <span className=' text-gray-500 text-sm'>({(file.fileSize / 1000).toFixed(1)}kb)</span>
-            <span className=" text-xs sm:text-sm whitespace-nowrap">({file.enterEmails.length} emails)</span>
+              <span className=' text-gray-500 text-sm'>({(file.fileSize / 1000).toFixed(1)}kb)</span>
+              <span className=" text-xs sm:text-sm whitespace-nowrap">({file.enterEmails.length} emails)</span>
             </div>
           </p>
         </div>

@@ -51,6 +51,21 @@ export default function ChangePasswordForm({ user }: { user: User }) {
                 </div>
                 <FormField
                     control={form.control}
+                    name="oldPassword"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className=" flex items-center gap-1">Old Password <FormMessage /></FormLabel>
+                            <FormDescription>Enter your old password</FormDescription>
+
+                            <FormControl>
+                                <PasswordInput disabled={isPending} placeholder="**************" {...field} />
+                            </FormControl>
+
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
                     name="password"
                     render={({ field }) => (
                         <FormItem>
@@ -79,21 +94,7 @@ export default function ChangePasswordForm({ user }: { user: User }) {
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="oldPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className=" flex items-center gap-1">Old Password <FormMessage /></FormLabel>
-                            <FormDescription>Enter your old password</FormDescription>
-
-                            <FormControl>
-                                <PasswordInput disabled={isPending} placeholder="**************" {...field} />
-                            </FormControl>
-
-                        </FormItem>
-                    )}
-                />
+            
 
                 <div className=" w-full flex justify-end items-end">
                     <LoadingButton isPending={isPending} disabled={isPending} type="submit">

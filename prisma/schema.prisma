@@ -97,6 +97,7 @@ model Volume {
   User           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String         @db.ObjectId
   subscriptions  Subscription[]
+  purchases      Purchase[]
 }
 
 type MxRecord {
@@ -166,13 +167,24 @@ enum SubscriptionStatusEnum {
   trialing
 }
 
+model Order {
+  id                  String     @id @default(auto()) @map("_id") @db.ObjectId
+  type                VolumeType
+  amount              Float
+  credit              Float
+  name                String
+  email               String
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+}
+
 model Purchase {
   id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   User                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              String   @db.ObjectId
+  volumeId            String   @db.ObjectId
+  volume              Volume   @relation(fields: [volumeId], references: [id], onDelete: Cascade)
   paddleTransactionId String
-  amount              Int
-  credit              Int      @default(0)
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 }
@@ -253,12 +265,12 @@ model Session {
 }
 
 model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
-  token      String
-  expires    DateTime
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  token   String
+  expires DateTime
 
-  @@unique([identifier, token])
+  @@unique([email, token])
 }
 
 // Optional for WebAuthn support

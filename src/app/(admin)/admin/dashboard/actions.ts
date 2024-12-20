@@ -71,23 +71,24 @@ export const getTotalPayments = async () => {
     const yesterdayStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     const yesterdayEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
     const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const payments = await db.purchase.aggregate({
+    const payments = await db.order.aggregate({
         _sum: {
             amount: true
         }
     })
-    const yesterDayData = await db.purchase.aggregate({
+    const yesterDayData = await db.order.aggregate({
+
         where: {
             createdAt: {
                 lte: yesterdayStart,
                 gte: yesterdayEnd
-            }
+            },
         },
         _sum: {
             amount: true
         }
     })
-    const todayData = await db.purchase.aggregate({
+    const todayData = await db.order.aggregate({
         where: {
             createdAt: {
                 gt: today

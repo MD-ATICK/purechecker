@@ -1,7 +1,9 @@
 "use client"
 import LoadingButton from "@/components/LoadingButton";
+import { Button } from "@/components/ui/button";
 import usePaddle from "@/hooks/usePaddle";
 import { useUser } from "@/hooks/useUser";
+import Link from "next/link";
 import { useTransition } from "react";
 
 export default function BuyNowButton({ type, volumeId, paddlePriceId }: { paddlePriceId: string, volumeId: string, type: "SUBSCRIPTION" | "PURCHASE" }) {
@@ -11,7 +13,11 @@ export default function BuyNowButton({ type, volumeId, paddlePriceId }: { paddle
 
     const user = useUser()
     if (!user || !user.id) {
-        return;
+        return  (
+            <Link href={'/login'}>
+                <Button>Login</Button>
+            </Link>
+        );
     }
 
     // const buySubscriptionHandler = () => {

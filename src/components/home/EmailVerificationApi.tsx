@@ -1,5 +1,6 @@
 import apiImage from '@/assets/verification-api.png'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '../ui/button'
 
 export default function EmailVerificationApi() {
@@ -15,7 +16,9 @@ export default function EmailVerificationApi() {
                 <p className=' text-muted-foreground text-sm'>Catch bad emails before they get to
                     Verify emails before they get to your database. Implement ELV is real-time API into your website registration process, newsletter sign up form and everywhere else you ask for emails.</p>
                 <br />
+                <Link href={'/user/api'}>
                 <Button variant={"default"}>Get Your Api Key</Button>
+                </Link>
             </div>
         </div>
     )

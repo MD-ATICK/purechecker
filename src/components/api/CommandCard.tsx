@@ -32,9 +32,9 @@ export default function CommandCard({ command }: { command: string }) {
                     {copied ? "Copied!" : <Copy size={14} />}
                 </button>
             </div>
-            <div className="flex items-start w-full overflow-auto my-4 justify-between">
+            <div className="flex items-start px-4 w-full overflow-auto my-4 justify-between">
                 <pre className="  text-start text-sm font-medium md:text-lg w-full">
-                    <code className="">
+                    <code className=" text-sm">
                         {command}
                     </code>
                 </pre>

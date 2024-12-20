@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/prisma"
-import { ChangePasswordValues, UserProfileUpdateValues } from "@/lib/validation"
+import { ChangePasswordValues, ForgotPasswordValues, UserProfileUpdateValues } from "@/lib/validation"
 import { compareSync, hashSync } from "bcryptjs"
 
 export const updateUserProfile = async (userId: string, values: UserProfileUpdateValues) => {
@@ -43,6 +43,31 @@ export const changePassword = async (userId: string, values: ChangePasswordValue
         const hashPassword = hashSync(values.password, 10)
 
         await db.user.update({ where: { id: userId }, data: { password: hashPassword } })
+
+        return { success: true }
+    } catch (error) {
+
+        return { error: (error as Error).message }
+    }
+}
+export const resetPassword = async (email: string, values: ForgotPasswordValues) => {
+
+    try {
+
+        const user = await db.user.findUnique({ where: { email } })
+
+        if (!user || !user.password) {
+            return { error: "Something went wrong!" }
+        }
+
+        if (values.password !== values.confirmPassword) {
+            return { error: "Passwords do not match" }
+        }
+
+
+        const hashPassword = hashSync(values.password, 10)
+
+        await db.user.update({ where: { email }, data: { password: hashPassword } })
 
         return { success: true }
     } catch (error) {

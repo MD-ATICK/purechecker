@@ -1,18 +1,20 @@
 "use server"
 
-import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify"
-import { getUserByEmail } from "@/actions/users"
-import { signIn } from "@/auth"
-import { db } from "@/lib/prisma"
-import { isDisposableEmail } from "@/lib/utils"
-import { SignUpSchema, SignUpValues } from "@/lib/validation"
-import { hashSync } from "bcryptjs"
-import { AuthError } from "next-auth"
+import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify";
+import { sendEmail } from "@/actions/sendMail";
+import { getUserByEmail } from "@/actions/users";
+import { signIn } from "@/auth";
+import { db } from "@/lib/prisma";
+import { isDisposableEmail } from "@/lib/utils";
+import { SignUpSchema, SignUpValues } from "@/lib/validation";
+import { User } from "@prisma/client";
+import { hashSync } from "bcryptjs";
+import { AuthError } from "next-auth";
 
 
 
 
-export const signUp = async (values: SignUpValues) => {
+export const signUp = async (values: SignUpValues, html: string) => {
 
     const { name, email, password } = SignUpSchema.parse(values)
 
@@ -24,13 +26,13 @@ export const signUp = async (values: SignUpValues) => {
         const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
 
         if (!smtpExists.result || isDisposable) {
-            return { error: "Email is not usable!" }
+            return { error: "Email is not usable" }
         }
     }
 
     console.log('processing signup')
     const existingUser = await getUserByEmail(email)
-    if (existingUser) return { error: "Email already exists" }
+    if (existingUser) return { error: "Account already has been created" }
 
     const hashedPassword = hashSync(password, 10)
 
@@ -48,32 +50,54 @@ export const signUp = async (values: SignUpValues) => {
 
     const customer = await response.json()
 
-    if (!response.ok) {
-        return { error: `Something is wrong- ${response.statusText}` }
+
+
+    if (!response.ok && response.statusText !== 'Conflict') {
+        return { error: `Something went wrong` }
+    }
+
+    let user: User;
+
+    if (response.statusText === 'Conflict' || !customer?.data?.id) {
+
+        const errorDetail = customer?.error?.detail
+        const ctm_Id = errorDetail.slice(errorDetail.indexOf('ctm_'), errorDetail.length)
+
+        user = await db.user.create({
+            data: {
+                name,
+                email,
+                customerId: ctm_Id,
+                password: hashedPassword,
+            }
+        })
+
+    } else {
+        user = await db.user.create({
+            data: {
+                name,
+                email,
+                customerId: customer?.data?.id,
+                password: hashedPassword,
+            }
+        })
     }
 
 
-    if (!customer?.data?.id) {
-        return { error: "Something is wrong- customer data" };
-    }
-
-    const user = await db.user.create({
-        data: {
-            name,
-            email,
-            customerId: customer?.data?.id,
-            password: hashedPassword,
-        }
-    })
 
 
     await db.credit.create({
         data: {
-            userId: user.id,
+            userId: user?.id,
             credit: Number(process.env.NEXT_PUBLIC_PER_DAY_FREE_CREDIT || 100),
             type: 'DEFAULT',
         }
     })
+
+    if (user) {
+        const subject = `Welcome ${'Alan'} to PureChecker - We are Excited to Have You! 🎉❤️`
+        await sendEmail({ to: user.email!, html, subject })
+    }
 
 
     try {
@@ -84,7 +108,7 @@ export const signUp = async (values: SignUpValues) => {
                 case "CredentialsSignin":
                     return { error: "Invalid credentials" };
                 default:
-                    return { error: "Something is wrong!" };
+                    return { error: "Something went wrong!" };
             }
         }
         throw error;

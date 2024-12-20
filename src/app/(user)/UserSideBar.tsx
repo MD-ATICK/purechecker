@@ -34,15 +34,15 @@ export default async function UserSideBar({ className }: { className?: string })
                         <p className=' hidden  lg:block'>Dashboard</p>
                     </Link>
                 </Button>
-                {
-                    user.subscriptionId &&
+                {/* {
+                    user.subscriptionId && */}
                     <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
                         <Link href={'/user/verify-emails'} className=' h-full w-full flex justify-start items-center gap-4'>
                             <Image alt='' className=' invert-0 dark:invert' src={emailImage} height={20} />
                             <p className=' hidden  lg:block'>Verify Emails</p>
                         </Link>
                     </Button>
-                }
+                {/* } */}
                 <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
                     <Link href={'/user/orders'} className=' h-full w-full flex justify-start items-center gap-4'>
                         <Image alt='' className=' invert-0 dark:invert' src={ordersImage} height={20} />

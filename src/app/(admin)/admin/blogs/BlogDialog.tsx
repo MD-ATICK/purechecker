@@ -112,7 +112,7 @@ export default function BlogDialog({ blog }: { userId: string, blog?: Blog }) {
           )
         }
       </DialogTrigger>
-      <DialogContent className=" h-[90vh] overflow-y-scroll">
+      <DialogContent className=" h-screen  max-w-4xl overflow-y-scroll">
         <DialogTitle>
           Add Blog
         </DialogTitle>

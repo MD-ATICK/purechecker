@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import ResultPart from "./ResultPart";
 
 
-export default function CopyPastePage({ userId }: { userId: string }) {
+export default function CopyPastePage({ userId, emailVerified }: { userId: string, emailVerified: Date | null }) {
 
 
     const [value, setValue] = useState("");
@@ -22,13 +22,19 @@ export default function CopyPastePage({ userId }: { userId: string }) {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+
+        if (!emailVerified) {
+            return toast.error('Please verify your email first');
+        }
+
         const bulkEmails = extractEmails(value)
         if (!bulkEmails.length) {
             toast.error('please enter an email')
         }
         if (bulkEmails.length > Number(process.env.NEXT_PUBLIC_UPLOAD_FILE_EMAIL_LIMIT || 50)) {
             return toast.error('You can only check 50 emails at a time')
-         }
+        }
         const haveCredit = await checkHaveCreditForBulkCheck(bulkEmails.length, userId)
         if (!haveCredit.success) {
             return toast.error(haveCredit.error)

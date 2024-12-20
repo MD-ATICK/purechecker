@@ -1,7 +1,7 @@
 "use client"
 
+import Loading from '@/app/loading'
 import GoogleImage from '@/assets/google.png'
-import LoadingButton from "@/components/LoadingButton"
 import { PasswordInput } from "@/components/PasswordInput"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -10,6 +10,7 @@ import { LoginSchema, LoginValues } from "@/lib/validation"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
 import Image from "next/image"
+import Link from 'next/link'
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from 'sonner'
@@ -42,7 +43,7 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-4 my-4">
+      <form onSubmit={form.handleSubmit(onsubmit)} className=" text-right space-y-4 my-4">
 
         <FormField
           control={form.control}
@@ -75,12 +76,23 @@ export default function LoginForm() {
           error &&
           <p className=" h-10 w-full rounded-lg bg-[#f2a8a8] text-sm text-red-600 flex justify-center items-center" >{error}</p>
         }
-        <LoadingButton className=" w-full" isPending={isPending} disabled={isPending}>Login</LoadingButton>
+        <Button className=" w-full" disabled={isPending}>
+          {
+            isPending ? <Loading /> : 'Login'
+          }
+        </Button>
+        <Link href={'/forgot-password'} className=" text-sm font-medium w-full hover:underline">
+          <p className=' pt-2'>Forgot Password</p>
+        </Link>
+
+        {/* or line */}
         <div className=' flex items-center gap-3'>
           <div className=' bg-muted flex-1  h-px' />
           <span className=' font-medium text-sm'>OR</span>
           <div className=' bg-muted flex-1  h-px' />
         </div>
+
+        {/* Google login button */}
         <Button type='button' onClick={() => signIn('google', { callbackUrl: '/' })} className="  gap-2 w-full" variant={'secondary'}>
           <Image src={GoogleImage} width={20} height={20} alt="" />
           Login With Google

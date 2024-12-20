@@ -10,7 +10,7 @@ export const login = async (values: LoginValues) => {
     const { email, password } = LoginSchema.parse(values)
 
     const existingUser = await getUserByEmail(email)
-    if (!existingUser) return { error: "User not found" }
+    if (!existingUser) return { error: "Invalid Credentials" }
 
     try {
         await signIn("credentials", { email, password, redirectTo: '/' })

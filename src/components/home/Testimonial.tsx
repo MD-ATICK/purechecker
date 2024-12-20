@@ -11,8 +11,6 @@ import Image from "next/image"
 
 export default function Testimonial() {
 
-
-
     return (
         <div className=" container w-full overflow-hidden text-center mx-auto md:py-16">
             <h2>Testimonial</h2>

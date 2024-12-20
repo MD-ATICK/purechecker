@@ -1,71 +1,22 @@
 "use client"
 
+import packingImage from '@/assets/result.png';
 import CommandCard from "@/components/api/CommandCard";
 import { TerminalCodeBlock } from "@/components/api/TerminalBlock";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Info } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import data from './CodeSnippetsData.json';
+import { bulkResult, codeSnippets, languages, LanguagesType, singleResult } from "./data";
 
 export default function ApiDocs() {
 
-    const [activeLanguage, setActiveLanguage] = useState<"next" | "php">('next');
-
-    const singleResult = `{
-            "id": "603d9e8bfc13ae1f7c000001",
-            "email": "example1@gmail.com",
-            "domain": "gmail.com",
-            "reason": "Valid Email",
-            "isExist": true,
-            "isDisposable": false,
-            "isValidSyntax": true,
-            "isValidDomain": true,
-            "riskLevel": "Low",
-            "isDisable": false,
-            "is2FA": true,
-            "mxRecords": [
-                {
-                    "priority": 10,
-                    "host": "smtp.gmail.com"
-                }
-            ],
-            "userId": "603d9e8bfc13ae1f7c000002",
-            "apiTokenId": "603d9e8bfc13ae1f7c000003",
-            "createdAt": "2024-11-30T10:00:00.000Z"
-        }`
-
-    const bulkResult = `{
-    results : [
-         {
-            "id": "603d9e8bfc13ae1f7c000001",
-            "email": "example1@gmail.com",
-            "domain": "gmail.com",
-            "reason": "Valid Email",
-            "isExist": true,
-            "isDisposable": false,
-            "isValidSyntax": true,
-            "isValidDomain": true,
-            "riskLevel": "Low",
-            "isDisable": false,
-            "is2FA": true,
-            "mxRecords": [
-                {
-                    "priority": 10,
-                    "host": "smtp.gmail.com"
-                }
-            ],
-            "userId": "603d9e8bfc13ae1f7c000002",
-            "apiTokenId": "603d9e8bfc13ae1f7c000003",
-            "createdAt": "2024-11-30T10:00:00.000Z"
-        }
-      ]
-    }`
-
-
+    const [activeLanguage, setActiveLanguage] = useState<LanguagesType>("Java");
 
     return (
         <div className=" py-10 space-y-2 ">
+
             <div className="  text-yellow-400 text-xs sm:text-sm flex text-start gap-3">
                 <div className=" h-4 aspect-square">
                     <Info size={16} className="" />
@@ -74,6 +25,7 @@ export default function ApiDocs() {
                     <Link href={'/user/api'} className=" underline">Go now</Link>
                 </span>
             </div>
+
             <div className="  text-yellow-400 text-xs sm:text-sm flex text-start gap-3">
                 <div className=" h-4 aspect-square">
                     <Info size={16} className="" />
@@ -85,32 +37,39 @@ export default function ApiDocs() {
             </div>
 
             <br />
-            <Tabs className="" defaultValue="next">
-                <TabsList className=" h-10 md:h-16 w-full">
-                    <TabsTrigger
-                        value="next"
-                        onClick={() => setActiveLanguage("next")}
-                    >
-                        Next Js
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="php"
-                        onClick={() => setActiveLanguage("php")}
-                    >
-                        Php
-                    </TabsTrigger>
+
+            <Tabs className="" defaultValue={activeLanguage}>
+                <TabsList className=" h-auto w-full">
+                    {
+                        languages.map(lan => (
+                            <TabsTrigger
+                                key={lan}
+                                value={lan}
+                                className=" h-10 hover:bg-background max-w-32"
+                                onClick={() => setActiveLanguage(lan)}
+                            >
+                                {lan}
+                            </TabsTrigger>
+                        ))
+                    }
                 </TabsList>
-                <TabsContent value={activeLanguage}>
-                    <TerminalCodeBlock command={data.codeSnippets.next} />
+                <TabsContent value={activeLanguage} className=''>
+                    <TerminalCodeBlock codeSnippet={codeSnippets.find(cs => cs.language === activeLanguage)!} />
                 </TabsContent>
             </Tabs>
 
             <div className=" mt-12">
-                <h2>Single Check Result</h2>
+                <div className="flex items-center gap-3">
+                    <Image src={packingImage} height={30} width={30} alt="" className=' dark:invert' />
+                    <p className=" text-green-500  text-start">Single Email Response : </p>
+                </div>
                 <CommandCard command={singleResult} />
             </div>
             <div className=" mt-12">
-                <h2>Bulk Check Result</h2>
+                <div className="flex items-center gap-3">
+                    <Image src={packingImage} height={30} width={30} alt="" className=' dark:invert' />
+                    <p className=" text-green-500 text-start">Bulk Email Response : </p>
+                </div>
                 <CommandCard command={bulkResult} />
             </div>
         </div>

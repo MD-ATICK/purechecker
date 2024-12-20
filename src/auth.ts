@@ -39,7 +39,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         type: 'DEFAULT',
                     }
                 })
-                
+
+                await db.user.update({
+                    where: { id: user.id },
+                    data: {
+                        emailVerified: new Date()
+                    }
+                })
+
             }
         },
     },
@@ -49,6 +56,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (account?.provider === "credentials") {
                 const existingUser = await getUserById(String(user.id))
                 if (!existingUser) return false
+
+                // if (!existingUser.emailVerified) return false;
 
                 return true;
             }
