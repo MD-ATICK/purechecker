@@ -25,15 +25,18 @@ export async function POST(req: Request) {
 
             switch (eventData?.eventType) {
                 case EventName.TransactionCompleted:
+                    console.log('Transaction Completed')
                     await handleTransactionCreated(eventData.eventType, eventData.data)
                     break;
 
                 case EventName.SubscriptionCreated:
                 case EventName.SubscriptionUpdated:
+                    console.log('Subscription Created or Updated')
                     await handleSubscriptionUpsert(eventData.eventType, eventData.data);
                     break;
 
                 case EventName.SubscriptionCanceled:
+                    console.log('Subscription Canceled')
                     await handleSubscriptionCanceled(eventData.eventType, eventData.data);
                     break;
 
@@ -82,6 +85,7 @@ const handleSubscriptionUpsert = async (eventType: EventName.SubscriptionCreated
     try {
 
 
+
         const { volumeId, userId } = data.customData as { volumeId: string, userId: string, customerId: string }
 
         if (eventType !== EventName.SubscriptionCreated && eventType !== EventName.SubscriptionUpdated) {
@@ -99,8 +103,10 @@ const handleSubscriptionUpsert = async (eventType: EventName.SubscriptionCreated
         }
 
         const subscription = await db.subscription.findFirst({ where: { paddleSubscriptionId: data.id, userId: user.id } })
+        console.log('call 1', data.currentBillingPeriod?.endsAt, data.currentBillingPeriod?.startsAt)
         if (data.currentBillingPeriod?.endsAt && data.currentBillingPeriod?.startsAt) {
 
+            console.log('call 2', subscription)
             if (subscription) {
 
                 await updateSubscription({
@@ -115,6 +121,7 @@ const handleSubscriptionUpsert = async (eventType: EventName.SubscriptionCreated
 
             } else {
 
+                console.log("call 3")
                 // if : currently buying a subscription
                 await buySubscription({
                     volumeId: volume.id,

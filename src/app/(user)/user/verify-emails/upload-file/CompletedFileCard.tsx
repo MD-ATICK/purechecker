@@ -41,13 +41,13 @@ export default function CompletedFileCard({ file, userId }: { file: UploadFile, 
             <div className="">
                 <div className=" flex items-center justify-start gap-2 md:gap-4 px-2">
                     <Image alt='' height={25} width={25} src={file.fileName.includes('pdf') ? pdfImage : file.fileName.includes('csv') ? csvImage : xlsImage} />
-                    <p className=" text-sm md:text-lg flex flex-col" title={file.fileName}>
+                    <div className=" text-sm md:text-lg flex flex-col" title={file.fileName}>
                         {file.fileName.length > 25 ? file.fileName.slice(0, 25) + '...' : file.fileName}
                         <div className=" flex items-center gap-2">
                             <span className=' text-gray-500 text-sm'>({(file.fileSize / 1000).toFixed(1)}kb)</span>
                             <span className=" text-xs sm:text-sm whitespace-nowrap">({file.enterEmails.length} emails)</span>
                         </div>
-                    </p>
+                    </div>
                 </div>
 
             </div>

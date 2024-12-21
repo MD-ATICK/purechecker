@@ -56,7 +56,7 @@ export const getBlogById = async (id: string) => {
         const blog = await db.blog.findFirst({ where: { id } })
 
         if (!blog) {
-            return {error : 'Blog not found'}
+            return { error: "There haven't been any blogs with this id" }
         }
 
         return { blog }

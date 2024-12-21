@@ -1,4 +1,3 @@
-import Footer from '@/components/Footer'
 import React from 'react'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -9,7 +8,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     <div>
       {/* <Navbar /> */}
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

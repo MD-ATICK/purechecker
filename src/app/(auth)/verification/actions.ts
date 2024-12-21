@@ -11,10 +11,10 @@ export const verifyToken = async (token: string) => {
     if (!verificationToken) return { error: 'Something went wrong!' }
 
     const hasExpired = new Date(verificationToken.expires) < new Date()
-    if (hasExpired) return { error: 'token already expired.' }
+    if (hasExpired) return { error: 'Link already expired.' }
 
     const findUser = await getUserByEmail(verificationToken.email)
-    if (!findUser) return { error: 'user does not exist.' }
+    if (!findUser) return { error: 'Something went wrong!' }
 
     await db.user.update({
         where: { id: findUser.id }, data: {
@@ -25,5 +25,5 @@ export const verifyToken = async (token: string) => {
 
     await db.verificationToken.delete({ where: { id: verificationToken.id } })
 
-    return { success: 'verified successfully.', verificationToken }
+    return { success: 'Account Verified successfully.', verificationToken }
 }

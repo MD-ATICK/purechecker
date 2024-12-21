@@ -31,7 +31,8 @@ export default async function UsersPage() {
             <div className=" p-[1.5vw] flex items-center justify-between">
                 <div className="flex-1">
                     <h1 className=" text-xl font-bold">Add Blog</h1>
-                    <p className=" text-muted-foreground text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
+                    <p className=" text-muted-foreground text-sm">
+                    Add a new blog post to share your insights and engage with your audience!</p>
                 </div>
                 <div className=" flex-1 flex justify-end">
                 <BlogDialog userId={user.id} />

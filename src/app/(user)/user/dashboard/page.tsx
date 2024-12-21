@@ -12,14 +12,13 @@ export default function UserDashboard() {
       <div className=" space-y-20 flex-grow">
         <div>
           <h2 className="font-bold">See Your Usage Analytics By Area Chart</h2>
-          <p className=" text-sm mb-5 text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
+          <p className=" text-sm mb-5 text-muted-foreground">The dashboard provides insights on deliverable and undeliverable emails, along with API usage trends through an area chart for efficient monitoring.</p>
           <Suspense fallback={<AreaChartSkeleton />}>
             <AnalysisChart />
           </Suspense>
         </div>
         {/* <div>
           <h1 className=" text-2xl font-bold">See Your Usage Analytics By Pie Chart</h1>
-          <p className=" text-sm mb-5 text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
           <Suspense fallback={<AreaChartSkeleton />}>
             <AnalysisPieChart />
           </Suspense>

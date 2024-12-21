@@ -29,7 +29,7 @@ export const deleteApiToken = async (id: string) => {
 
         const user = await getUser()
         if (!user || !user.id) {
-            throw new Error("Unauthorized")
+            throw new Error("Unauthorized Access")
         }
 
         await db.apiToken.delete({
@@ -48,7 +48,7 @@ export const getAllApiTokens = async () => {
 
         const user = await getUser()
         if (!user || !user.id || user.role !== 'ADMIN') {
-            throw new Error("Unauthorized")
+            throw new Error("Unauthorized Access")
         }
 
         const apiTokens = await db.apiToken.findMany({orderBy: {createdAt: 'desc'},take: 50, include: { verifyEmails: true, User: true } })

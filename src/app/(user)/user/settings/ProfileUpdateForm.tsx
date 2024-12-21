@@ -51,7 +51,7 @@ export default function ProfileUpdateForm({ user }: { user: User }) {
                 <div className=" flex items-center justify-between">
                     <div className="flex-1">
                         <h1 className=" text-2xl font-bold">Change your profile</h1>
-                        <FormDescription className=" text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</FormDescription>
+                        <FormDescription className=" text-muted-foreground">Update your profile information to keep your account details accurate and up to date.</FormDescription>
                     </div>
                 </div>
                 <div className=" grid grid-cols-1 gap-6 items-center justify-between">

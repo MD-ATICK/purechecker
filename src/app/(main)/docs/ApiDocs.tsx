@@ -39,7 +39,7 @@ export default function ApiDocs() {
             <br />
 
             <Tabs className="" defaultValue={activeLanguage}>
-                <TabsList className=" h-auto w-full">
+                <TabsList className=" h-auto w-full gap-2">
                     {
                         languages.map(lan => (
                             <TabsTrigger

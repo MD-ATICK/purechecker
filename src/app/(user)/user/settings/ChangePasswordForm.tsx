@@ -46,7 +46,7 @@ export default function ChangePasswordForm({ user }: { user: User }) {
                 <div className=" flex items-center justify-between">
                     <div className="flex-1">
                         <h1 className=" text-2xl font-bold">Change your password</h1>
-                        <FormDescription className=" text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</FormDescription>
+                        <FormDescription className=" text-muted-foreground">Update your password to keep your account secure and ensure easy access to your services.</FormDescription>
                     </div>
                 </div>
                 <FormField

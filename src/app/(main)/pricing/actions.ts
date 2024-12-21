@@ -1,12 +1,8 @@
 "use server"
 
-import { sendEmail } from "@/actions/sendMail"
-import PurchaseMail from "@/emails/PurchanseMail"
-import SubscriptionMail from "@/emails/SubscriptionMail"
 import { db } from "@/lib/prisma"
 import { Interval, SubscriptionStatus } from "@paddle/paddle-node-sdk"
 import { CreditType } from "@prisma/client"
-import { render } from "@react-email/components"
 import { revalidatePath } from "next/cache"
 
 
@@ -15,21 +11,18 @@ export const createCredit = async (userId: string, volumeId: string, type: Credi
     try {
 
 
-        console.log({ userId, volumeId, type })
         if (!userId || !volumeId || !type) return { error: "something is wrong" }
 
         const volume = await db.volume.findUnique({ where: { id: volumeId } })
-        if (!volume) return { error: "Volume not found" }
+        if (!volume) return { error: "Something went wrong" }
 
-        const createdCredit = await db.credit.create({
+        await db.credit.create({
             data: {
                 userId,
                 credit: type === "SUBSCRIPTION" ? Math.floor(volume.credit / parseInt(process.env.NEXT_PUBLIC_SUBSCRIPTION_DAY_LENGTH || "30")) : volume.credit,
                 type
             }
         })
-
-        console.log('---------------- created credit ----------------------', createdCredit)
 
         return { success: true }
     } catch (error) {
@@ -41,12 +34,13 @@ export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId:
 
     try {
 
+
         const volume = await db.volume.findUnique({ where: { id: volumeId } })
-        if (!volume) return { error: "Volume not found" }
-        if (volume.type !== "PURCHASE") return { error: "Volume type not found" }
+        if (!volume) return { error: "Something went wrong" }
+        if (volume.type !== "PURCHASE") return { error: "Something went wrong" }
 
         const user = await db.user.findUnique({ where: { id: userId } })
-        if (!user) return { error: "User not found" }
+        if (!user) return { error: "Account was not created with this email" }
 
         await db.purchase.create({
             data: {
@@ -65,9 +59,6 @@ export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId:
                 credit: volume.credit
             }
         })
-        const html = await render(<PurchaseMail name={user.name!} email={user.email!} amount={volume.amount} credit={volume.credit} createdAt={new Date().toISOString()} type={volume.type} />)
-        const subject = `You have been made a purchase from our website. ⚡`
-        await sendEmail({ to: user.email!, html, subject })
 
         revalidatePath('/')
         return { success: true }
@@ -118,18 +109,11 @@ export const buySubscription = async ({ userId, volumeId, status, billingCycleIn
     try {
         const volume = await db.volume.findUnique({ where: { id: volumeId } })
         if (!volume) return { error: "Volume not found" }
-        if (volume.type !== "SUBSCRIPTION") return { error: "Volume type not found" }
+        if (volume.type !== "SUBSCRIPTION") return { error: "Something went wrong" }
 
         const user = await db.user.findUnique({ where: { id: userId } })
-        if (!user) return { error: "User not found" }
+        if (!user) return { error: "Account was not created with this email" }
 
-        // const newCredit = await db.credit.create({
-        //     data: {
-        //         userId,
-        //         credit: volume.dailyCredit || (volume.credit / parseInt(process.env.CREDIT_LENGTH || "30")),
-        //         type: 'SUBSCRIPTION',
-        //     }
-        // })
 
         await db.subscription.create({
             data: {
@@ -153,10 +137,6 @@ export const buySubscription = async ({ userId, volumeId, status, billingCycleIn
                 credit: volume.credit
             }
         })
-
-        const html = await render(<SubscriptionMail name={user.name!} email={user.email!} amount={volume.amount} credit={volume.credit} perDayCredit={Math.floor(volume.credit / 30)} createdAt={new Date().toISOString()} type={volume.type} />)
-        const subject = `You have been brought a subscription from our website. 🔥❤️`
-        await sendEmail({ to: user.email!, html, subject })
 
 
         revalidatePath('/pricing')

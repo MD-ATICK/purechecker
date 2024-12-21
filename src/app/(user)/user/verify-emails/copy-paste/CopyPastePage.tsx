@@ -62,7 +62,7 @@ export default function CopyPastePage({ userId, emailVerified }: { userId: strin
             <div className="  md:sticky top-3 left-0 flex-1">
                 <div className="">
                     <h1 className=" text-2xl font-bold">Paste Your Email</h1>
-                    <p className="  text-xs text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
+                    <p className="  text-xs text-muted-foreground">Paste your email addresses here to quickly verify their validity and ensure they’re ready for use.</p>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <Textarea disabled={isPending} value={value} onChange={(e) => setValue(e.target.value)} placeholder="Paste your emails here" rows={15} />

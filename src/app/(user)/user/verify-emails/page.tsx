@@ -9,7 +9,7 @@ export default function VerifyEmails() {
         <div className=" p-3 md:px-6">
             <div className="">
                 <h1 className=" text-2xl font-bold">Change your profile</h1>
-                <p className="  text-sm text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
+                <p className="  text-sm text-muted-foreground">Update your profile information to keep your account details accurate and up to date.</p>
             </div>
 
             <div className=" py-8 grid grid-cols-1 md:grid-cols-2 gap-8 ">

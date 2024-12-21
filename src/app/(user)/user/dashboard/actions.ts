@@ -9,13 +9,13 @@ export const getHeaderStatsData = async () => {
 
         const nextAuthUser = await getUser()
         if (!nextAuthUser || !nextAuthUser.id) {
-            return { error: 'nextAuthUser not found' }
+            return { error: "Unauthorized Access" }
         }
 
         const user = await db.user.findUnique({ where: { id: nextAuthUser.id }, include: { verifyEmails: true, apis: { include: { verifyEmails: true } } } })
 
         if (!user || !user.id) {
-            return { error: 'user not found' }
+            return { error: "Something went wrong" }
         }
 
         const deliverable = user.verifyEmails.filter((email) => email.isExist).length

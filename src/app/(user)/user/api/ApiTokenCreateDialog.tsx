@@ -73,9 +73,6 @@ export default function ApiTokenCreateDialog({ userId, apiToken }: { userId: str
                 <DialogTitle>
                     Generate Token
                 </DialogTitle>
-                {/* <DialogDescription>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, vero!
-                </DialogDescription> */}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-4 my-4">
                                     <FormField

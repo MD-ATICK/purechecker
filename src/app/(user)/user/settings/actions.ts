@@ -27,17 +27,17 @@ export const changePassword = async (userId: string, values: ChangePasswordValue
         const user = await db.user.findUnique({ where: { id: userId } })
 
         if (!user || !user.password) {
-            return { error: "User not found" }
+            return { error: "Something went wrong!" }
         }
 
         if (values.password !== values.confirmPassword) {
-            return { error: "Passwords do not match" }
+            return { error: "Password doesn't match" }
         }
 
         const verifyPassword = compareSync(values.oldPassword, user.password)
 
         if (!verifyPassword) {
-            return { error: "Old password is incorrect" }
+            return { error: "Invalid credentials" }
         }
 
         const hashPassword = hashSync(values.password, 10)
@@ -61,7 +61,7 @@ export const resetPassword = async (email: string, values: ForgotPasswordValues)
         }
 
         if (values.password !== values.confirmPassword) {
-            return { error: "Passwords do not match" }
+            return { error: "Password doesn't match" }
         }
 
 

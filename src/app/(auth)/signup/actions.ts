@@ -30,7 +30,6 @@ export const signUp = async (values: SignUpValues, html: string) => {
         }
     }
 
-    console.log('processing signup')
     const existingUser = await getUserByEmail(email)
     if (existingUser) return { error: "Account already has been created" }
 

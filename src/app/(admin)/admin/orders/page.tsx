@@ -25,7 +25,7 @@ export default async function OrderPage() {
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Amount</TableHead>
-                        <TableHead>plan</TableHead>
+                        <TableHead className=" text-center">Type</TableHead>
                         <TableHead>Credit</TableHead>
                         <TableHead>CreatedAt</TableHead>
                     </TableRow>
@@ -40,7 +40,7 @@ export default async function OrderPage() {
                                     <TableCell>{order.name}</TableCell>
                                     <TableCell>{order.email}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.amount)}</TableCell>
-                                    <TableCell className=" text-center">{"order.plan"}</TableCell>
+                                    <TableCell className=" text-center">{order.type}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.credit)}</TableCell>
                                     <TableCell>{formatRelativeDate(order.createdAt)}</TableCell>
                                 </TableRow>

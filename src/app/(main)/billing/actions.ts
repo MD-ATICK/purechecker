@@ -7,7 +7,7 @@ export const getSubscriptionById = async (subscriptionId : string) => {
     try {   
         
         const subscription = await db.subscription.findUnique({ where: { id: subscriptionId } })
-        if (!subscription) return { error: "Subscription not found" }
+        if (!subscription) return { error: "Something went wrong" }
 
         return {success : true, subscription}
         

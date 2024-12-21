@@ -7,7 +7,7 @@ export default async function PricingPage() {
             <div className=" flex items-center justify-between">
                 <div className="flex-1">
                     <h1 className=" text-xl font-bold">Choose your plan</h1>
-                    <p className=" text-muted-foreground text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p>
+                    <p className=" text-muted-foreground text-sm">Select the plan that best suits your needs and start verifying emails with ease and flexibility.</p>
                 </div>
             </div>
             <PricingCo route="USER"/>

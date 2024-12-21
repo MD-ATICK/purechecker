@@ -77,7 +77,7 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
             </DialogTrigger>
             <DialogContent>
                 <DialogTitle>Download File</DialogTitle>
-                <DialogDescription>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum, tempora.</DialogDescription>
+                <DialogDescription>Download your email verification results as a file for easy access, review, and record-keeping.</DialogDescription>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-6 my-4">
 

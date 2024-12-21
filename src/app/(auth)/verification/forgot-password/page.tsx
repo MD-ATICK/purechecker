@@ -36,7 +36,6 @@ export default function ForgotPasswordPage() {
     const onsubmit = async (values: ForgotPasswordValues) => {
         setError('')
         startTransaction(async () => {
-            console.log(values)
             const { success, error } = await resetPassword(verificationToken!.email, values)
             if (error) {
                 setError(error)

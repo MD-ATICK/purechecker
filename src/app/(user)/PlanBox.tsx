@@ -16,13 +16,13 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
     if (!user || !user?.id) {
         return notFound()
     }
-    const subscription = user.subscriptionId ? await db.subscription.findUnique({ where: { id: user.subscriptionId } , include: {volume: true}}) : undefined
+    const subscription = user.subscriptionId ? await db.subscription.findUnique({ where: { id: user.subscriptionId }, include: { volume: true } }) : undefined
 
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none w-full'>
-                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-4 hover:bg-secondary/80 mb-2 items-center rounded-lg w-full'>
-                    <Image src={user.image || defaultUserImage} height={35} className=' rounded-md object-cover aspect-square' width={35} alt='' />
+                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-2 hover:bg-secondary/80 mb-2 items-center rounded-lg w-full'>
+                    <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
                     <div className=' hidden md:flex w-full items-center justify-between'>
                         <div className=' text-start'>
                             <p className=' font-semibold text-sm'>{user.name}</p>
@@ -32,13 +32,13 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                     </div>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className=' p-2 bg-background min-w-[250px] ' >
-                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-4  items-center rounded-lg w-full'>
-                    <Image src={user.image || defaultUserImage} height={35} className=' rounded-md object-cover aspect-square' width={35} alt='' />
+            <DropdownMenuContent align='end' className=' p-2 bg-background min-w-[280px] ' >
+                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-2  items-center rounded-lg w-full'>
+                    <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
                     <div className=' flex w-full items-center justify-between'>
                         <div className=' text-start'>
                             <p className=' font-semibold text-sm'>{user.name}</p>
-                            <p className=' font-semibold -mt-2 text-xs'>{user.email}</p>
+                            <p className=' font-medium -mt-2 text-xs'>{user.email}</p>
                         </div>
                         <Image alt='' src={unfold} height={15} width={15} className=' invert' />
                     </div>
@@ -70,7 +70,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                         </div>
                         <div className='flex items-center justify-between w-full'>
                             <p className=' text-xs'>Left :  </p>
-                            <p className=' text-xs'>{differenceInCalendarDays( new Date(),subscription.currentPeriodStart)} days</p>
+                            <p className=' text-xs'>{differenceInCalendarDays(new Date(), subscription.currentPeriodStart)} days</p>
                         </div>
                         <div className='flex items-center justify-between w-full'>
                             <p className=' text-xs'>End At :  </p>
@@ -79,6 +79,14 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                     </DropdownMenuItem>
                 }
                 <Separator />
+                {
+                    user.subscriptionId &&
+                    <Link href={'/billing'}>
+                        <DropdownMenuItem>
+                            Billing
+                        </DropdownMenuItem>
+                    </Link>
+                }
                 <LogoutButton />
             </DropdownMenuContent>
         </DropdownMenu>

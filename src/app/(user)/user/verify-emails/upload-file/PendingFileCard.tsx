@@ -80,11 +80,8 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
         const fileName = res.uploadFile.fileName
         const html = await render(<UploadedFileMail totalCheck={totalCheck} disposable={disposableEmails} deliverable={deliverableEmails} undeliverable={unDeliverableEmails} fileName={fileName} />)
         const subject = `${fileName} file has been uploaded successfully. ⚡`
-        const data = await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject })
+        await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject })
 
-        if (data?.success) {
-          console.log('upload file message sent successfully')
-        }
         setCompletedFile(res.uploadFile)
         removePendingFile(file.id)
       }
@@ -102,13 +99,13 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
       <div className="">
         <div className=" flex items-center justify-start gap-2 md:gap-4 px-2">
           <Image alt='' height={25} width={25} src={file.fileName.includes('pdf') ? pdfImage : file.fileName.includes('csv') ? csvImage : xlsImage} />
-          <p className=" text-sm md:text-lg flex flex-col" title={file.fileName}>
+          <div className=" text-sm md:text-lg flex flex-col" title={file.fileName}>
             {file.fileName.length > 20 ? file.fileName.slice(0, 20) + '...' : file.fileName}
             <div className=" flex items-center gap-2">
               <span className=' text-gray-500 text-sm'>({(file.fileSize / 1000).toFixed(1)}kb)</span>
               <span className=" text-xs sm:text-sm whitespace-nowrap">({file.enterEmails.length} emails)</span>
             </div>
-          </p>
+          </div>
         </div>
 
       </div>

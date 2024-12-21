@@ -18,7 +18,6 @@ export default function ResultPart({checkedEmails, setCheckedEmails}: {checkedEm
             <div className=" flex gap-6 items-center justify-between">
                 <div className="">
                     <h1 className=" text-lg md:text-2xl font-bold">Download Your Email</h1>
-                    {/* <p className="  text-xs text-muted-foreground">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.</p> */}
                 </div>
                 {
                     checkedEmails.length > 0 && (

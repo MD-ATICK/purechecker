@@ -1,5 +1,5 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
-import Loading from "../loading";
 import AnalysisChart from "./AnalysisChart";
 import HeaderStats from "./HeaderStats";
 import HeaderStatsSkeleton from "./HeaderStatsSkeleton";
@@ -10,7 +10,7 @@ export default function page() {
       <Suspense fallback={<HeaderStatsSkeleton type="ADMIN" />}>
         <HeaderStats />
       </Suspense>
-      <Suspense fallback={<Loading className=" mt-4" />}>
+      <Suspense fallback={<Skeleton className=' mt-16 w-full aspect-[16/6]' />}>
         <AnalysisChart />
       </Suspense>
     </div>

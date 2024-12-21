@@ -23,7 +23,7 @@ export default async function BlogPage() {
 
     return (
         <div className=" ">
-            <Banner name='Blogs Page' desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate." />
+            <Banner name='Blogs Page' desc="Explore insightful blogs shared by users, covering tips, updates, and best practices for email verification and beyond!" />
             <div className=" p-2 grid grid-cols-1 container mx-auto sm:grid-cols-2  py-10 lg:grid-cols-3 gap-6">
                 {
                     blogs.map(blog => (<div key={blog.id}>

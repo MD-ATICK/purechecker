@@ -28,7 +28,7 @@ export interface ExtendedUploadFile extends UploadFile {
 }
 
 export default function UploadFileCo({ userId }: { userId: string }) {
-  
+
   const { selectedFiles, setSelectedFiles, setPendingFiles, setPendingFile, setCompletedFiles } = useFileStore()
 
   const [isPending, setIsPending] = useState(false);
@@ -108,7 +108,7 @@ export default function UploadFileCo({ userId }: { userId: string }) {
         <div className="">
           <h1 className="text-2xl font-bold">Upload File</h1>
           <p className="text-xs text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum maxime quos libero vel magni cupiditate.
+            Upload your <b>.pdf</b>, <b>.csv</b>, or <b>.xlsx</b> file to easily verify email addresses in bulk and receive detailed results.
           </p>
         </div>
 
@@ -153,7 +153,7 @@ export default function UploadFileCo({ userId }: { userId: string }) {
         <div className=' space-y-6'>
           <div>
             <h2>Upload History</h2>
-            <p className=' text-gray-500 text-sm font-medium'> Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur quod architecto aliquam reprehenderit sit ducimus?</p>
+            <p className=' text-gray-500 text-sm font-medium'>View the history of your uploaded files, including previous email verification lists and their results, for easy reference and tracking.</p>
           </div>
           <PendingFiles userId={userId} />
           {

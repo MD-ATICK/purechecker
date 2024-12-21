@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className=' h-screen w-full flex p-3 justify-center items-center'>
       <div className=' space-y-2 text-center flex-col w-full md:w-1/2 flex justify-center items-center'>
         <h1>Page not found</h1>
-        <p className=' text-sm text-muted-foreground'> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa maiores dolores aliquid a mollitia possimus officiis dicta enim exercitationem. Praesentium?</p>
+        <p className=' text-sm text-muted-foreground'> Oops! The page you’re looking for doesn’t exist or might have been moved. Don’t worry, you can head back to our homepage or explore other sections of our site. If you think this is a mistake, please let us know, and we’ll get it sorted out. Thanks for your patience!</p>
         <br />
         <Link href="/">
           <Button variant={'secondary'}>

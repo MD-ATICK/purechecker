@@ -117,7 +117,7 @@ export default function BlogDialog({ blog }: { userId: string, blog?: Blog }) {
           Add Blog
         </DialogTitle>
         <DialogDescription>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, vero!
+          Add a new blog post to share your insights and engage with your audience!
         </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-4 my-4">

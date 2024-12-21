@@ -18,7 +18,7 @@ export const createVolume = async ({ userId, credit, type, amount, discount, per
         const user = await db.user.findFirst({ where: { id: userId, role: "ADMIN" } })
 
         if (!user) {
-            return { error: "User not found" }
+            return { error: "You are not authorized" }
         }
 
         let volume;
