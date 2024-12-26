@@ -26,7 +26,7 @@ export default function EmailCheckerField() {
   const onsubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(!user?.emailVerified){
+    if (!user?.emailVerified) {
       return toast.error('Please verify your email first');
     }
 
@@ -57,7 +57,7 @@ export default function EmailCheckerField() {
 
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong" + JSON.stringify(error), { duration: 200000 });
     } finally {
       setIsPending(false);
     }
