@@ -224,7 +224,6 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
         let result = false;
         let message = '';
 
-        console.log(' -------------------------- client -------------------------', client)
         
         client.setTimeout(10000);
 

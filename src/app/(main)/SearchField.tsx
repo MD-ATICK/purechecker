@@ -57,7 +57,7 @@ export default function EmailCheckerField() {
 
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong" + JSON.stringify(error), { duration: 200000 });
+      toast.error("Something went wrong");
     } finally {
       setIsPending(false);
     }
