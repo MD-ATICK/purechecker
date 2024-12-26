@@ -40,6 +40,7 @@ export default function EmailCheckerField() {
     try {
       setIsPending(true);
       const res = await emailVerify(search, user.id as string);
+      console.log('res', res);
       if (res.data) {
         setResult(res.data)
         setCredit(credit - 1)

@@ -121,7 +121,9 @@ export const emailVerify = async (email: string, userId: string) => {
             const domain = email.split('@')[1];
             const isDisposable = isDisposableEmail(domain);
             const mxRecords = await getMxRecords(domain);
+            console.log(' -------------------------- mxRecords -------------------------', mxRecords)
             const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+
             const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
 
 
@@ -222,7 +224,9 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
         let result = false;
         let message = '';
 
-        client.setTimeout(5000);  // Set a timeout to avoid hanging
+        console.log(' -------------------------- client -------------------------', client)
+        
+        client.setTimeout(10000);
 
         client.on('connect', () => {
             // SMTP handshake initiation
@@ -234,6 +238,7 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
         client.on('data', (data) => {
             const response = data.toString();
 
+            console.log(' -------------------------- response of client data -------------------------', response)
             switch (true) {
                 case response.includes('550-5.1.1'):
                     result = false

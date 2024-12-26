@@ -139,7 +139,6 @@ const handleSubscriptionUpsert = async (eventType: EventName.SubscriptionCreated
 
     } catch (error) {
         console.log(error)
-        throw new Error("something is wrong")
     }
 }
 const handleSubscriptionCanceled = async (eventType: EventName.SubscriptionCanceled | EventName.SubscriptionUpdated, data: SubscriptionNotification) => {
