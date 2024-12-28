@@ -28,7 +28,7 @@ export default function ContactForm() {
     }
 
     if(!name || !email || !message) {
-      return toast.error('Please fill all the fields')
+      return toast.error('Please fill all the fields ok.')
     }
 
     startTransition(async () => {
