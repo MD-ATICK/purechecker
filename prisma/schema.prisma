@@ -127,7 +127,7 @@ model VerifyEmail {
   isValidSyntax Boolean     @default(false)
   isValidDomain Boolean     @default(false)
   riskLevel     String
-  free          Boolean
+  free          Boolean     @default(false)
   role          String
   mxRecords     MxRecord[]
   createdAt     DateTime    @default(now())
