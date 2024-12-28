@@ -31,11 +31,11 @@ export default function UserAreaChart({ data }: UserAreaChartProps) {
                             <stop offset="95%" stopColor="#005ac9" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <XAxis dataKey="day" style={{ fontSize: '10px', fontWeight: '500' }} />
+                    <XAxis dataKey="Day" style={{ fontSize: '10px', fontWeight: '500' }} />
                     <YAxis style={{ fontSize: '12px', fontWeight: '500' }} />
                     <Tooltip contentStyle={{ fontSize: '16px', borderRadius: "10px", background: "black" }} />
 
-                    <Area type="monotone" dataKey="count" stroke="#005ac9" fill="url(#colorCount)" />
+                    <Area type="monotone" dataKey="Users" stroke="#005ac9" fill="url(#colorCount)" />
                 </AreaChart>
             </ResponsiveContainer>
         </div >

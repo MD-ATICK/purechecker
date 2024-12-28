@@ -27,12 +27,15 @@ export default function ContactForm() {
       return toast.error('Please verify your email first');
     }
 
+    if(!name || !email || !message) {
+      return toast.error('Please fill all the fields')
+    }
 
     startTransition(async () => {
       if (user) {
         const html = await render(<ContactUsMail name={name!} email={email} message={message} />)
-        const subject = ` Here ${name} want to contact with us. ⚡`
-        const data = await sendEmail({ to: user.email!, html, subject })
+        const subject = ` Here ${name} want to contact with us`
+        const data = await sendEmail({ from: user.email!, html, subject, to: 'support@purechecker.com' })
 
         if (data?.success) {
           toast.success('Contact message sent successfully')

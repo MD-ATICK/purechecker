@@ -33,7 +33,7 @@ export default async function SettingsPage() {
                         <ProfileUpdateForm user={user} />
                     ) : (
                         <Tabs defaultValue="profile" className=" w-full">
-                            <TabsList className=" w-full h-12 md:h-14">
+                            <TabsList className=" w-full h-12 md:h-14  grid grid-cols-2">
                                 <TabsTrigger className=" text-xs md:text-sm" value="profile">Profile Update</TabsTrigger>
                                 <TabsTrigger className=" text-xs md:text-sm" value="password">Change Password</TabsTrigger>
                             </TabsList>

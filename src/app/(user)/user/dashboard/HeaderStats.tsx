@@ -11,7 +11,7 @@ export default async function HeaderStats() {
     }
 
     if(data.error){
-        return <ErrorPage>Somethings is wrong!</ErrorPage>
+        return <ErrorPage>Somethings is wrong! {data.error}</ErrorPage>
     }
 
     return (

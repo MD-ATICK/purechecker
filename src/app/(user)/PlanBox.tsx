@@ -1,6 +1,7 @@
 import defaultUserImage from '@/assets/girl.jpg'
 import priceTag from '@/assets/price-tag.png'
 import unfold from '@/assets/unfold.png'
+import CreditBox from '@/components/CreditBox'
 import LogoutButton from '@/components/LogoutButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Separator } from '@/components/ui/separator'
@@ -21,12 +22,12 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none w-full'>
-                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-2 hover:bg-secondary/80 mb-2 items-center rounded-lg w-full'>
+                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-2 bg-secondary/80 mb-2 items-center rounded-lg w-full'>
                     <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
                     <div className=' hidden md:flex w-full items-center justify-between'>
                         <div className=' text-start'>
-                            <p className=' font-semibold text-sm'>{user.name}</p>
-                            <p className=' font-semibold -mt-2 text-xs'>{user.email}</p>
+                            <p className=' font-medium text-sm'>{user.name}</p>
+                            <p className=' font-medium -mt-2 text-xs'>{user.email}</p>
                         </div>
                         <Image alt='' src={unfold} height={15} width={15} className=' invert' />
                     </div>
@@ -44,6 +45,8 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                     </div>
                 </div>
                 <Separator />
+                <CreditBox dashboard={true} userId={user?.id} />
+                <Separator />
                 {
                     !user.subscriptionId &&
                     <Link href={'/pricing'}>
@@ -57,7 +60,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                     subscription && <DropdownMenuItem className=' flex flex-col gap-0'>
                         {/* <CreditBox userId={user.id} dashboard={true} /> */}
                         <div className='flex items-center justify-between w-full'>
-                            <p className=' text-xs'>Total Credit :  </p>
+                            <p className=' text-xs'>Subscription Sub Credit :  </p>
                             <p className=' text-xs'>{subscription.volume.credit}</p>
                         </div>
                         <div className='flex items-center justify-between w-full'>

@@ -48,7 +48,7 @@ export default function ForgetPasswordPage() {
         if (verificationToken) {
 
           const html = await render(<ResetPassword name={user.name!} token={verificationToken.token} />)
-          const data = await sendEmail({ to: user.email!, html, subject: `Reset Your PureChecker Account Password ⚡` })
+          const data = await sendEmail({ to: user.email!, html, subject: `Password Reset Confirmation ⚡` , from : 'support@purechecker.com'})
           if (data.error) {
             toast.error(data.error)
             return;

@@ -39,7 +39,7 @@ export default function NotVerifiedMessage({ email }: { email: string }) {
                 if (verificationToken) {
 
                     const html = await render(<AccountVerification name={user.name!} token={verificationToken.token} />)
-                    const data = await sendEmail({ to: user.email!, html, subject: `Verify Your PureChecker Account ⚡` })
+                    const data = await sendEmail({ to: user.email!, html, subject: `Verify Your Account`, from : 'support@purechecker.com' })
                     if (data?.success) {
                         toast.success('Verification mail sent successfully')
                     }
@@ -58,11 +58,18 @@ export default function NotVerifiedMessage({ email }: { email: string }) {
 
 
     return (
-        <div className=" h-16 bg-background border-t text-yellow-500 flex justify-center text-sm gap-2 items-center w-full fixed bottom-0 left-0">
+        <div className=" h-20 border-t text-yellow-500 p-2 flex-col bg-[#f6d50462] backdrop-blur-lg border-t-yellow-500 flex  justify-center text-sm gap-3 items-center w-full fixed bottom-0 left-0">
 
-            <Info size={18} className=" text-yellow-500" />
-            <p className="">Your account is not verified! Please Verify your account. </p>
-            <button className=" text-white font-medium disabled:text-gray-500 hover:underline disabled:no-underline" disabled={(countTime !== null) || isPending} onClick={resendVerificationTokenForAccountVerified}>{isPending ? "loading..." : (countTime !== null) ? `Resend mail in ${countTime}` : 'Send Verify Mail'}</button>
+            <div className="  text-yellow-300 text-xs sm:text-sm flex text-start gap-3">
+                <div className=" h-4 aspect-square">
+                    <Info size={16} className="" />
+                </div>
+                <span>
+                    Verify Your Account to use all the features
+                </span>
+            </div>
+
+            <button className=" text-white text-xs whitespace-nowrap md:text-sm font-medium disabled:text-gray-500 hover:underline disabled:no-underline" disabled={(countTime !== null) || isPending} onClick={resendVerificationTokenForAccountVerified}>{isPending ? "loading..." : (countTime !== null) ? `Resend mail in ${countTime}` : 'Send Verify Mail'}</button>
         </div>
     )
 }

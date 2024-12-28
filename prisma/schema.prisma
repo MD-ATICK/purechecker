@@ -127,8 +127,8 @@ model VerifyEmail {
   isValidSyntax Boolean     @default(false)
   isValidDomain Boolean     @default(false)
   riskLevel     String
-  isDisable     Boolean?
-  is2FA         Boolean?
+  free          Boolean
+  role          String
   mxRecords     MxRecord[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -168,14 +168,14 @@ enum SubscriptionStatusEnum {
 }
 
 model Order {
-  id                  String     @id @default(auto()) @map("_id") @db.ObjectId
-  type                VolumeType
-  amount              Float
-  credit              Float
-  name                String
-  email               String
-  createdAt           DateTime   @default(now())
-  updatedAt           DateTime   @updatedAt
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  type      VolumeType
+  amount    Float
+  credit    Float
+  name      String
+  email     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Purchase {

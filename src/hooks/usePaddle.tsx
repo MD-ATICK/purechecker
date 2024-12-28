@@ -31,12 +31,12 @@ export default function usePaddle() {
           if (res.success && user && volumeRes.success) {
             if (type === "SUBSCRIPTION") {
               const html = await render(<SubscriptionMail name={user.name!} email={user.email!} amount={volumeRes.volume.amount} credit={volumeRes.volume.credit} perDayCredit={Math.floor(volumeRes.volume.credit / 30)} createdAt={new Date().toISOString()} type={volumeRes.volume.type} />)
-              const subject = `You have been brought a subscription from our website. 🔥❤️`
-              await sendEmail({ to: user.email!, html, subject })
+              const subject = ` Subscription Purchase Confirmation`
+              await sendEmail({ to: user.email!, html, subject, from: 'billing@purechecker.com' })
             } else {
               const html = await render(<PurchaseMail name={user.name!} email={user.email!} amount={volumeRes.volume.amount} credit={volumeRes.volume.credit} createdAt={new Date().toISOString()} type={volumeRes.volume.type} />)
-              const subject = `You have been made a purchase from our website. ⚡`
-              await sendEmail({ to: user.email!, html, subject })
+              const subject = `One-Time Purchase Confirmation`
+              await sendEmail({ to: user.email!, html, subject, from: 'billing@purechecker.com' })
 
             }
             window.location.href = `${process.env.NEXT_PUBLIC_APP_URL}/payment/success?transactionId=${data.data?.transaction_id}`

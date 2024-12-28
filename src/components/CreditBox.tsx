@@ -3,7 +3,6 @@
 import { getSubCredit } from "@/actions/users"
 import Loading from "@/app/loading"
 import rocket from '@/assets/flash.png'
-import { formatNumber } from "@/lib/utils"
 import { useCreditStore } from "@/store/useCreditStore"
 import Image from "next/image"
 import { useEffect, useState } from "react"
@@ -33,12 +32,12 @@ export default function CreditBox({ userId, dashboard }: props) {
                 !dashboard && (
                     <div>
                         <div className='text-sm text-muted-foreground flex items-center gap-2'>
-                            <Image alt="" src={rocket} height={18} className="invert" />
+                            <Image alt="" src={rocket} height={17} className="invert" />
                             {isPending ? (
                                 <span> <Loading /></span>
                             ) : (
-                                <span className='text-lg sm:text-xl font-bold text-primary'>
-                                    {credit !== undefined ? formatNumber(credit) : 'Loading...'}
+                                <span className='sm:text-lg font-bold text-primary'>
+                                    {credit !== undefined ? credit : 'Loading...'}
                                 </span>
                             )}
                         </div>
@@ -47,9 +46,9 @@ export default function CreditBox({ userId, dashboard }: props) {
             }
             {
                 dashboard &&
-                <div className='flex items-center justify-between w-full'>
-                    <div className=' text-xs'>Total Credit :  </div>
-                    <div className='text-xs'>
+                <div className='flex items-center py-2 justify-between w-full'>
+                    <div className=' text-xs'>Credits :  </div>
+                    <div className='text-xs text-sky-500 font-semibold'>
                         {credit !== undefined ? credit : 'Loading...'}
                     </div>
                 </div>

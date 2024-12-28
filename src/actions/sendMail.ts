@@ -2,7 +2,7 @@
 
 import nodemailer from 'nodemailer';
 
-export async function sendEmail(values: { subject: string, html: string, to: string }) {
+export async function sendEmail(values: { subject: string, html: string, to: string, from: string }) {
 
     try {
         // Configure Nodemailer transporter
@@ -17,7 +17,7 @@ export async function sendEmail(values: { subject: string, html: string, to: str
 
         // Define email options
         const mailOptions = {
-            from: '"Pure Checker" <atick.business.info@gmail.com>',
+            from: `"Pure Checker" <${values.from}>`,
             to: values.to,
             subject: values.subject,
             html: values.html,

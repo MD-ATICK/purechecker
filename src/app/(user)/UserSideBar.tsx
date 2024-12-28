@@ -22,7 +22,7 @@ export default async function UserSideBar({ className }: { className?: string })
     }
 
     return (
-        <div className={cn(className, " lg:px-[1vw] min-w-[45px] overflow-hidden h-screen p-1 z-50 bg-background flex flex-col justify-between items-start")}>
+        <div className={cn(className, " lg:px-2 min-w-[50px] overflow-hidden h-screen p-1 z-50 bg-background flex flex-col justify-between items-start")}>
             <Link href={'/'} className='flex items-center gap-2 p-1 '>
                 <Image alt='' src={logo} height={30} />
                 <h1 className=" hidden lg:block font-bold pb-2 text-2xl">PureChecker</h1>
@@ -36,12 +36,12 @@ export default async function UserSideBar({ className }: { className?: string })
                 </Button>
                 {/* {
                     user.subscriptionId && */}
-                    <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
-                        <Link href={'/user/verify-emails'} className=' h-full w-full flex justify-start items-center gap-4'>
-                            <Image alt='' className=' invert-0 dark:invert' src={emailImage} height={20} />
-                            <p className=' hidden  lg:block'>Verify Emails</p>
-                        </Link>
-                    </Button>
+                <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
+                    <Link href={'/user/verify-emails'} className=' h-full w-full flex justify-start items-center gap-4'>
+                        <Image alt='' className=' invert-0 dark:invert' src={emailImage} height={20} />
+                        <p className=' hidden  lg:block'>Verify Emails</p>
+                    </Link>
+                </Button>
                 {/* } */}
                 <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
                     <Link href={'/user/orders'} className=' h-full w-full flex justify-start items-center gap-4'>
@@ -61,16 +61,14 @@ export default async function UserSideBar({ className }: { className?: string })
                         <p className=' hidden  lg:block'>Pricing</p>
                     </Link>
                 </Button>
-                {
-                    user.subscriptionId &&
 
-                        <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
-                            <Link href={'/user/api'} className=' h-full w-full flex justify-start items-center gap-4'>
-                                <Image alt='' className=' invert-0 dark:invert' src={apisImage} height={20} />
-                                <p className=' hidden  lg:block'>Api</p>
-                            </Link>
-                        </Button>
-                }
+                <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
+                    <Link href={'/user/api'} className=' h-full w-full flex justify-start items-center gap-4'>
+                        <Image alt='' className=' invert-0 dark:invert' src={apisImage} height={20} />
+                        <p className=' hidden  lg:block'>Api</p>
+                    </Link>
+                </Button>
+
                 <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-14 w-full'>
                     <Link href={'/user/settings'} className=' h-full w-full flex justify-start items-center gap-4'>
                         <Image alt='' className=' invert-0 dark:invert' src={settingImage} height={20} />

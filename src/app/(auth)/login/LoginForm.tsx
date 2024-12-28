@@ -43,7 +43,7 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onsubmit)} className=" text-right space-y-4 my-4">
+      <form onSubmit={form.handleSubmit(onsubmit)} className=" text-right space-y-6 my-3">
 
         <FormField
           control={form.control}

@@ -21,7 +21,7 @@ import * as XLSX from 'xlsx';
 export type BulkDownloadEmailType = { email: string, reason: string, isExist: boolean, isDisposable: boolean }
 
 
-export const generatePDF = async (fileName: string, data: { email: string; reason: string; isExist: boolean; isDisposable: boolean }[]) => {
+export const generatePDF = async (fileName: string, data: { email: string; isExist: boolean; isDisposable: boolean }[]) => {
     const doc = await PDFDocument.create();
     let page = doc.addPage([600, 800]); // Increase page height for more rows
 
@@ -44,7 +44,7 @@ export const generatePDF = async (fileName: string, data: { email: string; reaso
     yPosition -= 40;
 
     // Draw table headers
-    const headers = ['Email', 'Reason', 'Deliverable', 'Disposable'];
+    const headers = ['Email', 'Deliverable', 'Disposable'];
     const colPositions = [margin, margin + 200, margin + 350, margin + 450];
 
     headers.forEach((header, index) => {
@@ -69,7 +69,6 @@ export const generatePDF = async (fileName: string, data: { email: string; reaso
         // Draw each cell in the row
         const rowData = [
             item.email,
-            item.reason,
             item.isExist ? 'Yes' : 'No',
             item.isDisposable ? 'Yes' : 'No',
         ];

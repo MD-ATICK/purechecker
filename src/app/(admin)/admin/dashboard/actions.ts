@@ -8,90 +8,105 @@ import { db } from "@/lib/prisma";
 export const getUsersData = async () => {
 
     const currentDate = new Date()
-    const yesterdayStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const yesterdayEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
-    const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const previousMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+    const previousMonthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    const currentMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
     const users = await db.user.count({ where: { role: "USER" } })
-    const yesterDayUsers = await db.user.count({
+    const previousMonthUsers = await db.user.count({
         where: {
             role: "USER", createdAt: {
-                lt: yesterdayStart,
-                gt: yesterdayEnd
+                gt: previousMonthStart,
+                lt: previousMonthEnd,
             }
         }
     })
-    const todayUsers = await db.user.count({ where: { role: "USER", createdAt: { gt: today } } })
-    const statsPercent = ((todayUsers - yesterDayUsers) / yesterDayUsers) * 100
-    return { users, statsPercent: statsPercent === Infinity ? 100 : statsPercent };
+    const currentMonthUsers = await db.user.count({ where: { role: "USER", createdAt: { gt: currentMonthStart } } })
+
+    const statsPercent = ((currentMonthUsers - previousMonthUsers) / previousMonthUsers) * 100
+    return { users, statsPercent: previousMonthUsers === 0 ? (100 * currentMonthUsers) : statsPercent };
 }
+
+
 export const getTotalVerifyEmails = async () => {
 
     const currentDate = new Date()
-    const yesterdayStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const yesterdayEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
-    const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const previousMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+    const previousMonthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    const currentMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
     const verifyEmails = await db.verifyEmail.count({})
-    const yesterDayVerifyEmails = await db.user.count({
+    const previousMonthVerifyEmails = await db.verifyEmail.count({
         where: {
             createdAt: {
-                lt: yesterdayStart,
-                gt: yesterdayEnd
+                gt: previousMonthStart,
+                lt: previousMonthEnd,
             }
         }
     })
-    const todayVerifyEmails = await db.verifyEmail.count({ where: { createdAt: { gt: today } } })
-    const statsPercent = ((todayVerifyEmails - yesterDayVerifyEmails) / yesterDayVerifyEmails) * 100
-    return { verifyEmails, statsPercent: statsPercent === Infinity ? 100 : statsPercent };
+    const currentMonthVerifyEmails = await db.verifyEmail.count({ where: { createdAt: { gt: currentMonthStart } } })
+
+    const statsPercent = ((currentMonthVerifyEmails - previousMonthVerifyEmails) / previousMonthVerifyEmails) * 100
+    return { verifyEmails, statsPercent: previousMonthVerifyEmails === 0 ? (100 * currentMonthVerifyEmails) : statsPercent };
 }
+
 
 export const getTotalSubscriptions = async () => {
 
+
     const currentDate = new Date()
-    const yesterdayStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const yesterdayEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
-    const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const previousMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+    const previousMonthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    const currentMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
     const subscriptions = await db.subscription.count({})
-    const yesterDayData = await db.subscription.count({
+    const previousMonthSubscriptions = await db.subscription.count({
         where: {
             createdAt: {
-                lte: yesterdayStart,
-                gte: yesterdayEnd
+                gt: previousMonthStart,
+                lt: previousMonthEnd,
             }
         }
     })
-    const todayData = await db.verifyEmail.count({ where: { createdAt: { gt: today } } })
-    const statsPercent = ((todayData - yesterDayData) / yesterDayData) * 100
-    return { subscriptions, statsPercent: statsPercent === Infinity ? 100 : statsPercent };
+    const currentMonthSubscriptions = await db.subscription.count({ where: { createdAt: { gt: currentMonthStart } } })
+
+    const statsPercent = ((currentMonthSubscriptions - previousMonthSubscriptions) / previousMonthSubscriptions) * 100
+    return { subscriptions, statsPercent: previousMonthSubscriptions === 0 ? (100 * currentMonthSubscriptions) : statsPercent };
 }
 
 
 export const getTotalPayments = async () => {
 
+
+
     const currentDate = new Date()
-    const yesterdayStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const yesterdayEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1);
-    const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const previousMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+    const previousMonthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    const currentMonthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+
+
     const payments = await db.order.aggregate({
         _sum: {
             amount: true
         }
     })
-    const yesterDayData = await db.order.aggregate({
+    const previousMonthPayments = await db.order.aggregate({
 
         where: {
             createdAt: {
-                lte: yesterdayStart,
-                gte: yesterdayEnd
+                gte: previousMonthStart,
+                lte: previousMonthEnd,
             },
         },
         _sum: {
             amount: true
         }
     })
-    const todayData = await db.order.aggregate({
+    const currentMonthPayments = await db.order.aggregate({
         where: {
             createdAt: {
-                gt: today
+                gt: currentMonthStart
             }
         },
         _sum: {
@@ -99,14 +114,17 @@ export const getTotalPayments = async () => {
         }
     })
 
-    const statsPercent = (((todayData._sum.amount || 0) - (yesterDayData._sum.amount || 0)) / (yesterDayData._sum.amount || 0)) * 100
-    return { payments: payments._sum.amount, statsPercent: statsPercent === Infinity ? 100 : statsPercent };
+    const statsPercent = (((currentMonthPayments._sum.amount || 0) - (previousMonthPayments._sum.amount || 0)) / (previousMonthPayments._sum.amount || 0)) * 100
+    return { payments: payments._sum.amount, statsPercent: previousMonthPayments._sum.amount === 0 ?  100 : statsPercent };
+
+
+
 }
 
 
 export interface last30DaysDataProps {
-    day: string,
-    count: number
+    Day: string,
+    Users: number
 }
 
 export const getLast30DayUsersData = async () => {
@@ -128,7 +146,7 @@ export const getLast30DayUsersData = async () => {
             }
         })
 
-        last30DaysData.push({ day: dayName, count })
+        last30DaysData.push({ Day: dayName, Users: count })
 
     }
     return last30DaysData;

@@ -44,7 +44,7 @@ export default function EmailCheckerField() {
       if (res.data) {
         setResult(res.data)
         setCredit(credit - 1)
-        setSearch("")
+        // setSearch("")
         setOpen(true)
         if (res.data.isExist) {
           toast.success('Email exists');
@@ -86,9 +86,10 @@ export default function EmailCheckerField() {
           type="submit"
           className='h-14 hidden md:block'
         >
-          Check Email
+          Check Single Email
         </LoadingButton>
       </form>
+
       {
         result && (
           <Dialog open={open} onOpenChange={setOpen} >
@@ -103,7 +104,7 @@ export default function EmailCheckerField() {
                   <div className=' space-y-0 md:space-y-5'>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Status</p>
-                      <p className=' font-bold '>{result.isExist ? 'unknown' : result.reason}</p>
+                      <p className=' text-sm font-bold '>{result.isExist ? 'unknown' : result.reason}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>ESP</p>
@@ -115,11 +116,11 @@ export default function EmailCheckerField() {
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Free</p>
-                      <p className=' font-bold  text-sm md:text-lg'>No</p>
+                      <p className=' font-bold  text-sm md:text-lg'>{result.free}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Role</p>
-                      <p className=' font-bold  text-sm md:text-lg'>No</p>
+                      <p className=' font-bold  text-sm md:text-lg'>{result.role}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Risk Level</p>
@@ -132,7 +133,7 @@ export default function EmailCheckerField() {
                   <div className=' space-y-0 md:space-y-5'>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Mx Server:</p>
-                      <p className=' font-bold text-xs md:text-md'>{result?.mxRecords[0].exchange || 'unknown'}</p>
+                      <p className=' font-bold text-xs md:text-md'>{result?.mxRecords[0]?.exchange || 'unknown'}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>First Name:</p>
