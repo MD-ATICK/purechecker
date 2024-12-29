@@ -14,7 +14,7 @@ export default function Testimonial() {
     return (
         <div className=" container w-full overflow-hidden text-center mx-auto md:py-16">
             <h2>Testimonial</h2>
-            <p className=" text-gray-500 text-sm sm:text-lg">Accurate bulk email validation shouldn’t cost a fortune. Rated 4.5/5 on</p>
+            <p className=" text-gray-500 text-sm sm:text-lg">Accurate bulk email validation shouldn&apos;t cost a fortune. Rated 4.5/5 on</p>
             <Carousel className=" w-full max-w-3xl py-10 mx-auto">
                 <CarouselContent>
                     <CarouselItem>
