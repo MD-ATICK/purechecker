@@ -1,21 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/(.*)",
-        destination: "https://purechecker.com/:path*",
-        permanent: true,
-        has: [
-          {
-            type: "host",
-            value: "purechecker.com",
-          },
-        ],
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {
