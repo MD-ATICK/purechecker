@@ -1,15 +1,18 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   async redirects() {
-    if (isDev) {
-      // No redirects in development
-      return [];
-    }
     return [
       {
-        source: "/:path*",
+        source: "/(.*)",
         destination: "https://purechecker.com/:path*",
         permanent: true,
+        has: [
+          {
+            type: "host",
+            value: "purechecker.com",
+          },
+        ],
       },
     ];
   },

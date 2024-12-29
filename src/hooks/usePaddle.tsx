@@ -51,7 +51,7 @@ export default function usePaddle() {
         }
       },
     );
-  }, [paddle?.Checkout, environment]);
+  }, [paddle?.Checkout]);
 
 
   return paddle;
