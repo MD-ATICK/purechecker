@@ -1,14 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/:path*",
-  //       destination: `http://localhost:3000/:path*`,
-  //       permanent: true,
-  //     },
-  //   ];
-  // },
+  async redirects() {
+    if (isDev) {
+      // No redirects in development
+      return [];
+    }
+    return [
+      {
+        source: "/:path*",
+        destination: "https://purechecker.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

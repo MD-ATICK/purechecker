@@ -6,7 +6,7 @@ import { getVolumeById } from "@/app/(admin)/admin/pricing/actions";
 import { createCredit } from "@/app/(main)/pricing/actions";
 import PurchaseMail from "@/emails/PurchanseMail";
 import SubscriptionMail from "@/emails/SubscriptionMail";
-import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js";
+import { initializePaddle, Paddle } from "@paddle/paddle-js";
 import { CreditType } from "@prisma/client";
 import { render } from "@react-email/components";
 import { notFound } from "next/navigation";
@@ -14,13 +14,11 @@ import { useEffect, useState } from "react";
 
 export default function usePaddle() {
   const [paddle, setPaddle] = useState<Paddle>()
-  const environment: Environments = process.env.NEXT_PUBLIC_PADDLE_ENV === "production" ? "production" : "sandbox"
-
 
 
   useEffect(() => {
     initializePaddle({
-      environment,
+      environment: "sandbox",
       token: process.env.NEXT_PUBLIC_PADDLE_TOKEN!,
       eventCallback: async (data) => {
         if (data.name === 'checkout.completed') {
