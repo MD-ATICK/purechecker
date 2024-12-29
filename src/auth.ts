@@ -1,14 +1,14 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import authConfig from "../auth.config";
-import { getUserById } from "./actions/users";
+import { getCredentialUserById, getUserById } from "./actions/users";
 import { db } from "./lib/prisma";
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     events: {
         async linkAccount({ user }) {
-            if (user.id) {
+            if (user.id && user.email && user.name) {
 
                 const response = await fetch(`${process.env.NEXT_PUBLIC_PADDLE_SANDBOX_API}/customers`, {
                     method: 'POST',
@@ -53,11 +53,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     callbacks: {
         async signIn({ user, account }) {
+            console.log(account?.provider, user)
             if (account?.provider === "credentials") {
                 const existingUser = await getUserById(String(user.id))
                 if (!existingUser) return false
 
                 // if (!existingUser.emailVerified) return false;
+
+                return true;
+            } else if (account?.provider === 'google') {
+                const existingUser = await getCredentialUserById(String(user.id))
+                if (existingUser) return false
 
                 return true;
             }
@@ -97,6 +103,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     adapter: {
         ...PrismaAdapter(db)
+    },
+    pages: {
+        signIn: '/login'
     },
     session: { strategy: "jwt" },
     ...authConfig

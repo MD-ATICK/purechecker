@@ -92,7 +92,7 @@ export default function SignUpForm() {
         }
         <Button className=" w-full" disabled={isPending}>
           {
-            isPending ? <Loading /> : 'Login'
+            isPending ? <Loading /> : 'Sign Up'
           }
         </Button>
       </form>

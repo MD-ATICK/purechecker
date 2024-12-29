@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 export default function Footer() {
     return (
-        <div className=" bg-background">
+        <div className=" bg-muted/20">
             <div className=" container mx-auto px-3">
                 <div className="flex flex-col md:flex-row gap-6 justify-between items-start w-full py-[2vw]">
                     <div className=' space-y-2 flex-1'>
@@ -57,7 +57,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className=" h-[1px] mt-4 w-full bg-gray-300"></div>
+                <div className=" h-[1px] mt-4 w-full bg-blue-900"></div>
                 <p className=" text-muted-foreground text-center text-sm py-6">@copyrights for 2024 form development</p>
             </div>
         </div>

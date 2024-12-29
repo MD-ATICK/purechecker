@@ -31,7 +31,7 @@ export default function ApiTokenCreateDialog({ userId, apiToken }: { userId: str
         resolver: zodResolver(ApiTokenSchema),
         defaultValues: {
             apiName: apiToken?.apiName || '',
-            limit: apiToken?.limit || undefined
+            apiRequestLimit: apiToken?.apiRequestLimit || undefined
         }
     })
 
@@ -75,19 +75,19 @@ export default function ApiTokenCreateDialog({ userId, apiToken }: { userId: str
                 </DialogTitle>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-4 my-4">
-                                    <FormField
-                                        control={form.control}
-                                        name="limit"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className=" flex items-center gap-1">Api Limit <FormMessage /></FormLabel>
-                                                <FormControl>
-                                                    <Input type="text" disabled={isPending} placeholder="enter api limit" {...field} />
-                                                </FormControl>
-            
-                                            </FormItem>
-                                        )}
-                                    />
+                        <FormField
+                            control={form.control}
+                            name="apiRequestLimit"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className=" flex items-center gap-1">Api Limit <FormMessage /></FormLabel>
+                                    <FormControl>
+                                        <Input type="text" disabled={isPending} placeholder="enter api limit" {...field} />
+                                    </FormControl>
+
+                                </FormItem>
+                            )}
+                        />
 
                         <FormField
                             control={form.control}

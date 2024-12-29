@@ -1,4 +1,4 @@
-import { checkHaveCreditForBulkCheck, reduceCredit, singleBulkEmailVerify } from "@/actions/emailVerify";
+import { checkHaveCreditForBulkCheck, emailCheck, reduceCredit } from "@/actions/emailVerify";
 import { sendEmail } from "@/actions/sendMail";
 import Loading from "@/app/loading";
 import csvImage from '@/assets/csv.png';
@@ -51,7 +51,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
       for (const email of file.enterEmails) {
         console.count(file.id);
-        const res = await singleBulkEmailVerify(email, userId, file.id);
+        const res = await emailCheck({email, userId, uploadFileId:file.id});
 
         if (res.data) {
           setProcessingEmails((prev) =>

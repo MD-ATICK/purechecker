@@ -13,8 +13,7 @@ export default function EmailVerificationApi() {
             </div>
             <div className=' flex-1 w-full p-6 space-y-3'>
                 <h2>Email verification API </h2>
-                <p className=' text-muted-foreground text-sm'>Catch bad emails before they get to
-                    Verify emails before they get to your database. Implement ELV is real-time API into your website registration process, newsletter sign up form and everywhere else you ask for emails.</p>
+                <p className=' text-muted-foreground text-sm'>Api content. Stop bad emails in their tracks! Verify emails instantly before they enter your database. Integrate Pure Checker&apos;s real-time API into your website registration forms, newsletter signups, and any place you collect email addresses.</p>
                 <br />
                 <Link href={'/user/api'}>
                 <Button variant={"default"}>Get Your Api Key</Button>

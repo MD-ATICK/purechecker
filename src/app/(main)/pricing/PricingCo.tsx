@@ -4,14 +4,17 @@ import Purchase from "./Purchase"
 import Subscription from "./Subscription"
 
 
-export default async function PricingCo({ route }: { route?: "ADMIN" | "USER" }) {
+export default async function PricingCo({ route , heading}: { route?: "ADMIN" | "USER" , heading? : string}) {
 
     const purchases = await db.volume.findMany({ where: { type: 'PURCHASE' }, orderBy: { credit: 'desc' } })
     const subscriptions = await db.volume.findMany({ where: { type: "SUBSCRIPTION" }, orderBy: { credit: 'desc' } })
 
     return (
         <div>
-            <h1 className=" text-center py-3" >Pricing</h1>
+            {
+                heading &&
+            <h1 className=" text-center py-3" >{heading}</h1>
+            }
             <div className=" container mx-auto mt-4 flex justify-center items-center">
                 <Tabs defaultValue="purchase" className=" w-full">
                     <TabsList className=" w-full h-12 md:h-16">

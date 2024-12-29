@@ -1,4 +1,4 @@
-import { emailVerify } from "@/actions/emailVerify";
+import { singleCheckEmailVerify } from "@/actions/emailVerify";
 import { db } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
@@ -32,13 +32,8 @@ export async function GET(req: NextRequest) {
             })
         }
 
-        if (apiToken && apiToken.limit && apiToken.limit <= apiToken.verifyEmails.length) {
-            return new Response(JSON.stringify({ error: "you have reached your limit" }), {
-                status: 401
-            })
-        }
 
-        const { error, data } = await emailVerify(email!, userId)
+        const { error, data } = await singleCheckEmailVerify(email!, userId, apiToken.id)
         if (error) {
             return new Response(JSON.stringify({ error }), {
                 status: 401

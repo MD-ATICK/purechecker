@@ -93,7 +93,7 @@ export type DownloadEmailValues = z.infer<typeof DownloadEmailSchema>
 
 export const ApiTokenSchema = z.object({
   apiName: requiredString,
-  limit: z.coerce.number().positive("Value must be a positive number").optional(),
+  apiRequestLimit: z.coerce.number().positive("Value must be a positive number").optional(),
 })
 
 export type ApiTokenValue = z.infer<typeof ApiTokenSchema>

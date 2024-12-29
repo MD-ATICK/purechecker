@@ -20,26 +20,53 @@ export default function Testimonial() {
                     <CarouselItem>
                         <div className=" flex flex-col mx-auto justify-center w-[90%] items-center gap-">
                             <Image alt="" src={profileImage} width={300} height={300} className=" object-cover mb-3 aspect-square rounded-md" />
-                            <h2>MD Atick, CEO</h2>
-                            <p className=" text-sm md:text-lg text-gray-400">&quot;As a CEO, it&apos;s essential to ensure our communications are reaching the right people. PureChecker has been invaluable in providing reliable email verification, increasing our efficiency and email deliverability. It’s an essential tool for our operations!&quot; <br />
-                                – MD Atick, CEO
+                            <h2>Sarah Thompson, Digital Marketer</h2>
+                            <p className=" text-sm md:text-lg text-gray-400">&quot;Pure Checker has been a game-changer for our email campaigns. It ensures our database is clean and reduces bounce rates significantly. Highly recommended for anyone serious about email marketing!&quot; <br />
+                                – Sarah Thompson, Digital Marketer
                             </p>
                         </div>
                     </CarouselItem>
                     <CarouselItem>
                         <div className=" flex flex-col mx-auto justify-center w-[90%] items-center gap-">
                             <Image alt="" src={profileImage} width={300} height={300} className=" object-cover mb-3 aspect-square rounded-md" />
-                            <h2>Shajjad Hossen, Marketing Manager</h2>
-                            <p className=" text-sm md:text-lg text-gray-400">&quot;PureChecker has been a game-changer for our email marketing campaigns. The verification service is accurate and reliable, ensuring that we reach the right audience every time. It&apos;s saved us time, reduced bounce rates, and boosted our email deliverability. Highly recommended!&quot; <br />
-                                – Shajjad Hossen, Marketing Manager</p>
+                            <h2>James Carter, E-commerce Store Owner                            </h2>
+                            <p className=" text-sm md:text-lg text-gray-400">&quot;Since integrating Pure Checker, we’ve seen a huge improvement in email deliverability. It&apos;s easy to use and works seamlessly with our system. Saved us time and money!&quot; <br />
+                                – James Carter, E-commerce Store Owner     </p>
                         </div>
                     </CarouselItem>
                     <CarouselItem>
                         <div className=" flex flex-col mx-auto justify-center w-[90%] items-center gap-">
                             <Image alt="" src={profileImage} width={300} height={300} className=" object-cover mb-3 aspect-square rounded-md" />
-                            <h2>MD Arif, Chief Officer</h2>
-                            <p className=" text-sm md:text-lg text-gray-400">&quot;PureChecker has greatly improved the accuracy of our email outreach. The seamless verification process has helped us maintain a clean email list, leading to more successful campaigns and better engagement. A must-have tool for any business!&quot; <br />
-                                – MD Arif, Chief Officer
+                            <h2>Emily Rodriguez, Content Creator                            </h2>
+                            <p className=" text-sm md:text-lg text-gray-400">&quot;I used to struggle with fake email signups on my forms, but Pure Checker solved that problem. Now, I only get real, engaged subscribers. Amazing tool!&quot; <br />
+                                – Emily Rodriguez, Content Creator
+                            </p>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div className=" flex flex-col mx-auto justify-center w-[90%] items-center gap-">
+                            <Image alt="" src={profileImage} width={300} height={300} className=" object-cover mb-3 aspect-square rounded-md" />
+                            <h2>Michael Lee, Software Engineer                            </h2>
+                            <p className=" text-sm md:text-lg text-gray-400">&quot;Pure Checker’s API integration was straightforward, and the results are impressive. It’s fast, accurate, and reliable—everything I look for in a verification service.&quot; <br />
+                                – Michael Lee, Software Engineer
+                            </p>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div className=" flex flex-col mx-auto justify-center w-[90%] items-center gap-">
+                            <Image alt="" src={profileImage} width={300} height={300} className=" object-cover mb-3 aspect-square rounded-md" />
+                            <h2>Michael Lee, Software Engineer                            </h2>
+                            <p className=" text-sm md:text-lg text-gray-400">&quot;Pure Checker’s API integration was straightforward, and the results are impressive. It’s fast, accurate, and reliable—everything I look for in a verification service.&quot; <br />
+                                – Michael Lee, Software Engineer
+                            </p>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div className=" flex flex-col mx-auto justify-center w-[90%] items-center gap-">
+                            <Image alt="" src={profileImage} width={300} height={300} className=" object-cover mb-3 aspect-square rounded-md" />
+                            <h2>Anna Patel, Marketing Consultant                            </h2>
+                            <p className=" text-sm md:text-lg text-gray-400">&quot;Pure Checker is hands down the best email verification tool I&apos;ve used. It keeps our database clean and ensures our campaigns reach real people. Couldn&apos;t ask for more!&quot; <br />
+                                – Anna Patel, Marketing Consultant
                             </p>
                         </div>
                     </CarouselItem>

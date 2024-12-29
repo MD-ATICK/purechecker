@@ -5,44 +5,40 @@ import dns from 'dns';
 import freeDomains from 'free-email-domains';
 import net from 'net';
 
-export const singleBulkEmailVerify = async (email: string, userId: string, uploadFileId?: string, apiTokenId?: string) => {
-    try {
-        const domain = email.split('@')[1];
-        const free = isFreeDomain(domain);
-        const role = inferRole(email) || "user";
-        const isDisposable = isDisposableEmail(domain);
-        const mxRecords = await getMxRecords(domain);
-        const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
-        const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
+// singleBulkEmailVerify
+export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId }: { email: string, userId: string, uploadFileId?: string, apiTokenId?: string }) => {
+    const domain = email.split('@')[1];
+    const free = isFreeDomain(domain);
+    const role = inferRole(email) || "user";
+    const isDisposable = isDisposableEmail(domain);
+    const mxRecords = await getMxRecords(domain);
+    const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+    const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
 
 
-        const data = {
-            userId: userId,
-            email,
-            domain,
-            reason: smtpExists.message,
-            isExist: smtpExists.result,
-            isValidSyntax: isValidSyntax(email),
-            isValidDomain: mxRecords.length > 0 ? true : false,
-            riskLevel,
-            mxRecords,
-            isDisposable,
-            uploadFileId,
-            apiTokenId,
-            free,
-            role,
-        }
-
-        const result = await db.verifyEmail.create({
-            data
-        })
-        console.count('result of email')
-        return { data: result }
-
-    } catch (error) {
-        return { error: (error as Error).message }
-
+    const data = {
+        userId: userId,
+        email,
+        domain,
+        reason: smtpExists.message,
+        isExist: smtpExists.result,
+        isValidSyntax: isValidSyntax(email),
+        isValidDomain: mxRecords.length > 0 ? true : false,
+        riskLevel,
+        mxRecords,
+        isDisposable,
+        uploadFileId,
+        apiTokenId,
+        free,
+        role,
     }
+
+    const result = await db.verifyEmail.create({
+        data
+    })
+
+    return { data: result }
+
 }
 
 export const checkHaveCreditForBulkCheck = async (checkEmailCount: number, userId: string) => {
@@ -80,7 +76,8 @@ export const reduceCredit = async (checkEmailCount: number, userId: string, cred
 
 
 
-export const emailVerify = async (email: string, userId: string) => {
+// this used in only searchField and single check api
+export const singleCheckEmailVerify = async (email: string, userId: string, apiTokenId?: string) => {
     try {
 
         if (!email || !isValidSyntax(email)) {
@@ -96,30 +93,8 @@ export const emailVerify = async (email: string, userId: string) => {
             return { error: "you don't have enough credit" }
         }
 
-        const domain = email.split('@')[1];
-        const free = isFreeDomain(domain);
-        const role = inferRole(email) || "user";
-        const isDisposable = isDisposableEmail(domain);
-        const mxRecords = await getMxRecords(domain);
-        const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+        const { data } = await emailCheck({ email, userId: user.id, apiTokenId })
 
-        const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
-
-
-        const data = {
-            userId: user.id,
-            email,
-            domain,
-            reason: smtpExists.message,
-            isExist: smtpExists.result,
-            isValidSyntax: isValidSyntax(email),
-            isValidDomain: mxRecords.length > 0 ? true : false,
-            riskLevel,
-            mxRecords,
-            isDisposable,
-            role,
-            free
-        }
         await db.credit.update({
             where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
             data: {
@@ -127,11 +102,7 @@ export const emailVerify = async (email: string, userId: string) => {
             }
         })
 
-        const result = await db.verifyEmail.create({
-            data
-        })
-
-        return { data: result }
+        return { data }
 
     } catch (error) {
         return { error: (error as Error).message }
@@ -204,8 +175,6 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
         client.on('data', (data) => {
             const response = data.toString();
 
-            console.log(`---------------------------- start ${email} -----------------------------------`)
-            console.log({ email, mxHost, response })
             switch (true) {
                 case response.includes('550-5.1.1'):
                     result = false

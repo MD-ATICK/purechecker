@@ -1,4 +1,4 @@
-import { singleBulkEmailVerify } from "@/actions/emailVerify";
+import { emailCheck } from "@/actions/emailVerify";
 import { db } from "@/lib/prisma";
 import { VerifyEmail } from "@prisma/client";
 import { NextRequest } from "next/server";
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
             })
         }
 
+
         const apiToken = await db.apiToken.findFirst({
             where: {
                 userId,
@@ -31,21 +32,24 @@ export async function POST(req: NextRequest) {
             }
         })
 
+        console.log('apiToken', apiToken, bulkEmails.length, apiToken?.apiRequestLimit)
+
         if (!apiToken) {
             return new Response(JSON.stringify({ error: "Unauthorized token" }), {
                 status: 401
             })
         }
 
-        if (apiToken && apiToken.limit && apiToken.limit <= (apiToken.verifyEmails.length + bulkEmails.length)) {
+
+        if (apiToken && apiToken.apiRequestLimit && (apiToken.apiRequestLimit < bulkEmails.length)) {
             return new Response(JSON.stringify({ error: "you have reached your limit" }), {
                 status: 401
             })
         }
 
-        const user = await db.user.findFirst({ where: { id: userId } })
+        const user = await db.user.findUnique({ where: { id: userId } })
         if (!user || !user.id) {
-            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+            return new Response(JSON.stringify({ error: 'Invalid Headers Sent' }), {
                 status: 401
             })
         }
@@ -62,7 +66,7 @@ export async function POST(req: NextRequest) {
 
         // Use for loop instead of map to handle async code properly
         for (const email of bulkEmails) {
-            const { data } = await singleBulkEmailVerify(email, user.id, apiToken.id) // Push the result into the initialized array
+            const { data } = await emailCheck({ email, userId, apiTokenId: apiToken.id }) // Push the result into the initialized array
             if (data) {
                 results.push(data)
             }

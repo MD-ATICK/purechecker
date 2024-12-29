@@ -134,6 +134,9 @@ export default function BlogDialog({ blog }: { userId: string, blog?: Blog }) {
                         <UploadButton
                           {...field}
                           endpoint="imageUploader"
+                          onUploadProgress={() => {
+                            toast.success("Uploading...");
+                          }}
                           onClientUploadComplete={(res) => {
                             setImage(res[0].url)
                             toast.success("Upload Completed");

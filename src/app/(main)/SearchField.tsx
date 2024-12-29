@@ -1,5 +1,5 @@
 "use client"
-import { emailVerify } from '@/actions/emailVerify';
+import { singleCheckEmailVerify } from '@/actions/emailVerify';
 import searchImage from '@/assets/search.png';
 import LoadingButton from '@/components/LoadingButton';
 import { Button } from '@/components/ui/button';
@@ -39,8 +39,7 @@ export default function EmailCheckerField() {
 
     try {
       setIsPending(true);
-      const res = await emailVerify(search, user.id as string);
-      console.log('res', res);
+      const res = await singleCheckEmailVerify(search, user.id as string)
       if (res.data) {
         setResult(res.data)
         setCredit(credit - 1)
@@ -108,7 +107,7 @@ export default function EmailCheckerField() {
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>ESP</p>
-                      <p className=' font-bold  text-sm md:text-lg'>Google</p>
+                      <p className=' font-bold  text-sm md:text-lg capitalize'>{result.domain.split('.')[0]}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Account</p>

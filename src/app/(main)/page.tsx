@@ -16,7 +16,7 @@ export default function Home() {
       <RocksWhy />
       <HowToVerify />
       <EmailVerificationApi />
-      <PricingCo />
+      <PricingCo heading="Pricing" />
       <Testimonial />
       <Faq />
     </div>

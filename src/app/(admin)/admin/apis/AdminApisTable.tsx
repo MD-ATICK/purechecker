@@ -30,11 +30,11 @@ export default async function AdminApiTable({ userId }: { userId: string }) {
                 <TableCaption>A list of Api Token.</TableCaption>
                 <TableHeader>
                     <TableRow className=" font-medium">
-                        <TableHead className="w-[50px]">ID</TableHead>
-                        <TableHead className=" whitespace-nowrap">Secret Key</TableHead>
+                        <TableHead className="w-[50px]">NO</TableHead>
                         <TableHead>Image</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
+                        <TableHead className=" whitespace-nowrap">Secret Key</TableHead>
                         <TableHead className=" whitespace-nowrap">Limit</TableHead>
                         <TableHead className=" text-center">Deliverable</TableHead>
                         <TableHead className=" text-center">Undeliverable</TableHead>
@@ -45,12 +45,13 @@ export default async function AdminApiTable({ userId }: { userId: string }) {
                 </TableHeader>
                 <TableBody>
                     {
-                        data?.apiTokens?.map((apiToken) => {
+                        data?.apiTokens?.map((apiToken, index) => {
                             return (
                                 <TableRow key={apiToken.id} >
                                     <TableCell className="w-[50px] text-xs font-medium">
-                                        {apiToken.id}
-                                    </TableCell>    
+                                        {index+1}
+                                    </TableCell>  
+
                                     <TableCell className="font-medium text-xs">
                                         <Image alt="" src={apiToken.User?.image || defaultImage} className=" rounded-sm object-cover aspect-square" width={30} height={30} />
                                     </TableCell>
@@ -64,7 +65,7 @@ export default async function AdminApiTable({ userId }: { userId: string }) {
                                     <TableCell className="font-medium text-xs">
                                        {apiToken.secretKey}
                                     </TableCell>
-                                    <TableCell className=" text-center">{apiToken.limit || "N/A"}</TableCell>
+                                    <TableCell className=" text-center">{apiToken.apiRequestLimit || "N/A"}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.filter(ve => ve.isExist).length}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.filter(ve => !ve.isExist).length}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.length}</TableCell>

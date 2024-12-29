@@ -29,11 +29,10 @@ export default async function CreditHistoryPage() {
               <TableCaption>A list of Orders.</TableCaption>
               <TableHeader>
                   <TableRow className=" font-medium">
-                      <TableHead className="w-[100px]">No</TableHead>
+                      <TableHead className="w-[100px]">ID</TableHead>
                       <TableHead>Name</TableHead>
                       <TableHead>Email</TableHead>
-                      {/* todo : edit model of credit. just 1 min work. */}
-                      {/* <TableHead className=" text-center">PaymentId</TableHead> */}
+                      <TableHead className=" text-center">PaymentId</TableHead>
                       <TableHead className=" text-center">Type</TableHead>
                       <TableHead className=" text-center">Credit</TableHead>
                       <TableHead>CreatedAt</TableHead>
@@ -41,14 +40,14 @@ export default async function CreditHistoryPage() {
               </TableHeader>
               <TableBody>
                   {
-                      creditHistory.map((credit, index) => {
+                      creditHistory.map((credit) => {
 
                           return (
                               <TableRow key={credit.id} >
-                                  <TableCell className="w-[100px] font-medium">{index + 1}</TableCell>
+                                  <TableCell className="w-[100px] font-medium">{credit.id}</TableCell>
                                   <TableCell>{credit.User.name}</TableCell>
                                   <TableCell>{credit.User.email}</TableCell>
-                                  {/* <TableCell className=" text-muted-foreground text-center">{credit.paymentId}</TableCell> */}
+                                  <TableCell className=" text-muted-foreground text-center">{credit.paymentId || 'N/A'}</TableCell>
                                   <TableCell className=" text-center">{credit.type}</TableCell>
                                   <TableCell className=" text-center">{formatNumber(credit.credit)}</TableCell>
                                   <TableCell>{formatRelativeDate(credit.createdAt)}</TableCell>

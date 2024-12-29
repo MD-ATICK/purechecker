@@ -1,5 +1,6 @@
-import Loading from "@/app/loading";
+
 import NotFound from "@/app/not-found";
+import AreaChartSkeleton from "@/components/AreaChartSkeleton";
 import { getUser } from "@/lib/getUser";
 import { getLast30DayMailVerifyData } from "./actions";
 import EmailVerifyAreaChart from "./EmailVerifyAreaChart";
@@ -11,10 +12,12 @@ export default async function AnalysisChart() {
     return NotFound()
   }
 
+
   const data = await getLast30DayMailVerifyData(user.id)
 
+
   if (data === undefined) {
-    return <Loading />
+    return <AreaChartSkeleton />
   }
 
   return (
