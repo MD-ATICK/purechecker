@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/prisma"
 import { ChangePasswordValues, ForgotPasswordValues, UserProfileUpdateValues } from "@/lib/validation"
-import { compareSync, hashSync } from "bcryptjs"
+import { compareSync, hashSync } from "bcrypt"
 
 export const updateUserProfile = async (userId: string, values: UserProfileUpdateValues) => {
 

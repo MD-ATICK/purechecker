@@ -1,11 +1,12 @@
+"use client"
 import NotFound from "@/app/not-found";
-import { getUser } from "@/lib/getUser";
+import { useUser } from "@/hooks/useUser";
 import UploadFileCo from "./UploadFileCo";
 
-export default async function page() {
+export default function Page() {
 
 
-  const user = await getUser()
+  const user = useUser()
   if (!user || !user.id) {
       return NotFound()
   }

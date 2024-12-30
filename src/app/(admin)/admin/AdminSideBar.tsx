@@ -82,7 +82,7 @@ export default async function AdminSideBar({ className }: { className?: string }
                 <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-12 w-full'>
                     <Link href={'/admin/apis'} className=' h-full w-full flex justify-start items-center gap-4'>
                         <Image alt='' className=' invert-0 dark:invert' src={apiImage} height={20} />
-                        <p className=' hidden  lg:block'>Api</p>
+                        <p className=' hidden  lg:block'>Api List</p>
                     </Link>
                 </Button>
                 {/* <Button variant={'secondary'} className=' gap-2 p-2.5 h-10 lg:h-12 w-full'>

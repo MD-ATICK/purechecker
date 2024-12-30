@@ -9,15 +9,15 @@ import disposableDomains from 'disposable-email-domains';
 export const emailConfig = {
     info: {
         user: "info@purechecker.com",
-        pass: "password_for_info",
+        pass: "ZtP5ixkC5dtw",
     },
     billing: {
         user: "billing@purechecker.com",
-        pass: "password_for_billing",
+        pass: "fdD2jtSnGGn8",
     },
     support: {
         user: "support@purechecker.com",
-        pass: "password_for_support",
+        pass: "6RahhU4G26VH",
     },
 };
 

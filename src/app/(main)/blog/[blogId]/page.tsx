@@ -48,7 +48,7 @@ export default async function SingleBlog({ params }: PageProps) {
     return notFound()
   }
 
-  const { image, title, description, htmlContent, createdAt, id } = data.blog
+  const { image, title, description, htmlContent, createdAt, id, tags } = data.blog
 
   return (
     <div className=" max-w-7xl mx-auto p-2  space-y-6 py-4 md:py-10">
@@ -60,12 +60,19 @@ export default async function SingleBlog({ params }: PageProps) {
       </Link>
       <div className=" flex flex-col md:flex-row items-start  gap-3 md:gap-8">
         <div className="w-full flex-1 aspect-[3/2] rounded-lg relative">
-          <Image alt={title} src={image} fill sizes='200px' className=' rounded-lg object-cover' />
+          <Image alt={title} src={image} fill sizes='400px' className=' rounded-lg object-cover' />
         </div>
         <div className=" flex-1">
           <h1 className=" font-bold text-xl md:text-3xl">{title}</h1>
           <p className=" text-sm text-muted-foreground">{description}</p>
-          <div className="flex items-center md:pt-6 gap-2 font-semibold text-sm">
+          <div className=' flex items-center py-2 gap-3'>
+            {
+              tags.map((tag, index) => (
+                <p key={ index} className=' text-gray-500 hover:text-white duration-300'>#{tag}</p>
+              ))
+            }
+          </div>
+          <div className="flex items-center md:pt-4 gap-2 font-semibold text-sm">
             <Image alt='' src={publishAt} height={15} width={15} className=' dark:invert' />
             <p>Release Date : {formatRelativeDate(createdAt)}</p>
           </div>

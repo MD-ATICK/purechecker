@@ -17,7 +17,7 @@ export default function LoadingButton({ isPending, disabled, className, ...props
 
     return (
         <>
-            {
+            { user? (
                 user?.emailVerified !== null ?
                     <Button
                         className={cn('', className)}
@@ -29,10 +29,19 @@ export default function LoadingButton({ isPending, disabled, className, ...props
                     <Button
                         className={cn('', className)}
                         type="button"
+                        onClick={() => toast.error('Please login or sign-up to get access.')}
+                    >
+                        {props.children}
+                    </Button>
+            ) : (
+                <Button
+                        className={cn('', className)}
+                        type="button"
                         onClick={() => toast.error('Please verify your email first')}
                     >
                         {props.children}
                     </Button>
+            )
 
             }
         </>

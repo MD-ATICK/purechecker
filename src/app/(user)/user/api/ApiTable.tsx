@@ -52,7 +52,7 @@ export default async function ApiTable({ userId }: { userId: string }) {
                                     <TableCell className="font-medium min-w-[300px]">
                                         <CopyButton text={apiToken.secretKey} short={true} />
                                     </TableCell>
-                                    <TableCell className=" text-center">{apiToken.apiRequestLimit}</TableCell>
+                                    <TableCell className=" text-center">{apiToken.apiRequestLimit || 'N/A'}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.filter(ve => ve.isExist).length}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.filter(ve => !ve.isExist).length}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.length}</TableCell>

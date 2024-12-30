@@ -16,7 +16,7 @@ export default async function OrderPage() {
     const orders = await db.order.findMany({ orderBy: { createdAt: 'desc' }, take: 50 })
 
     return (
-        <div>
+        <div className=" w-full">
             <Table>
                 <TableCaption>A list of Orders.</TableCaption>
                 <TableHeader>
@@ -41,10 +41,10 @@ export default async function OrderPage() {
                                     <TableCell>{order.name}</TableCell>
                                     <TableCell>{order.email}</TableCell>
                                     <TableCell>{order?.paddlePaymentId}</TableCell>
-                                    <TableCell className=" text-center">{formatNumber(order.amount)}</TableCell>
+                                    <TableCell className=" text-center">${formatNumber(order.amount)}</TableCell>
                                     <TableCell className=" text-center">{order.type}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.credit)}</TableCell>
-                                    <TableCell>{formatRelativeDate(order.createdAt)}</TableCell>
+                                    <TableCell className=" whitespace-nowrap">{formatRelativeDate(order.createdAt)}</TableCell>
                                 </TableRow>
                             )
                         })

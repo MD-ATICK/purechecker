@@ -8,7 +8,7 @@ import { db } from "@/lib/prisma";
 import { isDisposableEmail } from "@/lib/utils";
 import { SignUpSchema, SignUpValues } from "@/lib/validation";
 import { User } from "@prisma/client";
-import { hashSync } from "bcryptjs";
+import { hashSync } from "bcrypt";
 import { AuthError } from "next-auth";
 
 

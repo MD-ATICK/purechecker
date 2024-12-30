@@ -97,7 +97,7 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
                         </Button>
                 }
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className=' h-[90vh] overflow-y-scroll'>
                 <DialogTitle>
                     Add Volume
                 </DialogTitle>

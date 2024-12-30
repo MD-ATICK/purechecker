@@ -73,7 +73,7 @@ export default function ForgetPasswordPage() {
         <p className=" text-sm text-gray-400">Please enter your email address to search for your account.</p>
         <br />
         <form onSubmit={handleSubmit} className=" space-y-8">
-          <Input placeholder="Enter your email" className=" w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input placeholder="Enter your email" type="email" className=" w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Button className=" w-full" asChild disabled={!email || isPending} type="submit">
             {
               isPending ? <Loading /> : (

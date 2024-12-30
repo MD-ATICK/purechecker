@@ -1,10 +1,37 @@
+# PureChecker - The Best Email Verification Tool
 
-<!-- paddle -->
-1. removed paddle webhook file
-2. check-session work in app/test file
+![PureChecker Logo](public/logo.png)
 
-<!-- after exam work -->
-1. Payment Method
-2. api for bulk check and make docs page(client)
-3. All Page design improve and some section add
-4. Secure route make secure and use upstash for fetch rate limit
+PureChecker is a modern, user-friendly email verification tool designed to ensure your email lists are clean and accurate. Whether you're verifying emails in bulk or individually, PureChecker provides reliable results with a seamless user experience.
+
+---
+
+## 🌟 Features
+
+- **Bulk Email Verification**: Upload large email lists and verify them in seconds.
+- **Individual Email Validation**: Check single email addresses with ease.
+- **100 Free Credits**: Start with 100 free credits to test the service.
+- **Accurate Results**: Detect invalid, disposable, and role-based emails effectively.
+- **Secure and Private**: Your data is encrypted and never shared.
+- **User-Friendly Interface**: Intuitive and easy-to-use platform.
+
+---
+
+## 🛠️ Technologies Used
+
+- **Framework**: [Next.js 14](https://nextjs.org/) (React-based framework)
+- **Authentication**: [Next-Auth](https://next-auth.js.org/) for secure user login.
+- **Styling**: Tailwind CSS for modern and responsive design.
+- **Email Verification API**: Custom logic and integrations.
+- **Deployment**: Hosted on Vercel for fast and reliable delivery.
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run the project locally:
+
+### Prerequisites
+- Node.js 18.x or later
+- npm 7.x or later
+- A VPS or hosting platform (if deploying)

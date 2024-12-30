@@ -22,12 +22,12 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none w-full'>
-                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-2 bg-secondary/80 mb-2 items-center rounded-lg w-full'>
+                <div className=' cursor-pointer flex md:px-3 h-14 justify-between gap-2 bg-secondary/80 mb-2 items-center rounded-lg w-full'>
                     <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
                     <div className=' hidden md:flex w-full items-center justify-between'>
                         <div className=' text-start'>
-                            <p className=' font-medium text-sm'>{user.name}</p>
-                            <p className=' font-medium -mt-2 text-xs'>{user.email}</p>
+                            <p className=' font-semibold text-sm'>{user.name}</p>
+                            <p className=' font-medium  text-xs'>{user.email}</p>
                         </div>
                         <Image alt='' src={unfold} height={15} width={15} className=' invert' />
                     </div>

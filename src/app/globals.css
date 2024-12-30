@@ -47,7 +47,7 @@ h2 {
 }
 
 p {
-  @apply mt-2 mb-2; /* Paragraph spacing */
+  @apply min-h-6; /* Paragraph spacing */
 }
 
 

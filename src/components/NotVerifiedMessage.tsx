@@ -2,6 +2,7 @@
 import { sendEmail } from "@/actions/sendMail";
 import { createVerificationToken } from "@/actions/token";
 import { getUserByEmail } from "@/actions/users";
+import Loading from "@/app/loading";
 import AccountVerification from "@/emails/AccountVerification";
 import { render } from "@react-email/components";
 import { Info } from "lucide-react";
@@ -39,7 +40,7 @@ export default function NotVerifiedMessage({ email }: { email: string }) {
                 if (verificationToken) {
 
                     const html = await render(<AccountVerification name={user.name!} token={verificationToken.token} />)
-                    const data = await sendEmail({ to: user.email!, html, subject: `Verify Your Account`, type : 'support' })
+                    const data = await sendEmail({ to: user.email!, html, subject: `Verify Your Account`, type: 'support' })
                     if (data?.success) {
                         toast.success('Verification mail sent successfully')
                     }
@@ -69,7 +70,12 @@ export default function NotVerifiedMessage({ email }: { email: string }) {
                 </span>
             </div>
 
-            <button className=" text-white text-xs whitespace-nowrap md:text-sm font-medium disabled:text-gray-500 hover:underline disabled:no-underline" disabled={(countTime !== null) || isPending} onClick={resendVerificationTokenForAccountVerified}>{isPending ? "loading..." : (countTime !== null) ? `Resend mail in ${countTime}` : 'Send Verify Mail'}</button>
+            <button
+                className=" text-white text-xs whitespace-nowrap md:text-sm font-medium disabled:text-gray-500 hover:underline disabled:no-underline"
+                disabled={(countTime !== null) || isPending}
+                onClick={resendVerificationTokenForAccountVerified}>
+                {isPending ? <Loading /> : (countTime !== null) ? `Resend mail in ${countTime}` : 'Sent Verify Mail'}
+            </button>
         </div>
     )
 }
