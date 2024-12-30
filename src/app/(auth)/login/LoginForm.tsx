@@ -8,12 +8,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { LoginSchema, LoginValues } from "@/lib/validation"
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Info } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Image from "next/image"
 import Link from 'next/link'
-import { useState, useTransition } from "react"
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from 'sonner'
 import { login } from './actions'
 
 export default function LoginForm() {
@@ -30,20 +31,31 @@ export default function LoginForm() {
     }
   })
 
+
+  const searchParams = useSearchParams();
+  const paramsError = searchParams.get('error'); //
+
   const onsubmit = async (values: LoginValues) => {
     setError('')
     startTransition(async () => {
       const data = await login(values)
       if (data?.error) {
-        toast.error(data?.error)
+        setError(data?.error)
       }
     })
   }
 
 
+  useEffect(() => {
+
+    if (paramsError === 'OAuthAccountNotLinked') {
+      setError('Another Account Created With This Email')
+    }
+  }, [paramsError]);
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onsubmit)} className=" text-right space-y-6 my-3">
+      <form onSubmit={form.handleSubmit(onsubmit)} className=" text-right space-y-4 my-2">
 
         <FormField
           control={form.control}
@@ -74,7 +86,12 @@ export default function LoginForm() {
 
         {
           error &&
-          <p className=" h-10 w-full rounded-lg bg-[#f2a8a8] text-sm text-red-600 flex justify-center items-center" >{error}</p>
+          <div className=" h-12 w-full gap-2 text-xs sm:text-sm rounded-lg bg-[#ff1c1c2e] border border-red-600  text-red-400 flex justify-center items-center" >
+            <Info size={16} />
+            <p>
+              {error}
+            </p>
+          </div>
         }
         <Button className=" w-full" disabled={isPending}>
           {
@@ -82,13 +99,13 @@ export default function LoginForm() {
           }
         </Button>
         <Link href={'/forgot-password'} className=" text-sm font-medium w-full hover:underline">
-          <p className=' pt-2'>Forgot Password</p>
+          <p className=' pt-'>Forgot Password</p>
         </Link>
 
         {/* or line */}
         <div className=' flex items-center gap-3'>
           <div className=' bg-muted flex-1  h-px' />
-          <span className=' font-medium text-sm'>OR</span>
+          <span className=' font-medium text-xs'>OR</span>
           <div className=' bg-muted flex-1  h-px' />
         </div>
 

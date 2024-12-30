@@ -63,18 +63,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 return true;
             }
 
-            const existingUser = await getUserById(String(user.id))
-            if (existingUser?.password) {
-                return false;
-            }
-
             return true;
         },
         async jwt({ token }) {
 
             if (!token.sub) return token;
             const existingUser = await db.user.findUnique({ where: { id: token.sub }, include: { subscriptions: true } })
-            console.log({ token, existingUser })
             if (!existingUser) return token;
 
             const isOAuth = await db.account.findFirst({ where: { userId: existingUser.id } })

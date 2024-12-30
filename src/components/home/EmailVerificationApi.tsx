@@ -13,7 +13,7 @@ export default function EmailVerificationApi() {
             </div>
             <div className=' flex-1 w-full p-6 space-y-3'>
                 <h2>Email verification API </h2>
-                <p className=' text-muted-foreground text-sm'>Api content. Stop bad emails in their tracks! Verify emails instantly before they enter your database. Integrate Pure Checker&apos;s real-time API into your website registration forms, newsletter signups, and any place you collect email addresses.</p>
+                <p className=' text-muted-foreground text-sm'>Stop bad emails in their tracks! Verify emails instantly before they enter your database. Integrate Pure Checker&apos;s real-time API into your website registration forms, newsletter signups, and any place you collect email addresses.</p>
                 <br />
                 <Link href={'/user/api'}>
                 <Button variant={"default"}>Get Your Api Key</Button>

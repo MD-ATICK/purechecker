@@ -9,9 +9,9 @@ import WelcomeEmail from "@/emails/WelcomeMail"
 import { SignUpSchema, SignUpValues } from "@/lib/validation"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { render } from "@react-email/components"
+import { Info } from "lucide-react"
 import { useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
 import { signUp } from "./actions"
 
 
@@ -35,7 +35,7 @@ export default function SignUpForm() {
       const html = await render(<WelcomeEmail name={form.getValues('name')} />)
       const data = await signUp(values, html)
       if (data?.error) {
-        toast.error(data?.error)
+        setError(data?.error)
       }
     })
   }
@@ -88,7 +88,12 @@ export default function SignUpForm() {
         />
         {
           error &&
-          <p className=" h-10 w-full rounded-lg bg-[#f9a0a0] text-sm text-red-600 flex justify-center items-center" >{error}</p>
+          <div className=" h-12 w-full gap-2 text-xs sm:text-sm rounded-lg bg-[#ff1c1c2e] border border-red-600  text-red-400 flex justify-center items-center" >
+            <Info size={16} />
+            <p>
+              {error}
+            </p>
+          </div>
         }
         <Button className=" w-full" disabled={isPending}>
           {
