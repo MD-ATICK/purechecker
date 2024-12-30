@@ -30,6 +30,7 @@ export default async function ApiTable({ userId }: { userId: string }) {
                 <TableHeader>
                     <TableRow className=" font-medium">
                         <TableHead className="w-[50px]">No</TableHead>
+                        <TableHead>Api Name</TableHead>
                         <TableHead>Secret Key</TableHead>
                         <TableHead className=" whitespace-nowrap">Limit</TableHead>
                         <TableHead className=" text-center">Deliverable</TableHead>
@@ -51,6 +52,7 @@ export default async function ApiTable({ userId }: { userId: string }) {
                                     <TableCell className="font-medium min-w-[300px]">
                                         <CopyButton text={apiToken.secretKey} short={true} />
                                     </TableCell>
+                                    <TableCell className=" text-center">{apiToken.apiRequestLimit}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.filter(ve => ve.isExist).length}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.filter(ve => !ve.isExist).length}</TableCell>
                                     <TableCell className=" text-center">{apiToken.verifyEmails.length}</TableCell>

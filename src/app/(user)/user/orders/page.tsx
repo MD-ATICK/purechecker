@@ -20,7 +20,7 @@ export default async function OrderPage() {
         return notFound()
     }
 
-    const orders = await db.order.findMany({ where: { email: user.email! }, orderBy: {createdAt: 'desc'},take: 50 })
+    const orders = await db.order.findMany({ where: { email: user.email! }, orderBy: { createdAt: 'desc' }, take: 50 })
 
 
     return (
@@ -32,6 +32,7 @@ export default async function OrderPage() {
                         <TableHead className="w-[100px]">NO</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
+                        <TableHead>PaymentId</TableHead>
                         <TableHead>Amount</TableHead>
                         <TableHead className=" text-center">plan</TableHead>
                         <TableHead>Credit</TableHead>
@@ -47,6 +48,7 @@ export default async function OrderPage() {
                                     <TableCell className="w-[100px] font-medium">{index + 1}</TableCell>
                                     <TableCell>{order.name}</TableCell>
                                     <TableCell>{order.email}</TableCell>
+                                    <TableCell>{order?.paddlePaymentId}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.amount)}$</TableCell>
                                     <TableCell className=" text-center">{order.type}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.credit)}</TableCell>

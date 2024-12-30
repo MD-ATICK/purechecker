@@ -9,6 +9,7 @@ import UserButton from './UserButton'
 export default async function Navbar() {
 
   const user = await getUser()
+  console.log(user, user?.subscriptionId)
   if (user && user.subscriptionId) {
     await checkSubscription({ userId: user.id!, subscriptionId: user.subscriptionId })
   }

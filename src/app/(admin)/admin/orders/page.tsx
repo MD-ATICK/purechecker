@@ -24,6 +24,7 @@ export default async function OrderPage() {
                         <TableHead className="w-[100px]">ID</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
+                        <TableHead>PaddlePaymentID</TableHead>
                         <TableHead>Amount</TableHead>
                         <TableHead className=" text-center">Type</TableHead>
                         <TableHead>Credit</TableHead>
@@ -39,6 +40,7 @@ export default async function OrderPage() {
                                     <TableCell className="w-[100px] font-medium">{order.id}</TableCell>
                                     <TableCell>{order.name}</TableCell>
                                     <TableCell>{order.email}</TableCell>
+                                    <TableCell>{order?.paddlePaymentId}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.amount)}</TableCell>
                                     <TableCell className=" text-center">{order.type}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(order.credit)}</TableCell>

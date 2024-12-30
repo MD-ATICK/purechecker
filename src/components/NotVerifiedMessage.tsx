@@ -39,7 +39,7 @@ export default function NotVerifiedMessage({ email }: { email: string }) {
                 if (verificationToken) {
 
                     const html = await render(<AccountVerification name={user.name!} token={verificationToken.token} />)
-                    const data = await sendEmail({ to: user.email!, html, subject: `Verify Your Account`, from : 'support@purechecker.com' })
+                    const data = await sendEmail({ to: user.email!, html, subject: `Verify Your Account`, type : 'support' })
                     if (data?.success) {
                         toast.success('Verification mail sent successfully')
                     }

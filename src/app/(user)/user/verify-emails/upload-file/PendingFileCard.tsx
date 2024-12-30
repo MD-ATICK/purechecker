@@ -80,7 +80,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
         const fileName = res.uploadFile.fileName
         const html = await render(<UploadedFileMail totalCheck={totalCheck} disposable={disposableEmails} deliverable={deliverableEmails} undeliverable={unDeliverableEmails} fileName={fileName} />)
         const subject = `${fileName} - File Upload Summary`
-        await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject, from : 'support@purechecker.com' })
+        await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject, type : 'support' })
 
         setCompletedFile(res.uploadFile)
         removePendingFile(file.id)

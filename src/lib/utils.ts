@@ -6,6 +6,22 @@ import { twMerge } from "tailwind-merge";
 import disposableDomains from 'disposable-email-domains';
 
 
+export const emailConfig = {
+    info: {
+        user: "info@purechecker.com",
+        pass: "password_for_info",
+    },
+    billing: {
+        user: "billing@purechecker.com",
+        pass: "password_for_billing",
+    },
+    support: {
+        user: "support@purechecker.com",
+        pass: "password_for_support",
+    },
+};
+
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }

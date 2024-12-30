@@ -1,3 +1,4 @@
+"use client"
 import Loading from "@/app/loading";
 import { Button, ButtonProps } from "@/components/ui/button";
 import { useUser } from "@/hooks/useUser";
@@ -17,7 +18,7 @@ export default function LoadingButton({ isPending, disabled, className, ...props
     return (
         <>
             {
-                user?.emailVerified ?
+                user?.emailVerified !== null ?
                     <Button
                         className={cn('', className)}
                         disabled={disabled || isPending}

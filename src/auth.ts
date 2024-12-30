@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import authConfig from "../auth.config";
-import { getCredentialUserById, getUserById } from "./actions/users";
+import { getUserById } from "./actions/users";
 import { db } from "./lib/prisma";
 
 
@@ -53,7 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     callbacks: {
         async signIn({ user, account }) {
-            console.log(account?.provider, user)
+
             if (account?.provider === "credentials") {
                 const existingUser = await getUserById(String(user.id))
                 if (!existingUser) return false
@@ -61,11 +61,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 // if (!existingUser.emailVerified) return false;
 
                 return true;
-            } else if (account?.provider === 'google') {
-                const existingUser = await getCredentialUserById(String(user.id))
-                if (existingUser) return false
+            }
 
-                return true;
+            const existingUser = await getUserById(String(user.id))
+            if (existingUser?.password) {
+                return false;
             }
 
             return true;
@@ -74,6 +74,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             if (!token.sub) return token;
             const existingUser = await db.user.findUnique({ where: { id: token.sub }, include: { subscriptions: true } })
+            console.log({ token, existingUser })
             if (!existingUser) return token;
 
             const isOAuth = await db.account.findFirst({ where: { userId: existingUser.id } })
@@ -103,9 +104,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     adapter: {
         ...PrismaAdapter(db)
-    },
-    pages: {
-        signIn: '/login'
     },
     session: { strategy: "jwt" },
     ...authConfig

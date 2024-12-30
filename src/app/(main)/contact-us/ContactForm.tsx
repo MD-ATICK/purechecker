@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import ContactUsMail from "@/emails/ContactUsMail";
 import { useUser } from "@/hooks/useUser";
+import { emailConfig } from "@/lib/utils";
 import { render } from "@react-email/components";
 import { FormEvent, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -27,7 +28,7 @@ export default function ContactForm() {
       return toast.error('Please verify your email first');
     }
 
-    if(!name || !email || !message) {
+    if (!name || !email || !message) {
       return toast.error('Please fill all the fields ok.')
     }
 
@@ -35,7 +36,7 @@ export default function ContactForm() {
       if (user) {
         const html = await render(<ContactUsMail name={name!} email={email} message={message} />)
         const subject = ` Here ${name} want to contact with us`
-        const data = await sendEmail({ from: user.email!, html, subject, to: 'support@purechecker.com' })
+        const data = await sendEmail({ html, subject, to: emailConfig['support'].user, type: 'support' })
 
         if (data?.success) {
           toast.success('Contact message sent successfully')

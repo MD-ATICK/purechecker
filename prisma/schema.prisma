@@ -106,15 +106,15 @@ type MxRecord {
 }
 
 model ApiToken {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  apiName      String
-  apiRequestLimit        Int?
-  secretKey    String
-  User         User?         @relation(fields: [userId], references: [id])
-  userId       String?       @db.ObjectId
-  verifyEmails VerifyEmail[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  apiName         String
+  apiRequestLimit Int?
+  secretKey       String
+  User            User?         @relation(fields: [userId], references: [id])
+  userId          String?       @db.ObjectId
+  verifyEmails    VerifyEmail[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 }
 
 model VerifyEmail {
@@ -168,14 +168,15 @@ enum SubscriptionStatusEnum {
 }
 
 model Order {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  type      VolumeType
-  amount    Float
-  credit    Float
-  name      String
-  email     String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  type            VolumeType
+  amount          Float
+  credit          Float
+  name            String
+  email           String
+  paddlePaymentId String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 }
 
 model Purchase {

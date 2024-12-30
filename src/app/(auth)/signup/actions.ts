@@ -95,7 +95,7 @@ export const signUp = async (values: SignUpValues, html: string) => {
 
     if (user) {
         const subject = `Welcome to PureChecker`
-        await sendEmail({ to: user.email!, html, subject, from: 'support@purechecker.com' })
+        await sendEmail({ to: user.email!, html, subject, type: 'info' })
     }
 
 

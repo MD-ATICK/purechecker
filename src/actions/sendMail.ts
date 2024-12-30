@@ -1,23 +1,30 @@
 "use server";
 
+import { emailConfig } from '@/lib/utils';
 import nodemailer from 'nodemailer';
 
-export async function sendEmail(values: { subject: string, html: string, to: string, from: string }) {
+export async function sendEmail(values: { subject: string, html: string, to: string, type: "info" | "billing" | "support" }) {
 
     try {
+
+
+        const { user, pass } = emailConfig[values.type]
         // Configure Nodemailer transporter
         const transporter = nodemailer.createTransport({
-            service: 'Gmail', // You can use Gmail, Outlook, or any other provider
+            host: "smtp.zoho.com",
+            port: 587,
+            secure: false,
             auth: {
-                user: process.env.NEXT_EMAIL_USERNAME, // Your email address
-                pass: process.env.NEXT_EMAIL_PASSWORD, // Your email password or app-specific password
+                user,
+                pass
             },
         });
 
 
+
         // Define email options
         const mailOptions = {
-            from: `"Pure Checker" <${values.from}>`,
+            from: `"Pure Checker" <${emailConfig[values.type].user}>`,
             to: values.to,
             subject: values.subject,
             html: values.html,
