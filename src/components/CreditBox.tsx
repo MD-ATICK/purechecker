@@ -23,7 +23,7 @@ export default function CreditBox({ userId, dashboard }: props) {
         const getCredit = async () => {
             setIsPending(true)
             const getUser = await getUserById(userId)
-            if (getUser) {
+            if (!getUser) {
                 await logout()
                 setIsPending(false)
                 return;
