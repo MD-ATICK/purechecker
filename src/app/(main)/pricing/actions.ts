@@ -57,7 +57,7 @@ export const buyPurchase = async ({ userId, volumeId, transactionId }: { userId:
                 amount: volume.amount,
                 type: volume.type,
                 credit: volume.credit,
-                paddleTransactionId: transactionId
+                paddlePaymentId: transactionId
             }
         })
 
@@ -136,7 +136,7 @@ export const buySubscription = async ({ userId, volumeId, status, billingCycleIn
                 amount: volume.amount,
                 type: volume.type,
                 credit: volume.credit,
-                paddleTransactionId: subscriptionId
+                paddlePaymentId: subscriptionId
             }
         })
 
