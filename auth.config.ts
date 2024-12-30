@@ -1,6 +1,6 @@
 import { getUserByEmail } from "@/actions/users";
 import { LoginSchema } from "@/lib/validation";
-import { compareSync } from "bcrypt";
+import { compareSync } from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import google from "next-auth/providers/google";
@@ -36,8 +36,3 @@ export default {
     },
     trustHost: true,
 } satisfies NextAuthConfig
-
-export const config = {
-    runtime: 'nodejs', // Use Node.js runtime
-};
-
