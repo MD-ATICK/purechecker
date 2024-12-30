@@ -19,15 +19,13 @@ export const signUp = async (values: SignUpValues, html: string) => {
     const { name, email, password } = SignUpSchema.parse(values)
 
 
-    if (process.env.NEXT_PUBLIC_SMTP_RUN === 'on') {
-        const domain = email.split('@')[1];
-        const isDisposable = isDisposableEmail(domain);
-        const mxRecords = await getMxRecords(domain);
-        const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+    const domain = email.split('@')[1];
+    const isDisposable = isDisposableEmail(domain);
+    const mxRecords = await getMxRecords(domain);
+    const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
 
-        if (!smtpExists.result || isDisposable) {
-            return { error: "Email is not usable" }
-        }
+    if (!smtpExists.result || isDisposable) {
+        return { error: "Email is not usable" }
     }
 
     const existingUser = await getUserByEmail(email)
