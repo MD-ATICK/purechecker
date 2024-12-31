@@ -16,7 +16,7 @@ interface props {
 export default function CreditBox({ userId, dashboard }: props) {
 
     const { credit, setCredit } = useCreditStore()
-    const { setUser } = useUserStore()
+    const { user,setUser } = useUserStore()
     const [isPending, setIsPending] = useState(false);
 
 
@@ -37,7 +37,7 @@ export default function CreditBox({ userId, dashboard }: props) {
             setIsPending(false)
         }
         getCredit()
-    }, [userId, setCredit, setUser]);
+    }, [userId, setCredit, setUser, user]);
 
     return (
         <>
