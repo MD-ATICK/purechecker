@@ -1,8 +1,8 @@
 "use client"
 import Loading from "@/app/loading";
 import { Button, ButtonProps } from "@/components/ui/button";
-import { useUser } from "@/hooks/useUser";
 import { cn } from "@/lib/utils";
+import { useUserStore } from "@/store/useUser";
 import { toast } from "sonner";
 
 
@@ -13,11 +13,11 @@ interface LoadingButtonProps extends ButtonProps {
 export default function LoadingButton({ isPending, disabled, className, ...props }: LoadingButtonProps) {
 
 
-    const user = useUser()
+    const { user } = useUserStore()
 
     return (
         <>
-            { user? (
+            {user ? (
                 user?.emailVerified !== null ?
                     <Button
                         className={cn('', className)}
@@ -35,12 +35,12 @@ export default function LoadingButton({ isPending, disabled, className, ...props
                     </Button>
             ) : (
                 <Button
-                        className={cn('', className)}
-                        type="button"
-                        onClick={() => toast.error('Please verify your email first')}
-                    >
-                        {props.children}
-                    </Button>
+                    className={cn('', className)}
+                    type="button"
+                    onClick={() => toast.error('Please verify your email first')}
+                >
+                    {props.children}
+                </Button>
             )
 
             }

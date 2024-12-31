@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        console.log('apiToken', apiToken, bulkEmails.length, apiToken?.apiRequestLimit)
 
         if (!apiToken) {
             return new Response(JSON.stringify({ error: "Unauthorized token" }), {

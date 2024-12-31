@@ -5,6 +5,7 @@ import { getSubCredit, getUserById } from "@/actions/users"
 import Loading from "@/app/loading"
 import rocket from '@/assets/flash.png'
 import { useCreditStore } from "@/store/useCreditStore"
+import { useUserStore } from "@/store/useUser"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
@@ -15,8 +16,8 @@ interface props {
 export default function CreditBox({ userId, dashboard }: props) {
 
     const { credit, setCredit } = useCreditStore()
+    const { setUser } = useUserStore()
     const [isPending, setIsPending] = useState(false);
-
 
 
     useEffect(() => {
@@ -29,11 +30,14 @@ export default function CreditBox({ userId, dashboard }: props) {
                 return;
             }
             const credit = await getSubCredit(userId)
+            if (getUser) {
+                setUser(getUser)
+            }
             setCredit(credit || 0)
             setIsPending(false)
         }
         getCredit()
-    }, [userId, setCredit]);
+    }, [userId, setCredit, setUser]);
 
     return (
         <>

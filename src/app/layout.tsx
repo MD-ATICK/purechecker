@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     'email cleaning tool',
     'validate email addresses',
   ],
+  metadataBase : new URL('https://purechecker.com'),
   icons: {
     icon: '/logo.png',
     shortcut: '/favicon.ico', // Commonly used for browser tabs
