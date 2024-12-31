@@ -85,7 +85,9 @@ export const singleCheckEmailVerify = async (email: string, userId: string, apiT
         }
 
         const user = await db.user.findFirst({ where: { id: userId } })
-        if (!user || !user.id) return { error: "unauthorized" }
+        if (!user || !user.id) return { error: "Please login first to get access" }
+
+        if (!user?.emailVerified) return { error: "Please verify your email first" }
 
         const isUserHaveCredit = await db.credit.findFirst({ where: { userId: user.id, credit: { gt: 0 } } })
 
