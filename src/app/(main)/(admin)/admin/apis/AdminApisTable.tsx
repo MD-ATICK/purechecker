@@ -1,4 +1,4 @@
-import { getAllApiTokens } from "@/app/(user)/user/api/actions"
+import { getAllApiTokens } from "@/app/(main)/(user)/user/api/actions"
 import defaultImage from '@/assets/girl.jpg'
 import {
     Table,

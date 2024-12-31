@@ -1,4 +1,4 @@
-import { getBlogById } from '@/app/(admin)/admin/blogs/actions'
+import { getBlogById } from '@/app/(main)/(admin)/admin/blogs/actions'
 import leftChevron from '@/assets/left-chevron.png'
 import publishAt from '@/assets/rocket.png'
 import { formatRelativeDate } from "@/lib/utils"

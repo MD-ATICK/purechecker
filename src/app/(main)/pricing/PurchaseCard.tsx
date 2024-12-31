@@ -1,4 +1,4 @@
-import VolumeActionButtons from '@/app/(admin)/admin/pricing/PricingActionButton'
+import VolumeActionButtons from '@/app/(main)/(admin)/admin/pricing/PricingActionButton'
 import { formatIndianCurrency } from '@/lib/utils'
 import { Volume } from '@prisma/client'
 import BuyNowButton from './BuyNowButton'

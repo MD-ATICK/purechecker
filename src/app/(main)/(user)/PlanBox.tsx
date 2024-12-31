@@ -34,10 +34,10 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className=' p-2 bg-background min-w-[280px] ' >
-                <div className=' cursor-pointer flex md:px-3 max-h-fit justify-between gap-2  items-center rounded-lg w-full'>
+                <div className=' cursor-pointer flex md:px-3 h-12 justify-between gap-2  items-center rounded-lg w-full'>
                     <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
                     <div className=' flex w-full items-center justify-between'>
-                        <div className=' text-start'>
+                        <div className=' text-start space-y-1'>
                             <p className=' font-semibold text-sm'>{user.name}</p>
                             <p className=' font-medium -mt-2 text-xs'>{user.email}</p>
                         </div>

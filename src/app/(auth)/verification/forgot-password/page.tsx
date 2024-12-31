@@ -1,6 +1,6 @@
 "use client"
 import { GetDbVerificationTokenByToken } from '@/actions/token';
-import { resetPassword } from '@/app/(user)/user/settings/actions';
+import { resetPassword } from '@/app/(main)/(user)/user/settings/actions';
 import Loading from '@/app/loading';
 import { PasswordInput } from '@/components/PasswordInput';
 import { Button } from '@/components/ui/button';

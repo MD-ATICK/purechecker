@@ -7,10 +7,12 @@ import NotVerifiedMessage from '@/components/NotVerifiedMessage'
 import { SessionProvider } from 'next-auth/react'
 import React from 'react'
 
+
 export default async function Layout({ children }: { children: React.ReactNode }) {
 
 
   const session = await auth()
+
 
   return (
     <div>

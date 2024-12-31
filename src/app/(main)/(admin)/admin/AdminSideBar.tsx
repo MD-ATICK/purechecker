@@ -1,4 +1,4 @@
-import PlanBox from '@/app/(user)/PlanBox';
+import PlanBox from '@/app/(main)/(user)/PlanBox';
 import apiImage from '@/assets/api.png';
 import blogImage from '@/assets/blog.png';
 import ordersImage from '@/assets/checkout.png';

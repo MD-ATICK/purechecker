@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteApiToken } from '@/app/(user)/user/api/actions'
+import { deleteApiToken } from '@/app/(main)/(user)/user/api/actions'
 import deleteImage from '@/assets/delete.png'
 import LoadingButton from "@/components/LoadingButton"
 import Image from "next/image"

@@ -2,7 +2,7 @@
 import Loading from "@/app/loading";
 import { Button, ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useUserStore } from "@/store/useUser";
+import { useUserStore } from "@/store/useUserStore";
 import { toast } from "sonner";
 
 

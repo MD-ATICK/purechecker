@@ -1,4 +1,4 @@
-import HeaderStatsSkeleton from "@/app/(admin)/admin/dashboard/HeaderStatsSkeleton";
+import HeaderStatsSkeleton from "@/app/(main)/(admin)/admin/dashboard/HeaderStatsSkeleton";
 import AreaChartSkeleton from "@/components/AreaChartSkeleton";
 import { Suspense } from "react";
 import AnalysisChart from "./AnalyticsChart";

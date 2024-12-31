@@ -2,7 +2,7 @@
 "use client";
 import { sendEmail } from "@/actions/sendMail";
 import { getUserById } from "@/actions/users";
-import { getVolumeById } from "@/app/(admin)/admin/pricing/actions";
+import { getVolumeById } from "@/app/(main)/(admin)/admin/pricing/actions";
 import { createCredit } from "@/app/(main)/pricing/actions";
 import PurchaseMail from "@/emails/PurchanseMail";
 import SubscriptionMail from "@/emails/SubscriptionMail";

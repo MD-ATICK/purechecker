@@ -1,4 +1,4 @@
-import { processingEmailProps } from '@/app/(user)/user/verify-emails/upload-file/UploadFileCo';
+import { processingEmailProps } from '@/app/(main)/(user)/user/verify-emails/upload-file/UploadFileCo';
 import { UploadFile } from '@prisma/client';
 import { create } from 'zustand';
 
