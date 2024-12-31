@@ -4,12 +4,17 @@ import { signOut } from 'next-auth/react'
 import { DropdownMenuItem } from './ui/dropdown-menu'
 
 export default function LogoutButton() {
+
+
+
   return (
-    <DropdownMenuItem className='' onClick={ async () => {
+    <>
+      <DropdownMenuItem className='' onClick={async () => {
         await logout()
-        await signOut({redirect: false})
-    }}>
+        await signOut({ redirect: false })
+      }}>
         Logout
-    </DropdownMenuItem>
+      </DropdownMenuItem>
+    </>
   )
 }

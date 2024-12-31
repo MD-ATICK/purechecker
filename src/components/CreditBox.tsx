@@ -1,13 +1,11 @@
 "use client"
 
-import { logout } from "@/actions/logout"
-import { getSubCredit, getUserById } from "@/actions/users"
+import { getSubCredit } from "@/actions/users"
 import Loading from "@/app/loading"
 import rocket from '@/assets/flash.png'
 import { useCreditStore } from "@/store/useCreditStore"
-import { useUserStore } from "@/store/useUserStore"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useEffect, useTransition } from "react"
 
 interface props {
     userId: string,
@@ -16,28 +14,18 @@ interface props {
 export default function CreditBox({ userId, dashboard }: props) {
 
     const { credit, setCredit } = useCreditStore()
-    const { setUser } = useUserStore()
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, startTransition] = useTransition()
 
 
     useEffect(() => {
         const getCredit = async () => {
-            setIsPending(true)
-            const getUser = await getUserById(userId)
-            if (!getUser) {
-                await logout()
-                setIsPending(false)
-                return;
-            }
-            const credit = await getSubCredit(userId)
-            if (getUser) {
-                setUser(getUser)
-            }
-            setCredit(credit || 0)
-            setIsPending(false)
+            startTransition(async () => {
+                const credit = await getSubCredit(userId)
+                setCredit(credit || 0)
+            })
         }
         getCredit()
-    }, [userId, setCredit, setUser]);
+    }, [userId, setCredit]);
 
     return (
         <>

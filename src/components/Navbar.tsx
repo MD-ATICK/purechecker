@@ -1,7 +1,9 @@
 "use client"
+import { logout } from '@/actions/logout'
+import { getUserById } from '@/actions/users'
 import logo from '@/assets/logo.png'
 import { useUser } from '@/hooks/useUser'
-import { checkSubscription } from '@/lib/getUser'
+import { useUserStore } from '@/store/useUserStore'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -16,20 +18,45 @@ export default function Navbar() {
   const hideNavbar = pathname?.includes('user') || pathname?.includes('admin');
 
   const user = useUser()
+  const { setUser } = useUserStore()
+  // const [isPending, startTransition] = useTransition()
 
-  const call = async () => {
-    if (user && user.subscriptionId) {
-      await checkSubscription({ userId: user.id!, subscriptionId: user.subscriptionId })
-    }
-  }
   useEffect(() => {
+    const call = async () => {
+      if (user && user.id) {
+        // if (user.subscriptionId) {
+        //   await checkSubscription({ userId: user.id, subscriptionId: user.subscriptionId })
+        // }
+
+        // * extra work by next-auth and mongodb user validation
+        const getUser = await getUserById(user.id)
+        if (!getUser) {
+          await logout()
+        } else if (getUser) {
+          setUser(getUser)
+        }
+      }
+    }
     call()
-
-    // eslint-disable-next-line
-  }, [user]);
+  }, [user, setUser]);
 
 
 
+
+  // useEffect(() => {
+  //   const getCredit = async () => {
+  //     startTransition(async () => {
+  //       const getUser = await getUserById(user.id)
+  //       toast.success('call')
+  //       if (!getUser) {
+  //         await logout()
+  //       } else if (getUser) {
+  //         setUser(getUser)
+  //       }
+  //     })
+  //   }
+  //   getCredit()
+  // }, [userId, setUser]);
   return (
     <>
       {
@@ -76,9 +103,9 @@ export default function Navbar() {
             <ModeToggle />
           } */}
               {
-                user && <div className=' flex items-center justify-center gap-2 sm:gap-4'>
-                  <CreditBox userId={user.id!} />
-                  <UserButton role={user.role} name={user.name || "John Due"} />
+                user && user.id && <div className=' flex items-center justify-center gap-2 sm:gap-4'>
+                  <CreditBox userId={user.id} />
+                  <UserButton userId={user.id} role={user.role} name={user.name || "John Due"} />
                 </div>
               }
               {!user && (

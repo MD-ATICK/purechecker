@@ -6,7 +6,7 @@ import Link from 'next/link'
 import LogoutButton from './LogoutButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from './ui/dropdown-menu'
 
-export default function UserButton({ name, role }: { name: string, role: Role }) {
+export default function UserButton({ name, role }: { userId: string, name: string, role: Role }) {
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none'>
