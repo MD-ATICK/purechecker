@@ -30,10 +30,7 @@ export default function EmailCheckerField() {
       return toast.error('Please login first to get access');
     }
 
-    if (!user?.emailVerified) {
-      return toast.error('Please verify your email first');
-    }
-
+    
     if (!search.length) {
       return toast.error('Enter something');
     }
