@@ -33,7 +33,7 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
 
     const onsubmit = async (values: DownloadEmailValues) => {
         let margeData: BulkDownloadEmailType[] | [] = [];
-        margeData = checkEmails.slice((values.skip - 1), values.take)
+        margeData = checkEmails
         margeData = margeData.filter((item) => {
             if (values.filter === "all") {
                 return item

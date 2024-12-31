@@ -30,6 +30,7 @@ export default function CreditBox({ userId, dashboard }: props) {
             }
             const credit = await getSubCredit(userId)
             setCredit(credit || 0)
+            setIsPending(false)
         }
         getCredit()
     }, [userId, setCredit]);

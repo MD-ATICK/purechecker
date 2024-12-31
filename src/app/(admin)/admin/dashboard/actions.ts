@@ -92,11 +92,10 @@ export const getTotalPayments = async () => {
         }
     })
     const previousMonthPayments = await db.order.aggregate({
-
         where: {
             createdAt: {
-                gte: previousMonthStart,
-                lte: previousMonthEnd,
+                gt: previousMonthStart,
+                lt: previousMonthEnd,
             },
         },
         _sum: {
@@ -114,25 +113,25 @@ export const getTotalPayments = async () => {
         }
     })
 
-    const statsPercent = (((currentMonthPayments._sum.amount || 0) - (previousMonthPayments._sum.amount || 0)) / (previousMonthPayments._sum.amount || 0)) * 100
-    return { payments: payments._sum.amount, statsPercent: previousMonthPayments._sum.amount === 0 ?  100 : statsPercent };
+    const statsPercent = (((currentMonthPayments._sum.amount ?? 0) - (previousMonthPayments._sum.amount ?? 0)) / (previousMonthPayments._sum.amount ?? 0))
+    return { payments: payments._sum.amount, statsPercent: previousMonthPayments._sum.amount === null ? (100 * (currentMonthPayments._sum.amount || 0)) : statsPercent };
 
 
 
 }
 
 
-export interface last30DaysDataProps {
+export interface last14DaysDataProps {
     Day: string,
     Users: number
 }
 
-export const getLast30DayUsersData = async () => {
-    const last30DaysData: last30DaysDataProps[] = []
+export const getLast14DayUsersData = async () => {
+    const last14DaysData: last14DaysDataProps[] = []
 
     const currentDate = new Date()
 
-    for (let i = 30; i > 0; i--) {
+    for (let i = 14; i > 0; i--) {
         const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - (i - 1));
         const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - (i - 2));
         const dayName = startDate.toLocaleDateString('en-US', { month: "short", day: "numeric" });
@@ -146,8 +145,8 @@ export const getLast30DayUsersData = async () => {
             }
         })
 
-        last30DaysData.push({ Day: dayName, Users: count })
+        last14DaysData.push({ Day: dayName, Users: count })
 
     }
-    return last30DaysData;
+    return last14DaysData;
 }

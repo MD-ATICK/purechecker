@@ -15,7 +15,7 @@ import { notFound } from "next/navigation"
 import BlogActionButtons from "./BlogActionButtons"
 import BlogDialog from "./BlogDialog"
 
-export default async function UsersPage() {
+export default async function BlogsPage() {
 
 
     const user = await getUser()
@@ -70,7 +70,7 @@ export default async function UsersPage() {
                                     <TableCell>{blog.category}</TableCell>
                                     <TableCell className=" text-center">{...blog.tags.slice(0, 2)}</TableCell>
                                     <TableCell className=" text-center text-xs">{blog.description.length > 30 ? blog.description.slice(0, 20) + "..." : blog.description}</TableCell>
-                                    <TableCell className=" text-xs">{formatRelativeDate(blog.createdAt)}</TableCell>
+                                    <TableCell className=" text-xs whitespace-nowrap">{formatRelativeDate(blog.createdAt)}</TableCell>
                                     <TableCell>
                                         <BlogActionButtons blog={blog} />
                                     </TableCell>

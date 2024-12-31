@@ -1,9 +1,9 @@
 "use client"
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { last30DaysDataProps } from './actions';
+import { last14DaysDataProps } from './actions';
 
 interface UserAreaChartProps {
-    data: last30DaysDataProps[]
+    data: last14DaysDataProps[]
 }
 
 export default function UserAreaChart({ data }: UserAreaChartProps) {

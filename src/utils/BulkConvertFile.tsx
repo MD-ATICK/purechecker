@@ -93,7 +93,8 @@ export const generatePDF = async (fileName: string, data: { email: string; isExi
     saveFile(blob, 'pdf', fileName)
 };
 export const generateXLSX = (fileName: string, data: BulkDownloadEmailType[]) => {
-    const ws = XLSX.utils.json_to_sheet(data);
+    const editedData = data.map(item => ({ email: item.email, isExist: item.isExist ? 'Yes' : 'No', isDisposable: item.isDisposable ? 'Yes' : 'No' }))
+    const ws = XLSX.utils.json_to_sheet(editedData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Results');
     const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -103,7 +104,8 @@ export const generateXLSX = (fileName: string, data: BulkDownloadEmailType[]) =>
 };
 
 export const generateCSV = (fileName: string, data: BulkDownloadEmailType[]) => {
-    const csv = Papa.unparse(data);
+    const editedData = data.map(item => ({ email: item.email, isExist: item.isExist ? 'Yes' : 'No', isDisposable: item.isDisposable ? 'Yes' : 'No' }))
+    const csv = Papa.unparse(editedData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveFile(blob, 'csv', fileName)
 };

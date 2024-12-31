@@ -66,7 +66,7 @@ export default function Page() {
   return (
     <>
       {user ? (
-        <div className=" container mx-auto px-2 h-[80vh] w-full gap-8 flex flex-col justify-center items-center">
+        <div className=" container mx-auto p-4 h-[80vh] w-full gap-8 flex flex-col justify-center items-center">
           <h1 className=" font-bold text-3xl">Billing Management</h1>
           {
             isPendingSB &&
@@ -137,7 +137,7 @@ export default function Page() {
                 </div>
               </div>
               {subscription.subscriptionScheduleChange &&
-                <div className=" h-12 w-full gap-2 text-xs sm:text-sm rounded-lg bg-[#fff20046] border border-yellow-600  text-yellow-300 flex justify-center items-center" >
+                <div className=" h-12 w-full gap-2 px-2 text-xs sm:text-sm rounded-lg bg-[#fff20046] border border-yellow-600  text-yellow-300 flex justify-center items-center" >
                   <Info size={16} />
                   <p>
                     Cancel Subscription will executed on the end of the current billing cycle.

@@ -197,6 +197,7 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
                     message = "Unknown error occurred";
                     break;
                 case response.includes('250') || response.includes('220'):
+                    message =  'OK'
                     result = true; // Email exists
                     break;
             }

@@ -28,7 +28,7 @@ export const SubscriptionMail = (values: { name: string, email: string, amount: 
                         alt="1Dropbox"
                     />
 
-                    <Text style={paragraph}>Hi {"name"},</Text>
+                    <Text style={paragraph}>Hi {values.name},</Text>
                     <Text style={paragraph}>
                         Thanks for buy a subscription from our website.
                     </Text>

@@ -1,16 +1,16 @@
 import {
-    Body,
-    Container,
-    Head,
-    Hr,
-    Html,
-    Img,
-    Preview,
-    Section,
-    Text
+  Body,
+  Container,
+  Head,
+  Hr,
+  Html,
+  Img,
+  Preview,
+  Section,
+  Text
 } from "@react-email/components";
 
-export const UploadedFileMail = (values: { fileName: string, totalCheck: number, deliverable: number, undeliverable: number, disposable: number }) => (
+export const UploadedFileMail = (values: { name :string,fileName: string, totalCheck: number, deliverable: number, undeliverable: number, disposable: number }) => (
   <Html>
     <Head />
     <Preview>
@@ -26,7 +26,7 @@ export const UploadedFileMail = (values: { fileName: string, totalCheck: number,
             alt="1Dropbox"
           />
 
-          <Text style={paragraph}>Hi Atick,</Text>
+          <Text style={paragraph}>Hi {values.name},</Text>
           <Text style={paragraph}>
             {values.fileName} file has been uploaded successfully. Here is the summary of the file Email.
           </Text>

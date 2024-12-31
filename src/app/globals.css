@@ -47,7 +47,7 @@ h2 {
 }
 
 p {
-  @apply min-h-6; /* Paragraph spacing */
+  @apply min-h-5; /* Paragraph spacing */
 }
 
 

@@ -1,9 +1,9 @@
 "use client"
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { getLast30DayMailVerifyData } from './actions';
+import { getLast14DayMailVerifyData } from './actions';
 
 interface EmailVerifyAreaChartProps {
-    data: getLast30DayMailVerifyData[]
+    data: getLast14DayMailVerifyData[]
 }
 
 export default function EmailVerifyAreaChart({ data }: EmailVerifyAreaChartProps) {

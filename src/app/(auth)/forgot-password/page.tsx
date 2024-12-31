@@ -48,7 +48,7 @@ export default function ForgetPasswordPage() {
         if (verificationToken) {
 
           const html = await render(<ResetPassword name={user.name!} token={verificationToken.token} />)
-          const data = await sendEmail({ to: user.email!, html, subject: `Password Reset Confirmation ⚡`, type: 'support' })
+          const data = await sendEmail({ to: user.email!, html, subject: `Password Reset Confirmation ⚡`, type: "info" })
           if (data.error) {
             toast.error(data.error)
             return;

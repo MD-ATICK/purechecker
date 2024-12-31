@@ -26,15 +26,16 @@ export default function EmailCheckerField() {
   const onsubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!user || !user.id) {
+      return toast.error('Please login first to get access');
+    }
+
     if (!user?.emailVerified) {
       return toast.error('Please verify your email first');
     }
 
     if (!search.length) {
       return toast.error('Enter something');
-    }
-    if (!user || !user.id) {
-      return toast.error('Please login first');
     }
 
     try {
@@ -100,10 +101,10 @@ export default function EmailCheckerField() {
                 </div>
                 <div className=' grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-10'>
                   {/* PART - 1 START */}
-                  <div className=' space-y-0 md:space-y-5'>
+                  <div className=' space-y-3 md:space-y-5'>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Status</p>
-                      <p className=' text-sm font-bold '>{result.isExist ? 'unknown' : result.reason}</p>
+                      <p className=' text-sm font-bold '>{result.reason}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>ESP</p>
@@ -115,7 +116,7 @@ export default function EmailCheckerField() {
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Free</p>
-                      <p className=' font-bold  text-sm md:text-lg'>{result.free}</p>
+                      <p className=' font-bold  text-sm md:text-lg'>{result.free ? 'Yes' : 'No'}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Role</p>
@@ -129,7 +130,7 @@ export default function EmailCheckerField() {
                   </div>
 
                   {/* PART - 2 START */}
-                  <div className=' space-y-0 md:space-y-5'>
+                  <div className=' space-y-3 md:space-y-5'>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Mx Server:</p>
                       <p className=' font-bold text-xs md:text-md'>{result?.mxRecords[0]?.exchange || 'unknown'}</p>

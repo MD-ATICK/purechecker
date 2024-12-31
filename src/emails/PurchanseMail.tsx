@@ -28,7 +28,7 @@ export const PurchaseMail = (values: { name: string, email: string, amount: numb
                         alt="1Dropbox"
                     />
 
-                    <Text style={paragraph}>Hi {"name"},</Text>
+                    <Text style={paragraph}>Hi {values.name},</Text>
                     <Text style={paragraph}>
                         Thanks for make a purchase from our website.
                     </Text>

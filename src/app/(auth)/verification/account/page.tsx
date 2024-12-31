@@ -1,7 +1,9 @@
 "use client"
 
 import Loading from "@/app/loading";
+import verifiedImage from '@/assets/verified.png';
 import { VerificationToken } from "@prisma/client";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -48,11 +50,11 @@ export default function VerificationTokenPage() {
             {
                 isPending && <Loading />
             }
-            {verificationToken && (
-                <div className=" text-center h-60 py-10 aspect-square space-y-3">
-                    <h1 className=" text-green-500">Successfully Verified!🎉</h1>
-                    <h2 className="text-white">{verificationToken.email}</h2>
-                    <p className=" text-xs">Your <span className=" text-sm text-primary">{verificationToken.email}</span> is verified Successfully. Now You can do anything whatever you want. Thanks you for stay with us.💝</p>
+            {!verificationToken && (
+                <div className=" text-center w-full p-2 space-y-3 h-screen flex flex-col justify-center items-center md:w-2/4">
+                    <Image alt='' src={verifiedImage} height={150} width={150} />
+                    <h2 className=" text-xl md:text-3xl text-green-500 font-bold">Account Verified 🎉</h2>
+                    <p className="  text-xs md:text-sm">Your <span className=" text-sm text-primary">{"verificationToken.email"}</span> Account is verified Successfully. Now You can do anything whatever you want. Thanks you for stay with us.💝</p>
                 </div>
             )}
 
