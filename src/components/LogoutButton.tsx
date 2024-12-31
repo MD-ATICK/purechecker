@@ -7,7 +7,7 @@ export default function LogoutButton() {
   return (
     <DropdownMenuItem className='' onClick={async () => {
       await logout()
-      await signOut({redirect: false})
+      await signOut({ redirectTo: '/login' })
     }}>
       Logout
     </DropdownMenuItem>
