@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 export default function EmailCheckerField() {
   const [search, setSearch] = useState('');
   const [isPending, setIsPending] = useState(false);
-  const {user} = useUserStore();
+  const { user } = useUserStore();
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState<VerifyEmail>();
 
@@ -30,10 +30,10 @@ export default function EmailCheckerField() {
       return toast.error('Please login first to get access');
     }
 
-    if(user.banned){
+    if (user.banned) {
       return toast.error('You are banned.')
     }
-    
+
     if (!search.length) {
       return toast.error('Enter something');
     }
@@ -133,7 +133,7 @@ export default function EmailCheckerField() {
                   <div className=' space-y-3 md:space-y-5'>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>Mx Server:</p>
-                      <p className=' font-bold text-xs md:text-md'>{result?.mxRecords[0]?.exchange || 'unknown'}</p>
+                      <p className=' font-bold text-xs line-clamp-1 md:text-md'>{result?.mxRecords[0]?.exchange || 'unknown'}</p>
                     </div>
                     <div className=' flex justify-between items-center'>
                       <p className=' text-muted-foreground font-medium'>First Name:</p>

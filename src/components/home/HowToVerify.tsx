@@ -1,3 +1,7 @@
+import GetBetterResults from '@/assets/get-better-results.png'
+import Reputation from '@/assets/keep-your-reputation.png'
+import SaveMoneyImage from '@/assets/save-money-on-email.png'
+import Image from 'next/image'
 
 export default function HowToVerify() {
     return (
@@ -109,40 +113,46 @@ export default function HowToVerify() {
             <br />
             <br />
             <div>
-                <h1>Secure, Save, and Succeed</h1>
-                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 py-12">
-                    <div className=' space-y-2 text-center'>
-                        <div className=" flex items-center justify-center gap-3 ">
+                <h1 className=' text-xl md:text-2xl'>Secure, Save, and Succeed</h1>
+                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 py-8 md:py-12">
+                    <div className=' space-y-0 text-center'>
+                        <div className=" flex  gap-1 flex-col items-center justify-center gap-0 ">
+                            <Image src={SaveMoneyImage} alt='saveMoneyImage' height={300} className=' aspect-[16/9] object-cover' />
                             <h1 className=' font-bold text-lg md:text-2xl text-center'>
                                 Save Money on Email
                             </h1>
+                            
+                            <p className=' text-sm text-muted-foreground md:text-lg '>
+                                Send emails only to real recipients. Save money, enhance delivery rates, and boost your email marketing success with our verified email
+                                list.
+                            </p>
                         </div>
-                        <p className=' text-sm text-muted-foreground md:text-lg '>
-                            Send emails only to real recipients. Save money, enhance delivery rates, and boost your email marketing success with our verified email
-                            list.
-                        </p>
                     </div>
-                    <div className=' space-y-2 text-center'>
-                        <div className=" flex items-center justify-center gap-3 ">
+                    <div className=' space-y-0 text-center'>
+                        <div className=" flex gap-1 flex-col items-center justify-center ">
+                            <Image src={GetBetterResults} alt='GetBetterResults' height={300} className=' aspect-[16/9] object-cover' />
 
                             <h1 className=' font-bold text-lg md:text-2xl text-center'>
                                 Get Better Results
                             </h1>
+                            
+                            <p className=' text-sm text-muted-foreground md:text-lg '>
+                                Stop wasting money on undeliverable emails. Use our verified list to improve your results and maximize the effectiveness of your email marketing campaigns.                   </p>
                         </div>
-                        <p className=' text-sm text-muted-foreground md:text-lg '>
-                            Stop wasting money on undeliverable emails. Use our verified list to improve your results and maximize the effectiveness of your email marketing campaigns.                   </p>
                     </div>
-                    <div className=' space-y-2 text-center'>
-                        <div className=" flex items-center justify-center gap-3 ">
+                    <div className=' space-y-0 text-center'>
+                        <div className=" flex  gap-1 flex-col items-center justify-center ">
+                            <Image src={Reputation} alt='Reputation' height={300} className=' aspect-[16/9] object-cover' />
 
                             <h1 className=' font-bold text-lg md:text-2xl text-center'>
                                 Keep Your Reputation Safe
 
                             </h1>
+                            
+                            <p className=' text-sm text-muted-foreground md:text-lg '>
+                                Avoid spam traps and bad emails that can harm your reputation. Clean your list to ensure your emails reach the inbox and maintain your credibility.
+                            </p>
                         </div>
-                        <p className=' text-sm text-muted-foreground md:text-lg '>
-                            Avoid spam traps and bad emails that can harm your reputation. Clean your list to ensure your emails reach the inbox and maintain your credibility.
-                        </p>
                     </div>
                 </div>
             </div>

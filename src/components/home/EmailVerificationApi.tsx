@@ -1,4 +1,4 @@
-import apiImage from '@/assets/verification-api.png'
+import apiImage from '@/assets/Integration.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '../ui/button'
@@ -6,8 +6,8 @@ import { Button } from '../ui/button'
 export default function EmailVerificationApi() {
     return (
         <div className=' container mx-auto flex flex-col md:flex-row justify-center items-center py-6 md:py-8'>
-            <div className=' flex-1 flex justify-center items-center'>
-                <div className='w-full relative aspect-[16/11]'>
+            <div className=' flex-1 flex  w-full justify-center items-center'>
+                <div className='w-full border-2 relative aspect-[16/11]'>
                     <Image alt='' src={apiImage} fill sizes='700px' className=' w-full object-cover rounded-xl' />
                 </div>
             </div>
