@@ -63,7 +63,7 @@ export const signUp = async (values: SignUpValues, html: string) => {
         user = await db.user.create({
             data: {
                 name,
-                email,
+                email: email.toLowerCase(),
                 customerId: ctm_Id,
                 password: hashedPassword,
             }
@@ -73,7 +73,7 @@ export const signUp = async (values: SignUpValues, html: string) => {
         user = await db.user.create({
             data: {
                 name,
-                email,
+                email: email.toLowerCase(),
                 customerId: customer?.data?.id,
                 password: hashedPassword,
             }

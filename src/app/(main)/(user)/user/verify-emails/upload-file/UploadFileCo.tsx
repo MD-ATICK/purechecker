@@ -1,10 +1,10 @@
 "use client";
 
-import Loading from '@/app/loading';
 import csvImage from '@/assets/csv.png';
 import deleteImage from '@/assets/delete.png';
 import pdfImage from '@/assets/pdf.png';
 import xlsImage from '@/assets/xls.png';
+import Loading from '@/components/Loading';
 import LoadingButton from '@/components/LoadingButton';
 import { Button } from "@/components/ui/button";
 import { useFileStore } from '@/store/useFileStore';
@@ -152,7 +152,8 @@ export default function UploadFileCo({ userId }: { userId: string }) {
         {/* UPLOADED FILES */}
         <div className=' space-y-6'>
           <div>
-            <h2>Upload History</h2>
+            <h2>Upload History  <span className=' text-sky-500 text-sm font-medium'>( Those File history auto remove after 14 days. )</span></h2>
+
             <p className=' text-gray-500 text-sm font-medium'>View the history of your uploaded files, including previous email verification lists and their results, for easy reference and tracking.</p>
           </div>
           <PendingFiles userId={userId} />

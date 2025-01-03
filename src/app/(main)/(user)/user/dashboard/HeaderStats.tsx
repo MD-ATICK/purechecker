@@ -1,5 +1,5 @@
-import Loading from "@/app/loading"
 import ErrorPage from "@/components/ErrorPage"
+import Loading from "@/components/Loading"
 import { getHeaderStatsData } from "./actions"
 
 export default async function HeaderStats() {

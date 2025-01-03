@@ -3,7 +3,7 @@
 import { sendEmail } from "@/actions/sendMail";
 import { createVerificationToken } from "@/actions/token";
 import { getUserByEmail } from "@/actions/users";
-import Loading from "@/app/loading";
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ResetPassword } from "@/emails/ResetPassword";
@@ -27,7 +27,7 @@ export default function ForgetPasswordPage() {
     if (email) {
       startTransition(async () => {
 
-        const user = await getUserByEmail(email)
+        const user = await getUserByEmail(email.toLowerCase())
 
         if (!user) {
           toast.error("Email not found")
@@ -39,7 +39,7 @@ export default function ForgetPasswordPage() {
           return
         }
 
-        const { error, verificationToken } = await createVerificationToken(email)
+        const { error, verificationToken } = await createVerificationToken(email.toLowerCase())
         if (error) {
           toast.error(error)
           return;

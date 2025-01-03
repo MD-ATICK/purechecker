@@ -22,6 +22,7 @@ model User {
   emailVerified DateTime?
   password      String?
   image         String?
+  banned        Boolean       @default(false)
   role          Role          @default(USER)
   verifyEmails  VerifyEmail[]
   credits       Credit[]
@@ -62,6 +63,7 @@ model Blog {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   image       String
   title       String
+  slug        String   @default("not-found")
   category    String
   description String
   tags        String[]

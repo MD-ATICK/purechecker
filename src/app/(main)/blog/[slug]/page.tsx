@@ -1,4 +1,4 @@
-import { getBlogById } from '@/app/(main)/(admin)/admin/blogs/actions'
+import { getBlogBySlug } from '@/app/(main)/(admin)/admin/blogs/actions'
 import leftChevron from '@/assets/left-chevron.png'
 import publishAt from '@/assets/rocket.png'
 import { formatRelativeDate } from "@/lib/utils"
@@ -7,12 +7,12 @@ import Link from 'next/link'
 import { notFound } from "next/navigation"
 
 interface PageProps {
-  params: Promise<{ blogId: string }>
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
 
-  const data = await getBlogById((await params)?.blogId)
+  const data = await getBlogBySlug((await params)?.slug)
 
   return {
     title: data.blog?.title,
@@ -38,17 +38,19 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function SingleBlog({ params }: PageProps) {
 
 
-  if (!(await params)?.blogId) {
+  if (!(await params)?.slug) {
     return notFound()
   }
 
-  const data = await getBlogById((await params)?.blogId)
+
+  const data = await getBlogBySlug((await params)?.slug)
+
 
   if (data.error || !data.blog) {
     return notFound()
   }
 
-  const { image, title, description, htmlContent, createdAt, id, tags } = data.blog
+  const { image, title, description, htmlContent, createdAt, slug, tags } = data.blog
 
   return (
     <div className=" max-w-7xl mx-auto p-2  space-y-6 py-4 md:py-10">
@@ -56,7 +58,7 @@ export default async function SingleBlog({ params }: PageProps) {
         <Image alt='' src={leftChevron} className=' dark:invert' height={10} />
         <p>blog</p>
         <Image alt='' src={leftChevron} className=' dark:invert' height={10} />
-        <p>{id}</p>
+        <p>{slug}</p>
       </Link>
       <div className=" flex flex-col md:flex-row items-start  gap-3 md:gap-8">
         <div className="w-full flex-1 aspect-[3/2] rounded-lg relative">
@@ -68,7 +70,7 @@ export default async function SingleBlog({ params }: PageProps) {
           <div className=' flex items-center py-2 gap-3'>
             {
               tags.map((tag, index) => (
-                <p key={ index} className=' text-gray-500 hover:text-white duration-300'>#{tag}</p>
+                <p key={index} className=' text-gray-500 hover:text-white duration-300'>#{tag}</p>
               ))
             }
           </div>

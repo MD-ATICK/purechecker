@@ -9,6 +9,8 @@ export async function GET(request: Request) {
         return Response.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
+    return Response.json({ success: true, message: 'Cron job is OFF' }, { status: 200 });
+
     const users = await db.user.findMany({});
     const detectedUsers: string[] = []
     const executedUsers: string[] = []

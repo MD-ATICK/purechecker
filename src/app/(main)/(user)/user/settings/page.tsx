@@ -1,4 +1,4 @@
-import Loading from "@/app/loading"
+import Loading from "@/components/Loading"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getUser } from "@/lib/getUser"
 import { db } from "@/lib/prisma"

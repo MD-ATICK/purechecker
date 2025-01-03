@@ -27,9 +27,11 @@ export default async function UsersPage() {
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Role</TableHead>
+                        <TableHead>Banned</TableHead>
                         <TableHead>Credit</TableHead>
                         <TableHead>Email Verified</TableHead>
                         <TableHead>SubscriptionId</TableHead>
+                        <TableHead>Google Login</TableHead>
                         <TableHead>VerifyEmails</TableHead>
                         <TableHead>CreatedAt</TableHead>
                         <TableHead>Actions</TableHead>
@@ -48,13 +50,15 @@ export default async function UsersPage() {
                                     <TableCell>{user.name}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.role}</TableCell>
+                                    <TableCell>{user.banned ? 'Yes' : 'No'}</TableCell>
                                     <TableCell className=" text-center">{formatNumber(subCredit)}</TableCell>
                                     <TableCell className=" whitespace-nowrap">{verified}</TableCell>
                                     <TableCell className=" text-center">{user.subscriptions.find((sub) => sub.status === "active")?.id || "null"}</TableCell>
+                                    <TableCell className=" text-center">{user.password ? 'No' : 'Yes'}</TableCell>
                                     <TableCell className="  text-center">{formatNumber(user._count.verifyEmails)}</TableCell>
                                     <TableCell className=" whitespace-nowrap">{formatRelativeDate(user.createdAt)}</TableCell>
                                     <TableCell>
-                                        <UserActionButtons userId={user.id} />
+                                        <UserActionButtons userId={user.id} banned={user.banned} />
                                     </TableCell>
 
                                 </TableRow>

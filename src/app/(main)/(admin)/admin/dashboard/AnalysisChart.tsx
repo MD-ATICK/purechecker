@@ -1,4 +1,4 @@
-import Loading from "../loading";
+import Loading from "@/components/Loading";
 import { getLast14DayUsersData } from "./actions";
 import UserAreaChart from "./UsersAreaChart";
 

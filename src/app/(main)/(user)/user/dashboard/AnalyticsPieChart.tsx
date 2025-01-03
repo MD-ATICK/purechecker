@@ -1,5 +1,5 @@
-import Loading from "@/app/loading";
 import ErrorPage from "@/components/ErrorPage";
+import Loading from "@/components/Loading";
 import { getHeaderStatsData } from "./actions";
 import VerifyEmailPieChart from "./VerifyEmailPieChart";
 

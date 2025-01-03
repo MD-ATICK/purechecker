@@ -23,6 +23,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 })
                 const customer = await response.json()
 
+                if (response.statusText === 'Conflict' || !customer?.data?.id) {
+                    const errorDetail = customer?.error?.detail
+                    const ctm_Id = errorDetail.slice(errorDetail.indexOf('ctm_'), errorDetail.length)
+            
+                    await db.user.update({
+                        where: { id: user.id },
+                        data: {
+                            customerId: ctm_Id
+                        }
+                    })
+                }
+
+                
                 if (customer?.data?.id) {
                     await db.user.update({
                         where: { id: user.id },
@@ -71,13 +84,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const existingUser = await db.user.findFirst({ where: { id: token.sub }, include: { subscriptions: true } })
             if (!existingUser) return token;
 
-            const isOAuth = await db.account.findFirst({ where: { userId: existingUser.id } })
+            // const isOAuth = await db.account.findFirst({ where: { userId: existingUser.id } })
+            const isOAuth = existingUser.password ? false : true
 
             token.name = existingUser.name
             token.role = existingUser.role
             token.isOAuth = !!isOAuth
             token.emailVerified = existingUser.emailVerified;
             token.customerId = existingUser.customerId;
+            token.banned = existingUser.banned
             token.subscriptionId = existingUser.subscriptions.find(subs => subs.status === 'active')?.id
 
             return token;
@@ -90,6 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             session.user.name = token.name as string
             session.user.role = token.role as "ADMIN" | "USER"
             session.user.isOAuth = token.isOAuth as boolean
+            session.user.banned = token.banned as boolean
             session.user.subscriptionId = token.subscriptionId as string
             session.user.customerId = token.customerId as string
             session.user.emailVerified = token.emailVerified as Date

@@ -12,7 +12,7 @@ export default function UserDashboard() {
       <div className=" space-y-20 flex-grow">
         <div>
           <h2 className="font-bold">See Your Usage Analytics By Area Chart</h2>
-          <p className=" text-sm mb-5 text-muted-foreground">The dashboard provides insights on <span className=" font-semibold text-sky-500">Last 14 days</span> your deliverable and undeliverable emails, along with API usage trends through an area chart for efficient monitoring.</p>
+          <p className=" text-sm mb-5 text-muted-foreground">The dashboard provides insights on <span className=" font-semibold text-sky-500">Last 30 days</span> your deliverable and undeliverable emails, along with API usage trends through an area chart for efficient monitoring.</p>
           <Suspense fallback={<AreaChartSkeleton />}>
             <AnalysisChart />
           </Suspense>

@@ -2,7 +2,7 @@
 import NotFound from "@/app/not-found";
 import AreaChartSkeleton from "@/components/AreaChartSkeleton";
 import { getUser } from "@/lib/getUser";
-import { getLast14DayMailVerifyData } from "./actions";
+import { getLast30DayMailVerifyData } from "./actions";
 import EmailVerifyAreaChart from "./EmailVerifyAreaChart";
 
 export default async function AnalysisChart() {
@@ -13,7 +13,7 @@ export default async function AnalysisChart() {
   }
 
 
-  const data = await getLast14DayMailVerifyData(user.id)
+  const data = await getLast30DayMailVerifyData(user.id)
 
 
   if (data === undefined) {

@@ -13,7 +13,7 @@ export default function page() {
                 <div className=" flex-1 w-full md:space-y-4">
                     <h1 className=" font-bold text-xl md:text-4xl">Contact Us</h1>
                     <p className="  text-xs md:text-sm text-muted-foreground w-[90%]">Get in touch with us! We&apos;re here to assist with any questions, feedback, or support you need for a seamless experience.</p>
-                    <div className=' md:space-y-5 md:py-8'>
+                    <div className=' space-y-2 md:space-y-4 md:py-8'>
                         <div className="flex items-center gap-3">
                             <Image alt="" src={locationImage} height={22} />
                             <p className=" text-xs md:text-sm">1700, Surabari, kashimpur, Gazipur, Bangladesh</p>

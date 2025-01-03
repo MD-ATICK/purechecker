@@ -1,7 +1,7 @@
-import Loading from '@/app/loading';
 import csvImage from '@/assets/csv.png';
 import pdfImage from '@/assets/pdf.png';
 import xlsImage from '@/assets/xls.png';
+import Loading from '@/components/Loading';
 import { UploadFile, VerifyEmail } from '@prisma/client';
 import Image from "next/image";
 import { useEffect, useState } from 'react';

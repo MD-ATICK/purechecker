@@ -5,9 +5,9 @@ function Policy() {
         <div>
             <Banner name="Privacy & Policy" desc="If you have any questions about these Terms, please contact us at" />
             <div className='container p-2 mx-auto my-20 space-y-3 w-full md:w-[80%] lg:w-[60%]'>
-                <h2>Effective Date: time here</h2>
+                <h2>Effective Date: 01 January 2025</h2>
                 <p>
-                    <strong>Pure Checker</strong>
+                    <strong>Pure Checker </strong>
                     Our operates the website purechecker.com (the
                     Site). This Privacy Policy informs you of our policies regarding the
                     collection, use, and management of personal data when you use our Site

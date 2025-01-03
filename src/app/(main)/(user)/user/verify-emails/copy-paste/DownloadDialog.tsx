@@ -14,7 +14,7 @@ import { useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownloadEmailType[] }) {
+export default function DownloadDialog({ checkEmails , isChecking}: {isChecking? : boolean, checkEmails: BulkDownloadEmailType[] }) {
 
     const [open, setOpen] = useState(false);
 
@@ -71,7 +71,7 @@ export default function DownloadDialog({ checkEmails }: { checkEmails: BulkDownl
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className='' variant={'outline'} size={'icon'}>
+                <Button disabled={isChecking || false} className='' variant={'outline'} size={'icon'}>
                     <Image alt='' src={downloadImage} className='' height={25} />
                 </Button>
             </DialogTrigger>

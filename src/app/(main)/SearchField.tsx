@@ -5,9 +5,9 @@ import LoadingButton from '@/components/LoadingButton';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useUser } from '@/hooks/useUser';
 import { cn } from '@/lib/utils';
 import { useCreditStore } from '@/store/useCreditStore';
+import { useUserStore } from '@/store/useUserStore';
 import { VerifyEmail } from '@prisma/client';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 export default function EmailCheckerField() {
   const [search, setSearch] = useState('');
   const [isPending, setIsPending] = useState(false);
-  const user = useUser();
+  const {user} = useUserStore();
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState<VerifyEmail>();
 
@@ -30,6 +30,9 @@ export default function EmailCheckerField() {
       return toast.error('Please login first to get access');
     }
 
+    if(user.banned){
+      return toast.error('You are banned.')
+    }
     
     if (!search.length) {
       return toast.error('Enter something');

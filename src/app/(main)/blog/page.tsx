@@ -1,6 +1,6 @@
-import Loading from "@/app/loading"
 import Banner from "@/components/Banner"
 import ErrorPage from "@/components/ErrorPage"
+import Loading from "@/components/Loading"
 import { db } from "@/lib/prisma"
 import { Metadata } from "next"
 import BlogCard from "./BlogCard"

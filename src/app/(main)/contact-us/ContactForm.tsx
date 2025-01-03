@@ -5,8 +5,8 @@ import LoadingButton from "@/components/LoadingButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import ContactUsMail from "@/emails/ContactUsMail";
-import { useUser } from "@/hooks/useUser";
 import { emailConfig } from "@/lib/utils";
+import { useUserStore } from "@/store/useUserStore";
 import { render } from "@react-email/components";
 import { FormEvent, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -18,7 +18,7 @@ export default function ContactForm() {
   const [message, setMessage] = useState("");
 
   const [isPending, startTransition] = useTransition()
-  const user = useUser();
+  const {user} = useUserStore();
 
 
   const onsubmit = (e: FormEvent<HTMLFormElement>) => {

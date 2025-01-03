@@ -1,12 +1,13 @@
+"use client"
 import dashboardImage from '@/assets/dashboard.png'
-import { getUser } from '@/lib/getUser'
+import { useUserStore } from '@/store/useUserStore'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '../ui/button'
 
-export default async function HowToUse() {
+export default function HowToUse() {
 
-    const user = await getUser()
+    const { user } = useUserStore()
 
     return (
         <div className=' container md:py-[4vw] mx-auto text-center'>

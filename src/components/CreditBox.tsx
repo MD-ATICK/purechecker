@@ -1,8 +1,8 @@
 "use client"
 
 import { getSubCredit } from "@/actions/users"
-import Loading from "@/app/loading"
 import rocket from '@/assets/flash.png'
+import Loading from "@/components/Loading"
 import { useCreditStore } from "@/store/useCreditStore"
 import Image from "next/image"
 import { useEffect, useTransition } from "react"

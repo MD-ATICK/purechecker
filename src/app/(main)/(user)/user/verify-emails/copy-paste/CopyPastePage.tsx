@@ -1,6 +1,7 @@
 "use client"
 
 import { checkHaveCreditForBulkCheck, emailCheck, reduceCredit } from "@/actions/emailVerify";
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { extractEmails } from "@/lib/utils";
@@ -10,7 +11,7 @@ import { toast } from "sonner";
 import ResultPart from "./ResultPart";
 
 
-export default function CopyPastePage({ userId, emailVerified }: { userId: string, emailVerified: Date | null }) {
+export default function CopyPastePage({ userId, emailVerified, banned }: { userId: string, emailVerified: Date | null, banned : boolean }) {
 
 
     const [value, setValue] = useState("");
@@ -24,31 +25,44 @@ export default function CopyPastePage({ userId, emailVerified }: { userId: strin
         e.preventDefault()
 
 
+
         if (!emailVerified) {
             return toast.error('Please verify your email first');
         }
 
-        const bulkEmails = extractEmails(value)
+        if(banned){
+            return toast.error('Your account is banned. Contact support for more information.')
+        }
+
+        const bulkEmails: string[] = extractEmails(value)
         if (!bulkEmails.length) {
             toast.error('please enter an email')
         }
 
-        const haveCredit = await checkHaveCreditForBulkCheck(bulkEmails.length, userId)
+        // * one method = const uniqueEmails = [...new Set(bulkEmails)] 
+
+        const uniqueEmails = bulkEmails.filter((email, index) => (bulkEmails.indexOf(email) === index) && (!checkedEmails.find(ce => ce.email === email)))
+        const haveCredit = await checkHaveCreditForBulkCheck(uniqueEmails.length, userId)
         if (!haveCredit.success) {
             return toast.error(haveCredit.error)
         }
 
-        setCompleteValue({ enter: bulkEmails.length, checked: 0 })
+        if (uniqueEmails.length > 0) {
+            toast.error("Duplicate Emails address")
+            setCompleteValue({ enter: uniqueEmails.length, checked: 0 })
+            return;
+        }
 
-        bulkEmails.map(async (email) => {
-            const res = await emailCheck({email, userId});
+        uniqueEmails.map(async (email) => {
+            const res = await emailCheck({ email, userId });
             if (res.data) {
                 setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                 setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])
             }
         })
-        await reduceCredit(bulkEmails.length, userId, haveCredit.creditId, haveCredit.credit)
-        setCredit(credit - bulkEmails.length)
+
+        await reduceCredit(uniqueEmails.length, userId, haveCredit.creditId, haveCredit.credit)
+        setCredit(credit - uniqueEmails.length)
         setCompleteValue(undefined)
         setValue('')
     }
@@ -66,8 +80,9 @@ export default function CopyPastePage({ userId, emailVerified }: { userId: strin
                     <Textarea disabled={isPending} value={value} onChange={(e) => setValue(e.target.value)} placeholder="Paste your emails here" rows={15} />
                     <div className=" py-2 flex justify-end items-center">
                         <Button disabled={completeValue !== undefined} type="submit">{
-                            completeValue ?
-                                `${completeValue.checked}/${completeValue.enter}`
+                            completeValue ? <>
+                                {completeValue.checked}/{completeValue.enter} <Loading />
+                            </>
                                 :
                                 "Check"
                         }</Button>
@@ -76,7 +91,7 @@ export default function CopyPastePage({ userId, emailVerified }: { userId: strin
             </div>
 
             {/* PART - 2 */}
-            <ResultPart setCheckedEmails={setCheckedEmails} checkedEmails={checkedEmails} />
+            <ResultPart isChecking={completeValue ? true : false} setCheckedEmails={setCheckedEmails} checkedEmails={checkedEmails} />
         </div>
     )
 }

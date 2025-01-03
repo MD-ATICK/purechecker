@@ -1,6 +1,6 @@
 "use client"
 
-import Loading from "@/app/loading"
+import Loading from "@/components/Loading"
 import { PasswordInput } from "@/components/PasswordInput"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"

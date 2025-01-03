@@ -1,4 +1,4 @@
-import Loading from "@/app/loading";
+import Loading from "@/components/Loading";
 
 export default function LoadingPayment() {
     return (

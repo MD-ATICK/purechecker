@@ -2,6 +2,7 @@
 import { getUser } from "@/lib/getUser";
 import { db } from "@/lib/prisma";
 import { BlogValues } from "@/lib/validation";
+import slugify from 'slugify';
 
 export const createBlog = async (values: BlogValues) => {
 
@@ -18,10 +19,18 @@ export const createBlog = async (values: BlogValues) => {
         }
 
 
+        const slug = slugify(values.title, { lower: true, strict: true })
+
+        const findBlog = await db.blog.findFirst({ where: { slug } })
+        if (findBlog) {
+            throw new Error("Blog already created by this title")
+        }
+
         await db.blog.create({
             data: {
                 ...values,
-                userId: user.id
+                userId: user.id,
+                slug
             }
         })
 
@@ -54,6 +63,20 @@ export const updateBlog = async (id: string, values: BlogValues) => {
 export const getBlogById = async (id: string) => {
     try {
         const blog = await db.blog.findFirst({ where: { id } })
+
+        if (!blog) {
+            return { error: "There haven't been any blogs with this id" }
+        }
+
+        return { blog }
+    } catch (error) {
+        return { error: (error as Error).message }
+    }
+}
+
+export const getBlogBySlug = async (slug: string) => {
+    try {
+        const blog = await db.blog.findFirst({ where: { slug } })
 
         if (!blog) {
             return { error: "There haven't been any blogs with this id" }

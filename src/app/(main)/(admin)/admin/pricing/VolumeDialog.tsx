@@ -111,7 +111,7 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
                                 <FormItem>
                                     <FormLabel className=" flex items-center gap-1">
                                         Paddle Price Id.
-                                        <Link className=' text-primary underline' href={'https://sandbox-vendors.paddle.com/products-v2'}>Go Now</Link>
+                                        <Link className=' text-primary underline' href={'https://vendors.paddle.com/products-v2'}>Go Now</Link>
                                         <FormMessage />
                                     </FormLabel>
                                     <FormControl>

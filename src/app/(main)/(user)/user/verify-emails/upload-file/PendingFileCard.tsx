@@ -1,10 +1,10 @@
 import { checkHaveCreditForBulkCheck, emailCheck, reduceCredit } from "@/actions/emailVerify";
 import { sendEmail } from "@/actions/sendMail";
-import Loading from "@/app/loading";
 import csvImage from '@/assets/csv.png';
 import pdfImage from '@/assets/pdf.png';
 import reloadImage from '@/assets/reload.png';
 import xlsImage from '@/assets/xls.png';
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import UploadedFileMail from "@/emails/UploadedFileMail";
 import { useCreditStore } from "@/store/useCreditStore";
@@ -32,17 +32,14 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
   const fileEmailVerifyHandler = async () => {
     try {
-      setClick(true)
       if (!file.enterEmails.length) {
         return toast.error('please enter an email')
       }
-
-      if (file.enterEmails.length > 100) {
-        return toast.error('You can only check 100 emails at a time')
-      }
+      setClick(true)
 
       const haveCredit = await checkHaveCreditForBulkCheck(file.enterEmails.length, userId)
       if (!haveCredit.success) {
+        setClick(false)
         return toast.error(haveCredit.error)
       }
 
@@ -51,7 +48,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
       for (const email of file.enterEmails) {
         console.count(file.id);
-        const res = await emailCheck({email, userId, uploadFileId:file.id});
+        const res = await emailCheck({ email, userId, uploadFileId: file.id });
 
         if (res.data) {
           setProcessingEmails((prev) =>
@@ -80,7 +77,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
         const fileName = res.uploadFile.fileName
         const html = await render(<UploadedFileMail name={res.uploadFile.User?.name || 'John'} totalCheck={totalCheck} disposable={disposableEmails} deliverable={deliverableEmails} undeliverable={unDeliverableEmails} fileName={fileName} />)
         const subject = `${fileName} - File Upload Summary`
-        await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject, type : 'support' })
+        await sendEmail({ to: res.uploadFile.User?.email || 'atick.bussiness.info@gmail.com', html, subject, type: 'info' })
 
         setCompletedFile(res.uploadFile)
         removePendingFile(file.id)

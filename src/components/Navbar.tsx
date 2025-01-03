@@ -4,6 +4,7 @@ import { getUserById } from '@/actions/users'
 import logo from '@/assets/logo.png'
 import { useUser } from '@/hooks/useUser'
 import { useUserStore } from '@/store/useUserStore'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -12,14 +13,16 @@ import CreditBox from './CreditBox'
 import MenuSheet from './MenuSheet'
 import { Button } from './ui/button'
 import UserButton from './UserButton'
+
 export default function Navbar() {
 
   const pathname = usePathname();
   const hideNavbar = pathname?.includes('user') || pathname?.includes('admin');
 
   const user = useUser()
-  const { setUser } = useUserStore()
+  const { setUser, user: userStore } = useUserStore()
   // const [isPending, startTransition] = useTransition()
+  console.log({ userStore })
 
   useEffect(() => {
     const call = async () => {
@@ -61,6 +64,21 @@ export default function Navbar() {
     <>
       {
         !hideNavbar &&
+        <motion.div
+
+        initial={{
+          opacity: 0,
+          scale: 0.95,
+          filter: 'blur(5px)',
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          filter: 'blur(0px)',
+        }}
+        transition={{ duration: 0.5 }}
+        className={``}
+      >
         <div className=" sticky top-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-background shadow-sm h-16 flex justify-between items-center bg-[#01031017]">
           <main className=' container mx-auto flex items-center justify-between'>
 
@@ -132,6 +150,7 @@ export default function Navbar() {
 
           </main>
         </div>
+      </motion.div >
       }
     </>
   )

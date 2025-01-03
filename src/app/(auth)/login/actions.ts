@@ -9,7 +9,7 @@ export const login = async (values: LoginValues) => {
 
     const { email, password } = LoginSchema.parse(values)
 
-    const existingUser = await getUserByEmail(email)
+    const existingUser = await getUserByEmail(email.toLowerCase())
     if (!existingUser) return { error: "Invalid Credentials" }
 
     try {

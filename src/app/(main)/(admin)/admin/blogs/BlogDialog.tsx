@@ -1,8 +1,8 @@
 "use client"
 
-import Loading from "@/app/loading";
 import blogImage from '@/assets/blog.png';
 import closeImage from '@/assets/close.png';
+import Loading from '@/components/Loading';
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";

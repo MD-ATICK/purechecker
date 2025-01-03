@@ -25,7 +25,7 @@ export default function Footer() {
                                     <Image alt='' src={logo} height={35} />
                                     <h1 className=" font-bold text-2xl md:text-2xl">PureChecker</h1>
                                 </div>
-                                <div className=' md:space-y-2 md:py-8'>
+                                <div className=' space-y-2 md:space-y-4 md:py-8'>
                                     <div className="flex items-center gap-3">
                                         <Image alt="" src={locationImage} height={22} />
                                         <p className=" text-xs md:text-sm">1700, Surabari, kashimpur, Gazipur, Bangladesh</p>
