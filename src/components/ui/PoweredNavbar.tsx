@@ -8,7 +8,8 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { BeatLoader } from 'react-spinners'
 import BannedMessage from '../BannedMessage'
 import CreditBox from '../CreditBox'
 import MenuSheet from '../MenuSheet'
@@ -22,6 +23,7 @@ export default function PoweredNavbar() {
     const hideNavbar = pathname?.includes('user') || pathname?.includes('admin');
 
     const { setUser, user } = useUserStore()
+    const [isPending, setIsPending] = useState(true);
     // const [isPending, startTransition] = useTransition()
 
 
@@ -40,12 +42,15 @@ export default function PoweredNavbar() {
                 } else if (getUser && user) {
                     setUser(user)
                 }
+                setIsPending(false)
             }
+            setIsPending(false)
         }
         call()
     }, [setUser]);
 
 
+    console.log(isPending)
 
 
     // useEffect(() => {
@@ -128,7 +133,10 @@ export default function PoweredNavbar() {
                                         <UserButton userId={user.id} role={user.role} name={user.name || "John Due"} />
                                     </div>
                                 }
-                                {!user && (
+                                {
+                                    isPending && <BeatLoader color='blue' size={15} />
+                                }
+                                {!isPending && !user && (
                                     <div className='md:flex hidden items-center gap-3'>
                                         <Link href={'/login'}>
                                             <Button variant={'secondary'}>Login</Button>
@@ -138,7 +146,7 @@ export default function PoweredNavbar() {
                                         </Link>
                                     </div>
                                 )}
-                                {!user && (
+                                {!isPending && !user && (
                                     <div className='flex md:hidden items-center gap-2'>
                                         <Link href={'/login'}>
                                             <Button variant={'outline'} size={'sm'}>Login</Button>

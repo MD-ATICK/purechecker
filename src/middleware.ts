@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import { getToken } from 'next-auth/jwt';
 import authConfig from "../auth.config";
 import { authRoutes, default_login_redirect } from "./routes";
 const { auth } = NextAuth(authConfig)
@@ -10,7 +9,7 @@ const { auth } = NextAuth(authConfig)
 export default auth(async (req) => {
     const { nextUrl } = req
     const isLoggedIn = req.auth
-    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    // const token = await getToken({ req, secret: process.env.AUTH_SECRET });
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
     const isUserRoute = nextUrl.pathname.includes("user")
     const isAdminRoute = nextUrl.pathname.includes("admin")
@@ -25,13 +24,6 @@ export default auth(async (req) => {
         if (isAuthRoute) {
             return Response.redirect(new URL(default_login_redirect, nextUrl))
         }
-        if (token?.role === "USER" && isAdminRoute) {
-            return Response.redirect(new URL('/user/dashboard', nextUrl))
-        }
-        if (token?.role === "ADMIN" && isUserRoute) {
-            return Response.redirect(new URL('/user/dashboard', nextUrl))
-        }
-
     }
 
 })

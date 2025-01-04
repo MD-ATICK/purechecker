@@ -1,5 +1,5 @@
 "use client"
-import NotFound from "@/app/not-found";
+import Loading from "@/components/Loading";
 import { useUserStore } from "@/store/useUserStore";
 import UploadFileCo from "./UploadFileCo";
 
@@ -8,7 +8,7 @@ export default function Page() {
 
   const { user } = useUserStore()
   if (!user || !user.id) {
-    return NotFound()
+    return <Loading />
   }
 
   return (

@@ -59,7 +59,7 @@ export default function NotVerifiedMessage({ email }: { email: string }) {
 
 
     return (
-        <div className=" h-20 border z-50 text-yellow-500 p-2 flex-col top-20 bg-[#413907] backdrop-blur-lg border-t-yellow-500 flex  justify-center text-sm gap-3 items-center w-full fixed bottom-0 left-0">
+        <div className=" h-20 border z-50 text-yellow-500 p-2 flex-col bg-[#413907] backdrop-blur-lg border-t-yellow-500 flex  justify-center text-sm gap-3 items-center w-full fixed top-[calc(100vh-80px)] bottom-0 left-0">
 
             <div className="  text-yellow-300 text-xs sm:text-sm flex text-start gap-3">
                 <div className=" h-4 aspect-square">

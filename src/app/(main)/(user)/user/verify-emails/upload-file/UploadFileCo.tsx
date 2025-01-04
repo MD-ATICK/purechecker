@@ -152,7 +152,7 @@ export default function UploadFileCo({ userId }: { userId: string }) {
         {/* UPLOADED FILES */}
         <div className=' space-y-6'>
           <div>
-            <h2>Upload History  <span className=' text-sky-500 text-sm font-medium'>( Those File history auto remove after 14 days. )</span></h2>
+            <h2 className=' text-lg font-bold md:text-2xl'>Upload History  <span className=' text-sky-500 text-sm font-medium'>( Those File history auto remove after 14 days. )</span></h2>
 
             <p className=' text-gray-500 text-sm font-medium'>View the history of your uploaded files, including previous email verification lists and their results, for easy reference and tracking.</p>
           </div>

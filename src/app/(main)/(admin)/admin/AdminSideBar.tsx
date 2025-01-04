@@ -1,4 +1,3 @@
-"use client"
 import PlanBox from '@/app/(main)/(user)/PlanBox';
 import apiImage from '@/assets/api.png';
 import blogImage from '@/assets/blog.png';
@@ -11,15 +10,15 @@ import logo from '@/assets/logo.png';
 import pricingImage from '@/assets/price-tag.png';
 import { Button } from '@/components/ui/button';
 import { cn } from "@/lib/utils";
-import { useUserStore } from '@/store/useUserStore';
+import { ExtendedUser } from '@/types/nextauth';
 import Image from "next/image";
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-export default function AdminSideBar({ className }: { className?: string }) {
+export default function AdminSideBar({ className, user }: { className?: string, user:ExtendedUser }) {
 
 
-    const { user } = useUserStore()
+    // const { user } = useUserStore()
     // const user = await getUser()
     if (!user) {
         return notFound()

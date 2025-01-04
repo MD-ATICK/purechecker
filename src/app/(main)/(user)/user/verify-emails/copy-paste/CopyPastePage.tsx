@@ -1,7 +1,6 @@
 "use client"
 
 import { checkHaveCreditForBulkCheck, emailCheck, reduceCredit } from "@/actions/emailVerify";
-import NotFound from "@/app/not-found";
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,7 +27,7 @@ export default function CopyPastePage() {
 
 
     if (!user || !user.id) {
-        return <NotFound />
+        return <Loading />
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
