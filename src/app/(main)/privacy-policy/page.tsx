@@ -1,4 +1,5 @@
-import Banner from '@/components/Banner'
+export const dynamic = 'force-static';
+import Banner from '@/components/Banner';
 
 function Policy() {
     return (

@@ -1,3 +1,4 @@
+export const dynamic = 'force-static';
 import emailImage from '@/assets/email.png';
 import locationImage from '@/assets/location.png';
 import viberImage from '@/assets/viber.png';

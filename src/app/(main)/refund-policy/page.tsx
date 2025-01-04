@@ -1,9 +1,9 @@
-import Banner from '@/components/Banner'
+export const dynamic = 'force-static';
 
 export default function page() {
     return (
         <div>
-            <Banner name="Refund Policy" desc="If you have any questions about these Terms, please contact us at" />
+            {/* <Banner name="Refund Policy" desc="If you have any questions about these Terms, please contact us at" /> */}
 
             <div className='container mx-auto p-2 my-20 mt-0 space-y-3 w-full md:w-[80%] lg:w-[60%]'>
                 <h2 className=' font-bold block pt-5'>

@@ -1,3 +1,4 @@
+export const dynamic = 'force-static';
 import PricingCo from './PricingCo';
 
 export default function Page() {

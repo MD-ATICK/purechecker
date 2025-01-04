@@ -1,3 +1,4 @@
+export const dynamic = 'force-static';
 import ApiDocs from "./ApiDocs";
 
 export default function page() {

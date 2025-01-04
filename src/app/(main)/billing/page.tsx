@@ -3,7 +3,7 @@ import reloadImage from '@/assets/reload.png'
 import LoadingButton from "@/components/LoadingButton"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useUser } from "@/hooks/useUser"
+import { useUserStore } from '@/store/useUserStore'
 import { Subscription } from "@prisma/client"
 import { formatDate } from "date-fns"
 import { Info } from "lucide-react"
@@ -16,7 +16,7 @@ import { customerPortal, getSubscriptionById } from "./actions"
 export default function Page() {
 
 
-  const user = useUser()
+  const { user } = useUserStore()
   const [isPendingMB, startTransitionMB] = useTransition()
   const [isPendingSB, startTransitionSB] = useTransition()
 

@@ -1,9 +1,9 @@
-import { User } from '@prisma/client';
+import { ExtendedUser } from '@/types/nextauth';
 import { create } from 'zustand';
 
 interface useFileStoreProps {
-    user: User | null,
-    setUser: (user: User) => void,
+    user: ExtendedUser | null,
+    setUser: (user: ExtendedUser) => void,
     setNullUser: () => void
 }
 

@@ -10,7 +10,6 @@ export default async function page() {
     }
 
 
-    console.log({ user })
     return (
         <div className=' p-[1vw]'>
             <CopyPastePage banned={user.banned} userId={user.id} emailVerified={user.emailVerified} />

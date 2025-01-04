@@ -2,7 +2,7 @@
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import usePaddle from "@/hooks/usePaddle";
-import { useUser } from "@/hooks/useUser";
+import { useUserStore } from "@/store/useUserStore";
 import Link from "next/link";
 import { useTransition } from "react";
 
@@ -11,7 +11,7 @@ export default function BuyNowButton({ type, volumeId, paddlePriceId }: { paddle
     const [isPending, startTransition] = useTransition()
     const paddle = usePaddle()
 
-    const user = useUser()
+    const {user} = useUserStore()
     if (!user || !user.id) {
         return  (
             <Link href={'/login'}>

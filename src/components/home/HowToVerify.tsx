@@ -116,7 +116,7 @@ export default function HowToVerify() {
                 <h1 className=' text-xl md:text-2xl'>Secure, Save, and Succeed</h1>
                 <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 py-8 md:py-12">
                     <div className=' space-y-0 text-center'>
-                        <div className=" flex  gap-1 flex-col items-center justify-center gap-0 ">
+                        <div className=" flex  gap-1 flex-col items-center justify-center">
                             <Image src={SaveMoneyImage} alt='saveMoneyImage' height={300} className=' aspect-[16/9] object-cover' />
                             <h1 className=' font-bold text-lg md:text-2xl text-center'>
                                 Save Money on Email
