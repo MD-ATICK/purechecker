@@ -1,4 +1,3 @@
-export const dynamic = 'force-static';
 import Banner from "@/components/Banner";
 import ErrorPage from "@/components/ErrorPage";
 import Loading from "@/components/Loading";

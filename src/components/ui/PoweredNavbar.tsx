@@ -2,8 +2,8 @@
 import { logout } from '@/actions/logout'
 import { getUserById } from '@/actions/users'
 import logo from '@/assets/logo.png'
+import { getUser } from '@/lib/getUser'
 import { useUserStore } from '@/store/useUserStore'
-import { ExtendedUser } from '@/types/nextauth'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,17 +16,18 @@ import NotVerifiedMessage from '../NotVerifiedMessage'
 import UserButton from '../UserButton'
 import { Button } from './button'
 
-export default function PoweredNavbar({ user }: { user: ExtendedUser }) {
+export default function PoweredNavbar() {
 
     const pathname = usePathname();
     const hideNavbar = pathname?.includes('user') || pathname?.includes('admin');
 
-    const { setUser } = useUserStore()
+    const { setUser, user } = useUserStore()
     // const [isPending, startTransition] = useTransition()
 
 
     useEffect(() => {
         const call = async () => {
+            const user = await getUser()
             if (user && user.id) {
                 // if (user.subscriptionId) {
                 //   await checkSubscription({ userId: user.id, subscriptionId: user.subscriptionId })
@@ -42,7 +43,7 @@ export default function PoweredNavbar({ user }: { user: ExtendedUser }) {
             }
         }
         call()
-    }, [user, setUser]);
+    }, [setUser]);
 
 
 
@@ -152,10 +153,10 @@ export default function PoweredNavbar({ user }: { user: ExtendedUser }) {
                         </main>
                     </div>
                     {
-                        user.email && !user.emailVerified &&
+                        user?.email && !user.emailVerified &&
                         <NotVerifiedMessage email={user.email} />
                     }
-                    {user.banned &&
+                    {user?.banned &&
                         <BannedMessage />
                     }
                 </motion.div >

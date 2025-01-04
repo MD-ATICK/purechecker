@@ -1,4 +1,3 @@
-export const dynamic = 'force-static';
 import Banner from '@/components/Banner';
 import Faq from './Faq';
 
