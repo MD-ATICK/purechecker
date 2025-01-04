@@ -14,6 +14,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { VolumeSchema, VolumeValues } from "@/lib/validation";
+import { useUserStore } from '@/store/useUserStore';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Volume } from "@prisma/client";
 import Image from "next/image";
@@ -26,14 +27,17 @@ import { createVolume, updateVolume } from "./actions";
 
 
 
-export default function VolumeDialog({ userId, volume }: { userId: string, volume?: Volume }) {
+export default function VolumeDialog({ volume }: { volume?: Volume }) {
 
     const [open, setOpen] = useState(false);
 
     const [error, setError] = useState<string>("");
     const router = useRouter()
+    const { user } = useUserStore()
 
     const [isPending, startTransition] = useTransition()
+
+
 
 
     const form = useForm<VolumeValues>({
@@ -54,26 +58,29 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
         setError('')
         startTransition(async () => {
 
-            const data = volume ?
-                await updateVolume(volume.id, { ...values, discount: discountCalculate, credit: Number(values.credit), amount: amountCalculate, userId })
-                :
-                await createVolume({
-                    // paddlePriceId: values.paddlePriceId,
-                    // perCreditPrice: values.perCreditPrice,
-                    ...values,
-                    discount: discountCalculate,
-                    credit: Number(values.credit),
-                    type: values.type,
-                    amount: amountCalculate,
-                    userId
-                })
-            if (data.volume) {
-                toast.success('Volume Created Successfully')
-                setOpen(false)
-                router.refresh()
-            }
-            if (data?.error) {
-                toast.error(data?.error)
+            if (user && user?.id) {
+                const data = volume ?
+                    await updateVolume(volume.id, { ...values, discount: discountCalculate, credit: Number(values.credit), amount: amountCalculate, userId: user.id })
+                    :
+                    await createVolume({
+                        // paddlePriceId: values.paddlePriceId,
+                        // perCreditPrice: values.perCreditPrice,
+                        ...values,
+                        discount: discountCalculate,
+                        credit: Number(values.credit),
+                        type: values.type,
+                        amount: amountCalculate,
+                        userId: user.id
+                    })
+                if (data.volume) {
+                    toast.success('Volume Created Successfully')
+                    setOpen(false)
+                    router.refresh()
+                }
+                if (data?.error) {
+                    toast.error(data?.error)
+                }
+
             }
         })
     }
@@ -82,6 +89,11 @@ export default function VolumeDialog({ userId, volume }: { userId: string, volum
 
     const isSubscription = form.watch('type') === 'SUBSCRIPTION'
 
+
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

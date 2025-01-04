@@ -1,3 +1,4 @@
+"use client"
 import PlanBox from '@/app/(main)/(user)/PlanBox';
 import apiImage from '@/assets/api.png';
 import blogImage from '@/assets/blog.png';
@@ -9,21 +10,22 @@ import jobImage from '@/assets/job.png';
 import logo from '@/assets/logo.png';
 import pricingImage from '@/assets/price-tag.png';
 import { Button } from '@/components/ui/button';
-import { getUser } from '@/lib/getUser';
 import { cn } from "@/lib/utils";
+import { useUserStore } from '@/store/useUserStore';
 import Image from "next/image";
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-export default async function AdminSideBar({ className }: { className?: string }) {
+export default function AdminSideBar({ className }: { className?: string }) {
 
-    const user = await getUser()
+
+    const { user } = useUserStore()
+    // const user = await getUser()
     if (!user) {
         return notFound()
     }
 
-
-
+    
     return (
         <div className={cn(className, " lg:p-[1vw] min-w-[50px] p-1 z-50 bg-background flex flex-col justify-between items-start")}>
             <Link href={'/'} className='flex items-center gap-2 p-1 py-2'>
@@ -98,3 +100,4 @@ export default async function AdminSideBar({ className }: { className?: string }
 
     )
 }
+

@@ -1,14 +1,7 @@
 import PricingCo from "@/app/(main)/pricing/PricingCo";
-import { getUser } from "@/lib/getUser";
 import VolumeDialog from "./VolumeDialog";
 
 export default async function PricingPage() {
-
-    const user = await getUser()
-
-    if (!user || !user.id) {
-        throw new Error("Unauthorized")
-    }
 
     return (
         <div className=" p-[1.5vw] space-y-5">
@@ -19,7 +12,7 @@ export default async function PricingPage() {
                     Add a new Volume to allocate for seamless email verification.!</p>
                 </div>
                 <div className=" flex-1 flex justify-end">
-                    <VolumeDialog userId={user.id} />
+                    <VolumeDialog  />
                 </div>
             </div>
             <PricingCo route="ADMIN"/>

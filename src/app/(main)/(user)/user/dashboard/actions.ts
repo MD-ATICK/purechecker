@@ -1,18 +1,17 @@
 "use server"
 
-import { getUser } from "@/lib/getUser"
 import { db } from "@/lib/prisma"
 
-export const getHeaderStatsData = async () => {
+export const getHeaderStatsData = async ({ userId }: { userId: string }) => {
 
     try {
 
-        const nextAuthUser = await getUser()
-        if (!nextAuthUser || !nextAuthUser.id) {
-            return { error: "Unauthorized Access" }
-        }
+        // const nextAuthUser = await getUser()
+        // if (!nextAuthUser || !nextAuthUser.id) {
+        //     return { error: "Unauthorized Access" }
+        // }
 
-        const user = await db.user.findUnique({ where: { id: nextAuthUser.id }, include: { verifyEmails: true, apis: { include: { verifyEmails: true } } } })
+        const user = await db.user.findUnique({ where: { id: userId }, include: { verifyEmails: true, apis: { include: { verifyEmails: true } } } })
 
         if (!user || !user.id) {
             return { error: "Something went wrong" }

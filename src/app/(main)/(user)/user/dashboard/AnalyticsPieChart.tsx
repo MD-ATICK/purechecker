@@ -5,7 +5,7 @@ import VerifyEmailPieChart from "./VerifyEmailPieChart";
 
 export default async function AnalysisPieChart() {
 
-    const data = await getHeaderStatsData()
+    const data = await getHeaderStatsData({userId:  '212c6d8fd74b41db966c4912'})
 
     if (data === undefined) {
         return <Loading />

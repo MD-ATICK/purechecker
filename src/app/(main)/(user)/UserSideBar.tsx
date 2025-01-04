@@ -1,3 +1,4 @@
+"use client"
 import apisImage from '@/assets/api.png';
 import ordersImage from '@/assets/checkout.png';
 import dashboardImage from '@/assets/dashboard-small.png';
@@ -7,16 +8,16 @@ import pricingImage from '@/assets/price-tag.png';
 import settingImage from '@/assets/setting.png';
 import emailImage from '@/assets/verify-email.png';
 import { Button } from '@/components/ui/button';
-import { getUser } from '@/lib/getUser';
 import { cn } from "@/lib/utils";
+import { useUserStore } from '@/store/useUserStore';
 import Image from "next/image";
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PlanBox from './PlanBox';
 
-export default async function UserSideBar({ className }: { className?: string }) {
+export default function UserSideBar({ className }: { className?: string }) {
 
-    const user = await getUser()
+    const {user} = useUserStore()
     if (!user) {
         return notFound()
     }

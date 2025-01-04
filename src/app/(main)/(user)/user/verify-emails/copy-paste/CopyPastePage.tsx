@@ -1,17 +1,21 @@
 "use client"
 
 import { checkHaveCreditForBulkCheck, emailCheck, reduceCredit } from "@/actions/emailVerify";
+import NotFound from "@/app/not-found";
 import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { extractEmails } from "@/lib/utils";
 import { useCreditStore } from "@/store/useCreditStore";
+import { useUserStore } from "@/store/useUserStore";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import ResultPart from "./ResultPart";
 
 
-export default function CopyPastePage({ userId, emailVerified, banned }: { userId: string, emailVerified: Date | null, banned : boolean }) {
+export default function CopyPastePage() {
+
+    const { user } = useUserStore()
 
 
     const [value, setValue] = useState("");
@@ -21,16 +25,22 @@ export default function CopyPastePage({ userId, emailVerified, banned }: { userI
 
     const [completeValue, setCompleteValue] = useState<{ enter: number, checked: number } | undefined>();
 
+
+
+    if (!user || !user.id) {
+        return <NotFound />
+    }
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
 
 
-        if (!emailVerified) {
+        if (!user.emailVerified) {
             return toast.error('Please verify your email first');
         }
 
-        if(banned){
+        if (user.banned) {
             return toast.error('Your account is banned. Contact support for more information.')
         }
 
@@ -42,7 +52,7 @@ export default function CopyPastePage({ userId, emailVerified, banned }: { userI
         // * one method = const uniqueEmails = [...new Set(bulkEmails)] 
 
         const uniqueEmails = bulkEmails.filter((email, index) => (bulkEmails.indexOf(email) === index) && (!checkedEmails.find(ce => ce.email === email)))
-        const haveCredit = await checkHaveCreditForBulkCheck(uniqueEmails.length, userId)
+        const haveCredit = await checkHaveCreditForBulkCheck(uniqueEmails.length, user.id!)
         if (!haveCredit.success) {
             return toast.error(haveCredit.error)
         }
@@ -54,14 +64,14 @@ export default function CopyPastePage({ userId, emailVerified, banned }: { userI
         }
 
         uniqueEmails.map(async (email) => {
-            const res = await emailCheck({ email, userId });
+            const res = await emailCheck({ email, userId: user.id! });
             if (res.data) {
                 setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                 setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])
             }
         })
 
-        await reduceCredit(uniqueEmails.length, userId, haveCredit.creditId, haveCredit.credit)
+        await reduceCredit(uniqueEmails.length, user.id!, haveCredit.creditId, haveCredit.credit)
         setCredit(credit - uniqueEmails.length)
         setCompleteValue(undefined)
         setValue('')

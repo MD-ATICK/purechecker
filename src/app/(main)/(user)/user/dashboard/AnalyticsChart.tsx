@@ -13,7 +13,6 @@ export default async function AnalysisChart() {
   }
 
 
-  // previous commit 
   const data = await getLast30DayMailVerifyData(user.id)
 
 
