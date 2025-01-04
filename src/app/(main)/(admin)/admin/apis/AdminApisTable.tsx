@@ -11,15 +11,9 @@ import {
 } from "@/components/ui/table"
 import { formatRelativeDate } from "@/lib/utils"
 import Image from "next/image"
-import { notFound } from "next/navigation"
 import AdminApiTokenTableActionButton from "./AdminApisActionButton"
 
-export default async function AdminApiTable({ userId }: { userId: string }) {
-
-
-    if (!userId) {
-        return notFound()
-    }
+export default async function AdminApiTable() {
 
 
     const data = await getAllApiTokens()

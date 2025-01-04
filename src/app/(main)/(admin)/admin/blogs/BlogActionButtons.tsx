@@ -30,7 +30,7 @@ export default function BlogActionButtons({ blog }: { blog: Blog }) {
 
     return (
         <div className=' flex items-center justify-center gap-2'>
-            <BlogDialog blog={blog} userId={blog.userId} />
+            <BlogDialog blog={blog} />
             <LoadingButton size={'icon'} className=' bg-red-600' disabled={isPending} isPending={isPending} onClick={onDelete}>
                 <Image alt='' className='  invert' src={deleteImage} height={20} />
             </LoadingButton>

@@ -7,24 +7,17 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { getUser } from "@/lib/getUser"
 import { db } from "@/lib/prisma"
 import { formatRelativeDate } from "@/lib/utils"
 import Image from "next/image"
-import { notFound } from "next/navigation"
 import BlogActionButtons from "./BlogActionButtons"
 import BlogDialog from "./BlogDialog"
 
 export default async function BlogsPage() {
 
 
-    const user = await getUser()
     const blogs = await db.blog.findMany({ include: { User : true },orderBy: {createdAt: 'desc'},take: 50 })
 
-    
-    if (!user || !user.id) {
-        return notFound()
-    }
 
     return (
         <div>
@@ -35,7 +28,7 @@ export default async function BlogsPage() {
                     Add a new blog post to share your insights and engage with your audience!</p>
                 </div>
                 <div className=" flex-1 flex justify-end">
-                <BlogDialog userId={user.id} />
+                <BlogDialog />
                 </div>
             </div>
             <Table className="">

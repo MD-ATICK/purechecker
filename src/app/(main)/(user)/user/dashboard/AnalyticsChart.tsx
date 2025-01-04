@@ -1,28 +1,54 @@
-
-import NotFound from "@/app/not-found";
+"use client"
 import AreaChartSkeleton from "@/components/AreaChartSkeleton";
-import { getUser } from "@/lib/getUser";
+import { useUserStore } from "@/store/useUserStore";
+import { useEffect, useState, useTransition } from "react";
 import { getLast30DayMailVerifyData } from "./actions";
 import EmailVerifyAreaChart from "./EmailVerifyAreaChart";
 
-export default async function AnalysisChart() {
+export default function AnalysisChart() {
 
-  const user = await getUser()
-  if (!user || !user.id) {
-    return NotFound()
-  }
-
-
-  const data = await getLast30DayMailVerifyData(user.id)
+  // const user = await getUser()
+  // if (!user || !user.id) {
+  //   return NotFound()
+  // }
 
 
-  if (data === undefined) {
+  // const data = await getLast30DayMailVerifyData(user.id)
+
+
+  // if (data === undefined) {
+  //   return <AreaChartSkeleton />
+  // }
+
+  const { user } = useUserStore()
+
+  const [mailVerifyData, setMailVerifyData] = useState<getLast30DayMailVerifyData[]>();
+
+
+  const [isLoading, startTransition] = useTransition()
+
+  useEffect(() => {
+    const call = async () => {
+      startTransition(async () => {
+        if (user && user.id) {
+          const data = await getLast30DayMailVerifyData({ userId: user?.id })
+          setMailVerifyData(data)
+        }
+      })
+    }
+    call()
+  }, [user]);
+
+
+  if (isLoading) {
     return <AreaChartSkeleton />
   }
 
-  return (
-    <div className="">
-      <EmailVerifyAreaChart data={data} />
-    </div>
-  )
+  if (mailVerifyData) {
+    return (
+      <div className="">
+        <EmailVerifyAreaChart data={mailVerifyData} />
+      </div>
+    )
+  }
 }

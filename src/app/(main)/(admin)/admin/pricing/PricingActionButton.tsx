@@ -30,7 +30,7 @@ export default function VolumeActionButtons({ volume }: { volume: Volume }) {
 
     return (
         <div className=' flex items-center justify-center gap-2'>
-            <VolumeDialog volume={volume} userId={volume.userId} />
+            <VolumeDialog volume={volume} />
             <LoadingButton size={'icon'} className=' bg-red-600' disabled={isPending} isPending={isPending} onClick={onDelete}>
                 <Image alt='' className='  invert' src={deleteImage} height={20} />
             </LoadingButton>

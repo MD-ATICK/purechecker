@@ -21,7 +21,7 @@ import TipTapEditor from "./TipTapEditor";
 import { createBlog, updateBlog } from "./actions";
 
 
-export default function BlogDialog({ blog }: { userId: string, blog?: Blog }) {
+export default function BlogDialog({ blog }: { blog?: Blog }) {
 
   const [isImageDeleting, setIsImageDeleting] = useState(false);
   const [image, setImage] = useState<string | undefined>(blog?.image);
