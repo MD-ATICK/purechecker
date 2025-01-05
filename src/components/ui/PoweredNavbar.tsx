@@ -86,7 +86,7 @@ export default function PoweredNavbar() {
                     transition={{ duration: 0.5 }}
                     className={``}
                 >
-                    <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-background shadow-sm h-16 flex justify-between items-center bg-[#01031017]">
+                    <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg h-16 flex justify-between items-center">
                         <main className=' container mx-auto flex items-center justify-between'>
 
                             {/* LOGO */}

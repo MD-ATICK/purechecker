@@ -17,7 +17,7 @@ export default function Footer() {
     return (
         <>
             {!hideFooter &&
-                <div className=" bg-muted/15">
+                <div className=" bg-secondary">
                     <div className=" container mx-auto px-3">
                         <div className="flex flex-col md:flex-row gap-6 justify-between items-start w-full py-[2vw]">
                             <div className=' space-y-2 flex-1'>
