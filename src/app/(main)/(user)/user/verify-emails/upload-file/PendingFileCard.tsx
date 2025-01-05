@@ -52,12 +52,9 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
       for (const email of file.enterEmails) {
         const res = await emailCheck({ email, userId, uploadFileId: file.id });
-        console.log('loop', isCancelLoop)
         if (isCancelLoop.current) {
-          console.log('cancel loop')
           return;
         }
-        console.log('still run')
         if (res.data) {
           setProcessingEmails((prev) =>
             prev.map((pe) =>
@@ -71,7 +68,6 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
       }
 
       if (isCancelLoop.current) {
-        console.log('cancel loop after')
         return;
       }
 

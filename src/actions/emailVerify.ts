@@ -205,7 +205,6 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
         client.on('data', (data) => {
             const response = data.toString();
             console.count('---------------------' + email + '---------------------');
-            console.log(response)
             switch (true) {
                 case response.includes('550-5.1.1'):
                     result = false

@@ -50,7 +50,6 @@ export default function PoweredNavbar() {
     }, [setUser]);
 
 
-    console.log(isPending)
 
 
     // useEffect(() => {
