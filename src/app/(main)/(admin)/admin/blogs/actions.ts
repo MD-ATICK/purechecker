@@ -2,6 +2,7 @@
 import { getUser } from "@/lib/getUser";
 import { db } from "@/lib/prisma";
 import { BlogValues } from "@/lib/validation";
+import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
 
 export const createBlog = async (values: BlogValues) => {
@@ -34,6 +35,7 @@ export const createBlog = async (values: BlogValues) => {
             }
         })
 
+        revalidatePath('/blog')
         return { success: true }
 
     } catch (error) {
@@ -45,6 +47,7 @@ export const createBlog = async (values: BlogValues) => {
 export const deleteBlog = async (id: string) => {
     try {
         await db.blog.delete({ where: { id } })
+        revalidatePath('/blog')
         return { success: true }
     } catch (error) {
         return { error: (error as Error).message }
@@ -54,6 +57,7 @@ export const deleteBlog = async (id: string) => {
 export const updateBlog = async (id: string, values: BlogValues) => {
     try {
         await db.blog.update({ where: { id }, data: values })
+        revalidatePath("/blog")
         return { success: true }
     } catch (error) {
         return { error: (error as Error).message }
@@ -91,6 +95,7 @@ export const getBlogBySlug = async (slug: string) => {
 export const getAllBlogs = async () => {
     try {
         const blogs = await db.blog.findMany({ include: { User: true } })
+    
         return { blogs }
     } catch (error) {
         return { error: (error as Error).message }

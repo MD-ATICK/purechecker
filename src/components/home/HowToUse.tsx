@@ -1,5 +1,5 @@
 "use client"
-import dashboardImage from '@/assets/dashboard.png'
+import dashboardImage from '@/assets/dashboard-banner.png'
 import { useUserStore } from '@/store/useUserStore'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,8 +16,8 @@ export default function HowToUse() {
                 <p className=' text-xs text-muted-foreground sm:text-sm'>Never waste time with undeliverable emails again! Pure Checker’s bulk email checker helps you validate a large list of email addresses in seconds.</p>
             </div>
             <br />
-            <div className='flex z-0 py-4 md:py-20 w-full px-2 md:px-[4vw] flex-col-reverse md:flex-row gap-y-8 items-center justify-center'>
-                <div className='  w-full md:flex-[0.8] space-y-12 text-start flex flex-col'>
+            <div className='flex z-0 py-4 md:py-20 w-full px-2 md:px-[4vw] flex-col-reverse md:flex-row gap-y-12 items-center justify-center'>
+                <div className='  w-full md:flex-[0.6] space-y-8 md:space-y-12 text-start flex flex-col'>
                     <div className=' space-y-3'>
                         <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
                             <div className=' h-8 md:h-10 aspect-square rounded-full bg-blue-50 text-primary flex justify-center items-center text-xl '>1</div>
@@ -42,8 +42,8 @@ export default function HowToUse() {
                         <Button className=' w-2/3 h-12 '>Try It Now</Button>
                     </Link>
                 </div>
-                <div className=' flex-1 w-full aspect-[16/12] relative'>
-                    <Image alt='' fill sizes='800px' className=' brightness-150 z-0 object-cover rounded-xl' src={dashboardImage} />
+                <div className=' flex-1 w-full aspect-[16/9] relative'>
+                    <Image alt='' fill sizes='800px' className=' z-0 object-cover rounded-xl' src={dashboardImage} />
                 </div>
             </div>
         </div>

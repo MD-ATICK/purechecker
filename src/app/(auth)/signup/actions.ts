@@ -1,11 +1,9 @@
 "use server"
 
-import { checkSmtpExistence, getMxRecords } from "@/actions/emailVerify";
 import { sendEmail } from "@/actions/sendMail";
 import { getUserByEmail } from "@/actions/users";
 import { signIn } from "@/auth";
 import { db } from "@/lib/prisma";
-import { isDisposableEmail } from "@/lib/utils";
 import { SignUpSchema, SignUpValues } from "@/lib/validation";
 import { User } from "@prisma/client";
 import { hashSync } from "bcryptjs";
@@ -19,14 +17,14 @@ export const signUp = async (values: SignUpValues, html: string) => {
     const { name, email, password } = SignUpSchema.parse(values)
 
 
-    const domain = email.split('@')[1];
-    const isDisposable = isDisposableEmail(domain);
-    const mxRecords = await getMxRecords(domain);
-    const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+    // const domain = email.split('@')[1];
+    // const isDisposable = isDisposableEmail(domain);
+    // const mxRecords = await getMxRecords(domain);
+    // const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
 
-    if (!smtpExists.result || isDisposable) {
-        return { error: "Email is not usable" }
-    }
+    // if (!smtpExists.result || isDisposable) {
+    //     return { error: "Email is not usable" }
+    // }
 
     const existingUser = await getUserByEmail(email)
     if (existingUser) return { error: "Account already has been created" }
@@ -63,7 +61,7 @@ export const signUp = async (values: SignUpValues, html: string) => {
         user = await db.user.create({
             data: {
                 name,
-                email: email.toLowerCase(),
+                email: email,
                 customerId: ctm_Id,
                 password: hashedPassword,
             }
@@ -73,7 +71,7 @@ export const signUp = async (values: SignUpValues, html: string) => {
         user = await db.user.create({
             data: {
                 name,
-                email: email.toLowerCase(),
+                email: email,
                 customerId: customer?.data?.id,
                 password: hashedPassword,
             }

@@ -5,13 +5,12 @@ import Image from 'next/image'
 
 export default function HowToVerify() {
     return (
-        <div className=' container px-3 py-[4vw] mx-auto text-center'>
-            <div className=' text-center w-full md:w-2/3 mx-auto space-y-2'>
+        <div className=' container px-3 py-16 mx-auto text-center'>
+            <div className=' text-center w-full md:w-2/3 mx-auto space-y-2 md:space-y-6'>
                 <h1 className='text-2xl md:text-4xl font-bold'>How we verify emails</h1>
                 <p className=' text-xs md:text-sm text-muted-foreground'>At Pure Checker, Our advanced verification system goes through several stages to validate each email address, guaranteeing you the best results. Here is a detailed look at how we verify email</p>
             </div>
-            <br />
-            <div className=" grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 md:gap-y-16 py-14">
+            <div className=" grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 md:gap-y-16 py-10 md:py-16">
                 <div className=' space-y-2 text-start'>
                     <div className=" flex items-center gap-3 md:items-center md:gap-3">
                         <div className=' h-7 md:h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>1</div>

@@ -18,7 +18,17 @@ import * as XLSX from 'xlsx';
 //     },
 // ]
 
-export type BulkDownloadEmailType = { email: string, reason: string, isExist: boolean, isDisposable: boolean }
+export type BulkDownloadEmailType = {
+    email: string,
+    reason: string,
+    isExist: boolean,
+    isDisposable: boolean,
+    riskLevel: string,
+    free: boolean,
+    role: string,
+    isValidSyntax: boolean,
+    isValidDomain: boolean,
+}
 
 
 export const generatePDF = async (fileName: string, data: { email: string; isExist: boolean; isDisposable: boolean }[]) => {
@@ -93,7 +103,16 @@ export const generatePDF = async (fileName: string, data: { email: string; isExi
     saveFile(blob, 'pdf', fileName)
 };
 export const generateXLSX = (fileName: string, data: BulkDownloadEmailType[]) => {
-    const editedData = data.map(item => ({ email: item.email, isExist: item.isExist ? 'Yes' : 'No', isDisposable: item.isDisposable ? 'Yes' : 'No' }))
+    const editedData = data.map(item => ({
+        email: item.email,
+        isExist: item.isExist ? 'Yes' : 'No',
+        isDisposable: item.isDisposable ? 'Yes' : 'No',
+        riskLevel: item.riskLevel,
+        free: item.free ? 'Yes' : 'No',
+        role: item.role,
+        isValidSyntax: item.isValidSyntax ? 'Yes' : 'No',
+        isValidDomain: item.isValidDomain ? 'Yes' : 'No',
+    }))
     const ws = XLSX.utils.json_to_sheet(editedData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Results');
@@ -104,7 +123,16 @@ export const generateXLSX = (fileName: string, data: BulkDownloadEmailType[]) =>
 };
 
 export const generateCSV = (fileName: string, data: BulkDownloadEmailType[]) => {
-    const editedData = data.map(item => ({ email: item.email, isExist: item.isExist ? 'Yes' : 'No', isDisposable: item.isDisposable ? 'Yes' : 'No' }))
+    const editedData = data.map(item => ({
+        email: item.email,
+        isExist: item.isExist ? 'Yes' : 'No',
+        isDisposable: item.isDisposable ? 'Yes' : 'No',
+        riskLevel: item.riskLevel,
+        free: item.free ? 'Yes' : 'No',
+        role: item.role,
+        isValidSyntax: item.isValidSyntax ? 'Yes' : 'No',
+        isValidDomain: item.isValidDomain ? 'Yes' : 'No'
+    }))
     const csv = Papa.unparse(editedData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveFile(blob, 'csv', fileName)

@@ -63,8 +63,19 @@ export default function EmailCheckerField() {
     }
   };
 
+  // const smtpExistCheckHandle = async () => {
+  //   const email = prompt('enter your email') || 'hristinasolomone84@gmail.com'
+  //   const domain = email?.split("@")[1];
+  //   const mxRecords = await getMxRecords(domain);
+  //   const res = await smtpClientCheck({ email, mxRecord: mxRecords[0]?.exchange })
+  //   console.log(res)
+  // };
+
   return (
     <div className=' w-full'>
+      {/* <Button onClick={smtpExistCheckHandle}>
+        Test click
+      </Button> */}
       <form onSubmit={onsubmit} className='w-full flex items-center gap-2'>
         <Input
           value={search}

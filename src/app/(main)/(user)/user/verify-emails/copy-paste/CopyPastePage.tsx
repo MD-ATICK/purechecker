@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { extractEmails } from "@/lib/utils";
 import { useCreditStore } from "@/store/useCreditStore";
 import { useUserStore } from "@/store/useUserStore";
+import { BulkDownloadEmailType } from "@/utils/BulkConvertFile";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import ResultPart from "./ResultPart";
@@ -20,7 +21,7 @@ export default function CopyPastePage() {
     const [value, setValue] = useState("");
     const isPending = false;
     const { setCredit, credit } = useCreditStore()
-    const [checkedEmails, setCheckedEmails] = useState<{ email: string, reason: string, isExist: boolean, isDisposable: boolean }[]>([]);
+    const [checkedEmails, setCheckedEmails] = useState<BulkDownloadEmailType[]>([]);
 
     const [completeValue, setCompleteValue] = useState<{ enter: number, checked: number } | undefined>();
 
@@ -32,8 +33,6 @@ export default function CopyPastePage() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-
 
         if (!user.emailVerified) {
             return toast.error('Please verify your email first');
@@ -51,22 +50,36 @@ export default function CopyPastePage() {
         // * one method = const uniqueEmails = [...new Set(bulkEmails)] 
 
         const uniqueEmails = bulkEmails.filter((email, index) => (bulkEmails.indexOf(email) === index) && (!checkedEmails.find(ce => ce.email === email)))
+
+        
         const haveCredit = await checkHaveCreditForBulkCheck(uniqueEmails.length, user.id!)
         if (!haveCredit.success) {
             return toast.error(haveCredit.error)
         }
 
-        if (uniqueEmails.length > 0) {
-            toast.error("Duplicate Emails address")
-            setCompleteValue({ enter: uniqueEmails.length, checked: 0 })
+        if (uniqueEmails.length === 0) {
+            toast.error("Entered Duplicate Emails address")
+            setCompleteValue(undefined)
+            setValue('')
             return;
         }
-
+        
+        setCompleteValue({ enter: uniqueEmails.length, checked: 0 })
         uniqueEmails.map(async (email) => {
             const res = await emailCheck({ email, userId: user.id! });
             if (res.data) {
                 setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
-                setCheckedEmails(prev => [...prev, { email: res.data.email, reason: res.data.reason, isExist: res.data.isExist, isDisposable: res.data.isDisposable }])
+                setCheckedEmails(prev => [...prev, {
+                    email: res.data.email,
+                    reason: res.data.reason,
+                    isExist: res.data.isExist,
+                    isDisposable: res.data.isDisposable,
+                    riskLevel: res.data.riskLevel,
+                    free: res.data.free,
+                    role: res.data.role,
+                    isValidSyntax: res.data.isValidSyntax,
+                    isValidDomain: res.data.isValidDomain
+                }])
             }
         })
 

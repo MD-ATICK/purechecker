@@ -1,6 +1,6 @@
 import EmailCheckerField from '@/app/(main)/SearchField'
 
-export default async function LandingPage() {
+export default function LandingPage() {
 
 
   return (

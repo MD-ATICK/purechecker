@@ -13,7 +13,7 @@ const requiredNumber = z
 
 
 export const LoginSchema = z.object({
-  email: requiredString.email(),
+  email: requiredString.email().toLowerCase(),
   password: requiredString,
 })
 
@@ -21,7 +21,7 @@ export type LoginValues = z.infer<typeof LoginSchema>
 
 export const SignUpSchema = z.object({
   name: requiredString,
-  email: requiredString.email(),
+  email: requiredString.email().toLowerCase(),
   password: requiredString.min(8, { message: 'must be at least 8 characters' }),
 })
 

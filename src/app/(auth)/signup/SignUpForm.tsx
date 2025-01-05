@@ -30,6 +30,7 @@ export default function SignUpForm() {
   })
 
   const onsubmit = async (values: SignUpValues) => {
+    console.log(values)
     setError('')
     startTransition(async () => {
       const html = await render(<WelcomeEmail name={form.getValues('name')} />)

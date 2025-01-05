@@ -39,7 +39,7 @@ export default function ForgetPasswordPage() {
           return
         }
 
-        const { error, verificationToken } = await createVerificationToken(email.toLowerCase())
+        const { error, verificationToken } = await createVerificationToken(email)
         if (error) {
           toast.error(error)
           return;

@@ -4,6 +4,7 @@ import disposableDomains from 'disposable-email-domains';
 import dns from 'dns';
 import freeDomains from 'free-email-domains';
 import net from 'net';
+import { SMTPClient } from 'smtp-client';
 
 // singleBulkEmailVerify
 export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId }: { email: string, userId: string, uploadFileId?: string, apiTokenId?: string }) => {
@@ -12,7 +13,12 @@ export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId }: { 
     const role = inferRole(email) || "user";
     const isDisposable = isDisposableEmail(domain);
     const mxRecords = await getMxRecords(domain);
-    const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+
+    // * it's my method
+    // const smtpExists = await checkSmtpExistence(email, mxRecords[0]?.exchange);
+
+    // * it's provided by cilent
+    const smtpExists = await smtpClientCheck({ email, mxRecord: mxRecords[0]?.exchange })
     const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
 
 
@@ -39,6 +45,28 @@ export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId }: { 
 
     return { data: result }
 
+}
+
+export const smtpClientCheck = async ({ email, mxRecord }: { email: string, mxRecord: string }) => {
+    try {
+        const client = new SMTPClient({
+            host: mxRecord,
+            port: 25 // or 587 for TLS
+        });
+        await client.connect();
+        await client.greet({ hostname: 'mail.purechecker.com' });
+        await client.mail({ from: 'test1@purechecker.com' });
+        await client.rcpt({ to: email });
+        await client.quit();
+
+        return { result: true, message: "Ok" }
+    } catch (error) {
+        return {
+            result: false, message: (error as Error).message.toLowerCase().includes('service unavailable') ?
+                "Service Unavailable:  Blocked by Spamhaus"
+                : (error as Error).message.toLowerCase().includes('does not exist') ? "Email address does not exist" : (error as Error).message
+        }
+    }
 }
 
 export const checkHaveCreditForBulkCheck = async (checkEmailCount: number, userId: string) => {
@@ -176,7 +204,8 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
 
         client.on('data', (data) => {
             const response = data.toString();
-
+            console.count('---------------------' + email + '---------------------');
+            console.log(response)
             switch (true) {
                 case response.includes('550-5.1.1'):
                     result = false
@@ -199,7 +228,7 @@ export async function checkSmtpExistence(email: string, mxHost: string): Promise
                     message = "Unknown error occurred";
                     break;
                 case response.includes('250') || response.includes('220'):
-                    message =  'OK'
+                    message = 'OK'
                     result = true; // Email exists
                     break;
             }

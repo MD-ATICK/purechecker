@@ -1,3 +1,4 @@
+"use client"
 import { checkHaveCreditForBulkCheck, emailCheck, reduceCredit } from "@/actions/emailVerify";
 import { sendEmail } from "@/actions/sendMail";
 import csvImage from '@/assets/csv.png';
@@ -11,8 +12,9 @@ import { useCreditStore } from "@/store/useCreditStore";
 import { useFileStore } from "@/store/useFileStore";
 import { UploadFile } from "@prisma/client";
 import { render } from "@react-email/components";
+import { X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { getUploadFilesById, uploadUploadFileStatus } from "./actions";
 import { processingEmailProps } from "./UploadFileCo";
@@ -28,13 +30,15 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
   const { removePendingFile, setCompletedFile } = useFileStore()
   const [processingEmails, setProcessingEmails] = useState<processingEmailProps[]>([]);
   const [click, setClick] = useState(false);
-
+  const isCancelLoop = useRef(false)
 
   const fileEmailVerifyHandler = async () => {
     try {
       if (!file.enterEmails.length) {
         return toast.error('please enter an email')
       }
+
+      isCancelLoop.current = false
       setClick(true)
 
       const haveCredit = await checkHaveCreditForBulkCheck(file.enterEmails.length, userId)
@@ -47,9 +51,13 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
       setProcessingEmails(prev => [...prev, { uploadFileId: file.id, enter: file.enterEmails.length, checked: 0, status: "PENDING" }])
 
       for (const email of file.enterEmails) {
-        console.count(file.id);
         const res = await emailCheck({ email, userId, uploadFileId: file.id });
-
+        console.log('loop', isCancelLoop)
+        if (isCancelLoop.current) {
+          console.log('cancel loop')
+          return;
+        }
+        console.log('still run')
         if (res.data) {
           setProcessingEmails((prev) =>
             prev.map((pe) =>
@@ -62,7 +70,10 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
 
       }
 
-
+      if (isCancelLoop.current) {
+        console.log('cancel loop after')
+        return;
+      }
 
       await reduceCredit(file.enterEmails.length, userId, haveCredit.creditId, haveCredit.credit)
       await uploadUploadFileStatus(file.id)
@@ -89,6 +100,19 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
     }
   }
 
+  const handleBeforeUpload = (e: BeforeUnloadEvent) => {
+    e.preventDefault()
+    e.returnValue = ""
+  }
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handleBeforeUpload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUpload);
+    };
+  }, []);
+
   return (
     <div className=" h-20 rounded-sm bg-secondary/80 p-2 md:p-4 flex justify-between items-center">
 
@@ -106,7 +130,6 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
         </div>
 
       </div>
-
       {/* RIGHT */}
       <div className=" flex items-center gap-3">
         {
@@ -117,6 +140,15 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
                 <Loading className=" h-8" />
                 <p className=" text-sm text-gray-400 hidden md:block">Processing</p>
               </div>
+
+              <Button size={'icon'} variant={'destructive'} onClick={() => {
+                // removePendingFile(file.id)
+                isCancelLoop.current = true
+                setClick(false)
+                setProcessingEmails((prev) => prev.filter(pe => pe.uploadFileId !== file.id))
+              }}>
+                <X />
+              </Button>
             </div>
             : (
               <>

@@ -47,7 +47,7 @@ h2 {
 }
 
 p {
-  @apply min-h-5; /* Paragraph spacing */
+  @apply min-h-4;
 }
 
 
@@ -81,7 +81,7 @@ p {
   }
 
   .dark {
-    --background: 222.2 84% 9.9%;
+    --background: 225.2 110% 10.5%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
