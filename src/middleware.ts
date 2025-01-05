@@ -6,7 +6,7 @@ const { auth } = NextAuth(authConfig)
 // middleware is unlocked for matcher route. 
 // generally middleware is used for set access in routes.
 
-export default auth(async (req) => {
+export default auth((req) => {
     const { nextUrl } = req
     const isLoggedIn = req.auth
     // const token = await getToken({ req, secret: process.env.AUTH_SECRET });

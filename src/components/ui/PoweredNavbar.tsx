@@ -22,7 +22,7 @@ export default function PoweredNavbar() {
     const pathname = usePathname();
     const hideNavbar = pathname?.includes('user') || pathname?.includes('admin');
 
-    const { setUser, user } = useUserStore()
+    const { setUser, user, isAuthPending } = useUserStore()
     const [isPending, setIsPending] = useState(true);
     // const [isPending, startTransition] = useTransition()
 
@@ -133,9 +133,9 @@ export default function PoweredNavbar() {
                                     </div>
                                 }
                                 {
-                                    isPending && <BeatLoader color='blue' size={15} />
+                                    (isPending || isAuthPending) && <BeatLoader color='blue' size={15} />
                                 }
-                                {!isPending && !user && (
+                                {!isPending && !isAuthPending && !user && (
                                     <div className='md:flex hidden items-center gap-3'>
                                         <Link href={'/login'}>
                                             <Button variant={'secondary'}>Login</Button>

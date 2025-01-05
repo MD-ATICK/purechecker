@@ -5,12 +5,14 @@ import { DropdownMenuItem } from './ui/dropdown-menu'
 
 export default function LogoutButton() {
 
-  const { setNullUser } = useUserStore()
+  const { setNullUser, setIsAuthPending } = useUserStore()
 
   return (
     <DropdownMenuItem className='' onClick={() => {
+      setIsAuthPending(true)
       setNullUser()
       signOut({ redirectTo: '/login' })
+      setIsAuthPending(false)
       // await logout()
     }}>
       Logout
