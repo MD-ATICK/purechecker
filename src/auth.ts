@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import authConfig from "../auth.config";
+import { getUserByEmail } from "./actions/users";
 import { db } from "./lib/prisma";
 
 
@@ -25,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 if (response.statusText === 'Conflict' || !customer?.data?.id) {
                     const errorDetail = customer?.error?.detail
                     const ctm_Id = errorDetail.slice(errorDetail.indexOf('ctm_'), errorDetail.length)
-            
+
                     await db.user.update({
                         where: { id: user.id },
                         data: {
@@ -34,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     })
                 }
 
-                
+
                 if (customer?.data?.id) {
                     await db.user.update({
                         where: { id: user.id },
@@ -64,19 +65,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     callbacks: {
-        // async signIn({ user, account }) {
-
-        //     if (account?.provider === "credentials") {
-        //         const existingUser = await getUserById(String(user.id))
-        //         if (!existingUser) return false
-
-        //         // if (!existingUser.emailVerified) return false;
-
-        //         return true;
-        //     }
-
-        //     return true;
-        // },
+        async signIn({ user, account }) {
+            if (account?.provider === 'google' && user.email) {
+                // Custom logic to link accounts or handle conflicts
+                const existingUser = await getUserByEmail(user.email);
+                if (existingUser && existingUser.password) {
+                    throw new Error("OAuthAccountNotLinked");
+                    // return false;
+                }
+            }
+            return true;
+        },
         async jwt({ token }) {
 
             if (!token.sub) return token;
