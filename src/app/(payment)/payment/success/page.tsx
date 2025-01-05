@@ -1,4 +1,4 @@
-import awesomeImage from '@/assets/awesome.png'
+import paymentSuccessImage from '@/assets/sucessfull-purchase.png'
 import { Button } from '@/components/ui/button'
 import { getUser } from '@/lib/getUser'
 import { formatDate } from 'date-fns'
@@ -59,8 +59,8 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
 
     return (
         <div className=' text-center h-screen mx-auto container flex justify-center items-center flex-col'>
-            <div className=' space-y-4 w-full p-2 md:w-1/2 flex flex-col items-center justify-center'>
-                <Image alt='' src={awesomeImage} height={250} width={250} />
+            <div className=' space-y-4 w-full p-4 md:w-1/2 flex flex-col items-center justify-center'>
+                <Image alt='' src={paymentSuccessImage} height={300} width={300} />
                 <h1 className=' text-2xl md:text-3xl text-green-500 font-bold'>Purchase Successful! 🎉</h1>
                 <p className='  text-muted-foreground'>Thank you for your purchase! Your transaction was successful, and the credits have been added to your account. You can now start verifying emails with your newly acquired credits seamlessly.</p>
                 <p className=' text-sm'>transactionId: {transactionId}</p>
