@@ -51,7 +51,7 @@ export default function CopyPastePage() {
 
         const uniqueEmails = bulkEmails.filter((email, index) => (bulkEmails.indexOf(email) === index) && (!checkedEmails.find(ce => ce.email === email)))
 
-        
+
         const haveCredit = await checkHaveCreditForBulkCheck(uniqueEmails.length, user.id!)
         if (!haveCredit.success) {
             return toast.error(haveCredit.error)
@@ -63,7 +63,7 @@ export default function CopyPastePage() {
             setValue('')
             return;
         }
-        
+
         setCompleteValue({ enter: uniqueEmails.length, checked: 0 })
         uniqueEmails.map(async (email) => {
             const res = await emailCheck({ email, userId: user.id! });
@@ -71,14 +71,15 @@ export default function CopyPastePage() {
                 setCompleteValue(prev => ({ enter: prev?.enter || 0, checked: prev?.checked ? prev.checked + 1 : 1 }));
                 setCheckedEmails(prev => [...prev, {
                     email: res.data.email,
-                    reason: res.data.reason,
+                    reason: res.data.reason || (res.data.isExist ? "OK" : "NOT OK"),
                     isExist: res.data.isExist,
                     isDisposable: res.data.isDisposable,
                     riskLevel: res.data.riskLevel,
                     free: res.data.free,
                     role: res.data.role,
                     isValidSyntax: res.data.isValidSyntax,
-                    isValidDomain: res.data.isValidDomain
+                    isValidDomain: res.data.isValidDomain,
+                    mxRecords: res.data.mxRecords
                 }])
             }
         })

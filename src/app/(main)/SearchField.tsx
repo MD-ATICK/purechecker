@@ -40,7 +40,7 @@ export default function EmailCheckerField() {
 
     try {
       setIsPending(true);
-      const res = await singleCheckEmailVerify(search, user.id as string)
+      const res = await singleCheckEmailVerify({ email: search, userId: user.id as string })
       if (res.data) {
         setResult(res.data)
         setCredit(credit - 1)
@@ -81,7 +81,7 @@ export default function EmailCheckerField() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder='Enter your email'
-          className='bg-background h-14 w-full'
+          className=' bg-secondary h-14 w-full'
         />
         <LoadingButton
           isPending={isPending}

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function SignUpPage() {
     return (
         <main className=" flex h-full md:h-screen items-center justify-center md:p-5 font-medium text-sm">
-            <div className=" shadow-2xl flex flex-col-reverse md:flex-row h-full md:max-h-[95%] w-full max-w-[64rem] md:rounded-2xl overflow-hidden md:bg-background border">
+            <div className=" shadow-2xl bg-secondary flex flex-col-reverse md:flex-row h-full md:max-h-[95%] w-full max-w-[64rem] md:rounded-2xl overflow-hidden border">
                 <div className=' w-full md:w-1/2 h-full p-[6vw] md:p-[3vw] flex flex-col gap-4'>
                     <div className=' space-y-1'>
                         <Link href={'/'}>

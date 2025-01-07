@@ -78,7 +78,11 @@ export const signUp = async (values: SignUpValues, html: string) => {
         })
     }
 
-
+    await db.userDashboardData.create({
+        data: {
+            userId: user?.id,
+        }
+    })
 
 
     await db.credit.create({

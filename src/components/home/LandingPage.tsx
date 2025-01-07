@@ -8,7 +8,7 @@ export default function LandingPage() {
       <div className=" space-y-4  text-center">
         <h2 className=" font-bold text-3xl lg:text-5xl lg:leading-[55px]"> Advanced
           <span className=" text-primary"> Email checker, </span> {" "} Made Affordable for All.</h2>
-        <p className="text-sm text-muted-foreground">At Pure Checker, we leverage the latest in email verification technology to ensure maximum accuracy and reliability. Our advanced algorithms analyze each email address thoroughly, helping you maintain a high-quality list that enhances your marketing efforts.
+        <p className="text-sm text-muted-foreground">Pure Checker is the best email validation tool, providing top accuracy and a powerful API at an affordable price. Clean your email list, boost deliverability, and enhance marketing success with our fast and reliable service.
         </p>
       </div>
       <EmailCheckerField />

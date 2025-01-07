@@ -21,6 +21,7 @@ import * as XLSX from 'xlsx';
 export type BulkDownloadEmailType = {
     email: string,
     reason: string,
+    mxRecords: { exchange: string, priority: number }[],
     isExist: boolean,
     isDisposable: boolean,
     riskLevel: string,
@@ -106,6 +107,8 @@ export const generateXLSX = (fileName: string, data: BulkDownloadEmailType[]) =>
     const editedData = data.map(item => ({
         email: item.email,
         isExist: item.isExist ? 'Yes' : 'No',
+        status: item.reason,
+        mxRecord: item.mxRecords[0]?.exchange,
         isDisposable: item.isDisposable ? 'Yes' : 'No',
         riskLevel: item.riskLevel,
         free: item.free ? 'Yes' : 'No',
@@ -126,6 +129,8 @@ export const generateCSV = (fileName: string, data: BulkDownloadEmailType[]) => 
     const editedData = data.map(item => ({
         email: item.email,
         isExist: item.isExist ? 'Yes' : 'No',
+        status: item.reason,
+        mxRecord: item.mxRecords[0]?.exchange,
         isDisposable: item.isDisposable ? 'Yes' : 'No',
         riskLevel: item.riskLevel,
         free: item.free ? 'Yes' : 'No',

@@ -1,3 +1,5 @@
+import GoogleAnalytics from "@/components/GoogleAnalysis";
+import TawkToChat from "@/components/TalkToChat";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
@@ -12,9 +14,9 @@ export const metadata: Metadata = {
   applicationName: 'PureChecker',
   title: {
     template: `PureChecker: %s`,
-    default: 'PureChecker - Best Email Verification Tool',
+    default: 'Best Bulk Email Checker With Highest Accuracy',
   },
-  description: 'PureChecker is the best app for email verification. Verify emails in bulk or individually with high accuracy and efficiency.',
+  description: 'Pure Checker is the best email validation tool, providing top accuracy and a powerful API at an affordable price. Clean your email list, boost deliverability, and enhance marketing success with our fast and reliable service.',
   keywords: [
     'PureChecker',
     'email verification',
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
     'email cleaning tool',
     'validate email addresses',
   ],
-  metadataBase : new URL('https://purechecker.com'),
+  metadataBase: new URL('https://purechecker.com'),
   icons: {
     icon: '/logo.png',
     shortcut: '/favicon.ico', // Commonly used for browser tabs
@@ -63,11 +65,55 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PureChecker",
+    "url": "https://purechecker.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://purechecker.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "hasPart": [
+      {
+        "@type": "WebPage",
+        "@id": "https://purechecker.com/",
+        "name": "Free Email Checker",
+        "description": "Check your email validity instantly with PureChecker's free email checker tool."
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://purechecker.com/docs",
+        "name": "API Integration",
+        "description": "Integrate PureChecker's powerful email validation API into your application."
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://purechecker.com/pricing",
+        "name": "Pricing",
+        "description": "Explore affordable pricing plans for PureChecker's email validation services."
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://purechecker.com/contact-us",
+        "name": "Contact Us",
+        "description": "Get in touch with the PureChecker team for any inquiries or support."
+      }
+    ]
+  };
+
+
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <Script src="https://cdn.paddle.com/paddle/v2/paddle.js"></Script>
+        <Script
+          type="application/ld+json"
+          id="structured-data"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body
         className={`${montserrat.className} antialiased font-medium bg-blue-50 dark:bg-background`}
@@ -78,6 +124,8 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <TawkToChat />
+          <GoogleAnalytics />
           <div className="h-screen absolute inset-0 w-full -z-50"><div className="absolute right-0 bottom-0 left-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div></div>
           {
             process.env.NEXT_PUBLIC_APP_MAINTENANCE === "off" &&

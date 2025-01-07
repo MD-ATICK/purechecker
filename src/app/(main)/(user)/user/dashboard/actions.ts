@@ -55,3 +55,15 @@ export const getLast30DayMailVerifyData = async (userId: string) => {
 
     return last30DaysData;
 }
+
+export const getDashboardDataByUserId = async (userId: string) => {
+
+    const dashboardData = await db.userDashboardData.findFirst({ where: { userId } })
+    if (!dashboardData) {
+        return { error: "Something went wrong" }
+    }
+    return { success: true, dashboardData }
+
+}
+
+

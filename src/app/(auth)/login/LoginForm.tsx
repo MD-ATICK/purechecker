@@ -110,7 +110,7 @@ export default function LoginForm() {
         </div>
 
         {/* Google login button */}
-        <Button type='button' onClick={() => signIn('google', { callbackUrl: '/' })} className="  gap-2 w-full" variant={'secondary'}>
+        <Button type='button' onClick={() => signIn('google', { callbackUrl: '/' })} className="  gap-2 w-full" variant={'outline'}>
           <Image src={GoogleImage} width={20} height={20} alt="" />
           Login With Google
         </Button>

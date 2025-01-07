@@ -15,20 +15,20 @@ enum Role {
 // user, credit , email verify object , valume , subscription, blog
 
 model User {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  username      String?       @unique
-  email         String?       @unique
-  emailVerified DateTime?
-  password      String?
-  image         String?
-  banned        Boolean       @default(false)
-  role          Role          @default(USER)
-  verifyEmails  VerifyEmail[]
-  credits       Credit[]
-  blogs         Blog[]
-  volumes       Volume[]
-  apis          ApiToken[]
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  name            String?
+  username        String?       @unique
+  email           String?       @unique
+  emailVerified   DateTime?
+  password        String?
+  image           String?
+  banned          Boolean       @default(false)
+  role            Role          @default(USER)
+  verifyEmails    VerifyEmail[]
+  credits         Credit[]
+  blogs           Blog[]
+  volumes         Volume[]
+  apis            ApiToken[]
 
   accounts      Account[]
   sessions      Session[]
@@ -105,6 +105,28 @@ model Volume {
 type MxRecord {
   exchange String
   priority Int
+}
+
+enum typeEmailDataDashboard {
+  DELIVERABLE
+  UNDELIVERABLE
+  API_USAGE
+}
+
+type EmailDataDashboard {
+  email     String
+  type      typeEmailDataDashboard
+  checkedAt DateTime               @default(now())
+}
+
+model userDashboardData {
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+  userId              String               @db.ObjectId
+  apiUsagesEmails      EmailDataDashboard[]
+  deliverableEmails   EmailDataDashboard[]
+  undeliverableEmails EmailDataDashboard[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
 }
 
 model ApiToken {

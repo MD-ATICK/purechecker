@@ -1,24 +1,21 @@
 
-import NotFound from "@/app/not-found";
-import AreaChartSkeleton from "@/components/AreaChartSkeleton";
-import { getUser } from "@/lib/getUser";
 import { getLast30DayMailVerifyData } from "./actions";
 import EmailVerifyAreaChart from "./EmailVerifyAreaChart";
 
-export default async function AnalysisChart() {
+export default async function AnalysisChart({ data }: { data: getLast30DayMailVerifyData[] }) {
 
-  const user = await getUser()
-  if (!user || !user.id) {
-    return NotFound()
-  }
-
-
-  const data = await getLast30DayMailVerifyData(user.id)
+  // const user = await getUser()
+  // if (!user || !user.id) {
+  //   return NotFound()
+  // }
 
 
-  if (data === undefined) {
-    return <AreaChartSkeleton />
-  }
+  // const data = await getLast30DayMailVerifyData(user.id)
+
+
+  // if (data === undefined) {
+  //   return <AreaChartSkeleton />
+  // }
 
   return (
     <div className="">

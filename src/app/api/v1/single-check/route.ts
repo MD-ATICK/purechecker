@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
         }
 
 
-        const { error, data } = await singleCheckEmailVerify(email!, userId, apiToken.id)
+        const { error, data } = await singleCheckEmailVerify({ email: email!, userId, apiTokenId: apiToken.id, forApi: true })
         if (error) {
             return new Response(JSON.stringify({ error }), {
                 status: 401

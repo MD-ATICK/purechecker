@@ -49,7 +49,10 @@ export default function PoweredNavbar() {
         call()
     }, [setUser]);
 
+    const currentPath = usePathname(); // Get the current path
 
+    // Helper function to check if the current route matches the button's route
+    const isActive = (path: string) => currentPath === path ? 'bg-muted' : '';
 
 
     // useEffect(() => {
@@ -95,24 +98,36 @@ export default function PoweredNavbar() {
                             </Link>
 
                             {/* NAV ITEMS */}
-                            <nav className=' hidden lg:flex items-center gap-2'>
-                                <Link href={'/'} className=' font-medium' >
-                                    <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Home</Button>
+                            <nav className='hidden lg:flex items-center gap-2'>
+                                <Link href={'/'} className='font-medium'>
+                                    <Button variant={"ghost"} className={`w-[100px] text-[15px] ${isActive('/')}`}>
+                                        Home
+                                    </Button>
                                 </Link>
-                                <Link href={'/pricing'} className=' font-medium' >
-                                    <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Pricing</Button>
+                                <Link href={'/pricing'} className='font-medium'>
+                                    <Button variant={"ghost"} className={`w-[100px] text-[15px] ${isActive('/pricing')}`}>
+                                        Pricing
+                                    </Button>
                                 </Link>
-                                <Link href={'/contact-us'} className=' font-medium' >
-                                    <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Contact Us</Button>
+                                <Link href={'/contact-us'} className='font-medium'>
+                                    <Button variant={"ghost"} className={`w-[100px] text-[15px] ${isActive('/contact-us')}`}>
+                                        Contact Us
+                                    </Button>
                                 </Link>
-                                <Link href={'/docs'} className=' font-medium' >
-                                    <Button variant={"ghost"} className=' w-[100px] text-[15px]'>Docs</Button>
+                                <Link href={'/docs'} className='font-medium'>
+                                    <Button variant={"ghost"} className={`w-[100px] text-[15px] ${isActive('/docs')}`}>
+                                        Docs
+                                    </Button>
                                 </Link>
-                                <Link href={'/blog'} className=' font-medium' >
-                                    <Button variant={"ghost"} className=' w-[80px] text-[15px]'>Blog</Button>
+                                <Link href={'/blog'} className='font-medium'>
+                                    <Button variant={"ghost"} className={`w-[80px] text-[15px] ${isActive('/blog')}`}>
+                                        Blog
+                                    </Button>
                                 </Link>
-                                <Link href={'/faq'} className=' font-medium' >
-                                    <Button variant={"ghost"} className=' w-[80px] text-[15px]'>FAQS</Button>
+                                <Link href={'/faq'} className='font-medium'>
+                                    <Button variant={"ghost"} className={`w-[80px] text-[15px] ${isActive('/faq')}`}>
+                                        FAQS
+                                    </Button>
                                 </Link>
                             </nav>
 

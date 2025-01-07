@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     title: 'Login'
 }
 
-export default function SignUpPage() {
+export default function LoginPage() {
     return (
         <main className=" flex h-full md:h-screen items-center justify-center md:p-6 font-medium text-sm">
-            <div className=" shadow-2xl flex flex-col-reverse md:flex-row h-full md:max-h-[95%] w-full max-w-[64rem] md:rounded-2xl overflow-hidden border">
+            <div className=" bg-secondary shadow-2xl flex flex-col-reverse md:flex-row h-full md:max-h-[95%] w-full max-w-[64rem] md:rounded-2xl overflow-hidden border">
                 <div className=' w-full md:w-1/2 h-full p-[5vw] md:p-[2.5vw] flex flex-col gap-3'>
                     <div className=' space-y-2'>
                         <Link href={'/'}>

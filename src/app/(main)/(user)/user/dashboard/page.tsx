@@ -1,10 +1,36 @@
 import HeaderStatsSkeleton from "@/app/(main)/(admin)/admin/dashboard/HeaderStatsSkeleton";
 import AreaChartSkeleton from "@/components/AreaChartSkeleton";
+import Loading from "@/components/Loading";
+import { getUser } from "@/lib/getUser";
+import { getLast30dayDashboardData } from "@/lib/utils";
 import { Suspense } from "react";
+import { getDashboardDataByUserId, getLast30DayMailVerifyData } from "./actions";
 import AnalysisChart from "./AnalyticsChart";
 import HeaderStats from "./HeaderStats";
 
-export default function UserDashboard() {
+export default async function UserDashboard() {
+
+  const user = await getUser()
+
+  if (!user || !user.id) {
+    return <Loading />
+  }
+
+  const { dashboardData, error } = await getDashboardDataByUserId(user.id)
+
+  if (error) {
+    return <p className=" p-4 text-xs text-red-500">{error}</p>
+  }
+
+  if (!dashboardData) {
+    return <Loading />
+  }
+
+  const deliverable = dashboardData?.deliverableEmails.length
+  const undeliverable = dashboardData?.undeliverableEmails.length
+  const apiUsage = dashboardData?.apiUsagesEmails.length
+
+  const last30DaysDashboardData : getLast30DayMailVerifyData[] = getLast30dayDashboardData(dashboardData)
 
   return (
     <div className=" p-3 md:p-6 flex flex-col-reverse md:flex-row items-start gap-6 ">
@@ -13,7 +39,7 @@ export default function UserDashboard() {
           <h2 className="font-bold">See Your Usage Analytics By Area Chart</h2>
           <p className=" text-sm mb-5 text-muted-foreground">The dashboard provides insights on <span className=" font-semibold text-sky-500">Last 30 days</span> your deliverable and undeliverable emails, along with API usage trends through an area chart for efficient monitoring.</p>
           <Suspense fallback={<AreaChartSkeleton />}>
-            <AnalysisChart />
+            <AnalysisChart data={last30DaysDashboardData} />
           </Suspense>
         </div>
         {/* <div>
@@ -24,7 +50,7 @@ export default function UserDashboard() {
         </div> */}
       </div>
       <Suspense fallback={<HeaderStatsSkeleton type="USER" />}>
-        <HeaderStats />
+        <HeaderStats deliverable={deliverable || 0} unDeliverable={undeliverable || 0} apiUsage={apiUsage || 0} />
       </Suspense>
     </div>
   )

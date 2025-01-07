@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { formatDate, formatDistanceToNowStrict } from 'date-fns';
 import { twMerge } from "tailwind-merge";
 
+import { userDashboardData } from "@prisma/client";
 import disposableDomains from 'disposable-email-domains';
 
 
@@ -20,6 +21,51 @@ export const emailConfig = {
         pass: "6RahhU4G26VH",
     },
 };
+
+function countEmailsByDay(emails: { email: string; checkedAt: Date }[]) {
+
+  const date30DaysAgo = new Date();
+  date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
+
+  return emails
+      .filter(email => email.checkedAt >= date30DaysAgo) // Filter emails from the last 30 days
+      .reduce((acc, email) => {
+          const dateKey = email.checkedAt.toISOString().split('T')[0]; // Extract the date (YYYY-MM-DD)
+          if (!acc[dateKey]) {
+              acc[dateKey] = 0;
+          }
+          acc[dateKey] += 1;
+          return acc;
+      }, {} as Record<string, number>);
+}
+
+
+export const getLast30dayDashboardData = (userDashboardData: userDashboardData) => {
+  // Count emails by type for the last 30 days
+  const deliverableCount = countEmailsByDay(userDashboardData.deliverableEmails);
+  const undeliverableCount = countEmailsByDay(userDashboardData.undeliverableEmails);
+  const apiUsageCount = countEmailsByDay(userDashboardData.apiUsagesEmails);
+
+  // Prepare all dates in the last 30 days
+  const allDates = [];
+  for (let i = 0; i < 30; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      allDates.push(date.toISOString().split('T')[0]); // Add the date (YYYY-MM-DD)
+  }
+
+  // Merge data with 0 values for missing days
+  const finalData = allDates.map(date => ({
+      day : date,
+      deliverable: deliverableCount[date] || 0,
+      unDeliverable: undeliverableCount[date] || 0,
+      apiUsage: apiUsageCount[date] || 0,
+  }));
+
+  return finalData.reverse();
+}
+
+
 
 
 export function cn(...inputs: ClassValue[]) {

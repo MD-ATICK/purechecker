@@ -7,7 +7,7 @@ import net from 'net';
 import { SMTPClient } from 'smtp-client';
 
 // singleBulkEmailVerify
-export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId }: { email: string, userId: string, uploadFileId?: string, apiTokenId?: string }) => {
+export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId, forApi }: { email: string, userId: string, uploadFileId?: string, apiTokenId?: string, forApi?: boolean }) => {
     const domain = email.split('@')[1];
     const free = isFreeDomain(domain);
     const role = inferRole(email) || "user";
@@ -39,9 +39,75 @@ export const emailCheck = async ({ email, userId, uploadFileId, apiTokenId }: { 
         role,
     }
 
+    if (smtpExists.result) {
+        if (forApi) {
+            await db.userDashboardData.updateMany({
+                where: { userId },
+                data: {
+                    deliverableEmails: {
+                        push: {
+                            email,
+                            type: "DELIVERABLE",
+                        },
+                    },
+                    apiUsagesEmails: {
+                        push: {
+                            email,
+                            type: "API_USAGE",
+                        },
+                    },
+                }
+            })
+        } else {
+            await db.userDashboardData.updateMany({
+                where: { userId },
+                data: {
+                    deliverableEmails: {
+                        push: {
+                            email,
+                            type: "DELIVERABLE",
+                        },
+                    },
+                }
+            })
+        }
+    } else {
+        if (forApi) {
+            await db.userDashboardData.updateMany({
+                where: { userId },
+                data: {
+                    undeliverableEmails: {
+                        push: {
+                            email,
+                            type: "UNDELIVERABLE",
+                        },
+                    },
+                    apiUsagesEmails: {
+                        push: {
+                            email,
+                            type: "API_USAGE",
+                        },
+                    },
+                }
+            })
+        } else {
+            await db.userDashboardData.updateMany({
+                where: { userId },
+                data: {
+                    undeliverableEmails: {
+                        push: {
+                            email,
+                            type: "UNDELIVERABLE",
+                        },
+                    },
+                }
+            })
+        }
+    }
+
     const result = await db.verifyEmail.create({
         data
-    })
+    });
 
     return { data: result }
 
@@ -62,9 +128,13 @@ export const smtpClientCheck = async ({ email, mxRecord }: { email: string, mxRe
         return { result: true, message: "Ok" }
     } catch (error) {
         return {
-            result: false, message: (error as Error).message.toLowerCase().includes('service unavailable') ?
-                "Service Unavailable:  Blocked by Spamhaus"
-                : (error as Error).message.toLowerCase().includes('does not exist') ? "Email address does not exist" : (error as Error).message
+            result: false, message: (error as Error).message.toLowerCase().includes('service unavailable')
+                ? "Service Unavailable: Blocked by Spamhaus"
+                : (error as Error).message.toLowerCase().includes('does not exist')
+                    ? "Email address does not exist"
+                    : (error as Error).message.toLowerCase().includes('mailbox unavailable')
+                        ? "Mailbox is temporarily unavailable"
+                        : "Not Ok"
         }
     }
 }
@@ -105,7 +175,7 @@ export const reduceCredit = async (checkEmailCount: number, userId: string, cred
 
 
 // this used in only searchField and single check api
-export const singleCheckEmailVerify = async (email: string, userId: string, apiTokenId?: string) => {
+export const singleCheckEmailVerify = async ({ email, userId, apiTokenId, forApi }: { email: string, userId: string, apiTokenId?: string, forApi?: boolean }) => {
     try {
 
         if (!email || !isValidSyntax(email)) {
@@ -123,7 +193,7 @@ export const singleCheckEmailVerify = async (email: string, userId: string, apiT
             return { error: "you don't have enough credit" }
         }
 
-        const { data } = await emailCheck({ email, userId: user.id, apiTokenId })
+        const { data } = await emailCheck({ email, userId: user.id, apiTokenId, forApi })
 
         await db.credit.update({
             where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },

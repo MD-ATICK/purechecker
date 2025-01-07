@@ -45,6 +45,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     })
                 }
 
+                await db.userDashboardData.create({
+                    data: {
+                        userId: user?.id,
+                    }
+                })
+
                 await db.credit.create({
                     data: {
                         userId: user.id,
