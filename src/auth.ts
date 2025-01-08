@@ -97,6 +97,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.emailVerified = existingUser.emailVerified;
             token.customerId = existingUser.customerId;
             token.banned = existingUser.banned
+            token.password = existingUser.password
             token.subscriptionId = existingUser.subscriptions.find(subs => subs.status === 'active')?.id
 
             return token;
@@ -107,6 +108,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 session.user.id = token.sub
             }
             session.user.name = token.name as string
+            session.user.password = token.password as string || null
             session.user.role = token.role as "ADMIN" | "USER"
             session.user.isOAuth = token.isOAuth as boolean
             session.user.banned = token.banned as boolean

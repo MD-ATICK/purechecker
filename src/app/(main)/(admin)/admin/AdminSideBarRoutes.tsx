@@ -6,6 +6,7 @@ import dashboardImage from '@/assets/dashboard-small.png';
 import historyImage from '@/assets/history.png';
 import jobImage from '@/assets/job.png'; // Assuming this image exists
 import pricingImage from '@/assets/price-tag.png';
+import settingsImage from '@/assets/setting.png';
 import usersImage from '@/assets/user.png';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -73,6 +74,12 @@ export default function AdminSideBarRoutes() {
                 <Link href={'/admin/apis'} className='h-full w-full flex justify-start items-center gap-4'>
                     <Image alt='' className='invert-0 dark:invert' src={apisImage} height={20} />
                     <p className='hidden lg:block'>Api List</p>
+                </Link>
+            </Button>
+            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-12 w-full ${isActive('/admin/settings')}`}>
+                <Link href={'/admin/settings'} className='h-full w-full flex justify-start items-center gap-4'>
+                    <Image alt='' className='invert-0 dark:invert' src={settingsImage} height={20} />
+                    <p className='hidden lg:block'>Settings</p>
                 </Link>
             </Button>
         </div>
