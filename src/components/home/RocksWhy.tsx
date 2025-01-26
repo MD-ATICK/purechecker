@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function RocksWhy() {
     return (
-        <div className=' container md:pb-32 px-4 pt-8 space-y-6 md:space-y-20 mx-auto text-center flex justify-center items-center flex-col'>
+        <div className=' container md:pb-32 px-4 pt-16 space-y-6 md:space-y-16 mx-auto text-center flex justify-center items-center flex-col'>
             <h1 className=' w-full md:w-1/2 font-bold text-2xl md:text-4xl mx-auto'>Pure Checker R@cks (Here&apos;s Why)</h1>
 
             <div className=' flex flex-col md:flex-row items-center gap-10'>

@@ -6,7 +6,7 @@ import HeaderStatsSkeleton from "./HeaderStatsSkeleton";
 
 export default function page() {
   return (
-    <div className=" p-2 md:p-8">
+    <div className="">
       <Suspense fallback={<HeaderStatsSkeleton type="ADMIN" />}>
         <HeaderStats />
       </Suspense>

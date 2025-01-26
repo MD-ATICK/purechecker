@@ -33,9 +33,9 @@ export default async function UserDashboard() {
   const last30DaysDashboardData : getLast30DayMailVerifyData[] = getLast30dayDashboardData(dashboardData)
 
   return (
-    <div className=" p-3 md:p-6 flex flex-col-reverse md:flex-row items-start gap-6 ">
+    <div className="  flex flex-col-reverse md:flex-row items-start gap-6 ">
       <div className=" space-y-20 flex-grow">
-        <div>
+        <div className=" p-3">
           <h2 className="font-bold">See Your Usage Analytics By Area Chart</h2>
           <p className=" text-sm mb-5 text-muted-foreground">The dashboard provides insights on <span className=" font-semibold text-sky-500">Last 30 days</span> your deliverable and undeliverable emails, along with API usage trends through an area chart for efficient monitoring.</p>
           <Suspense fallback={<AreaChartSkeleton />}>

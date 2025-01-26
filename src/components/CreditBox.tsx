@@ -33,7 +33,7 @@ export default function CreditBox({ userId, dashboard }: props) {
                 !dashboard && (
                     <div>
                         <div className='text-sm text-muted-foreground flex items-center gap-2'>
-                            <Image alt="" src={rocket} height={17} className="invert" />
+                            <Image alt="" src={rocket} height={17} className=" " />
                             {isPending ? (
                                 <span> <Loading /></span>
                             ) : (

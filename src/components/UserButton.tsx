@@ -1,5 +1,5 @@
 
-import userImage from '@/assets/girl.jpg'
+import userImage from '@/assets/testimonial-user.png'
 import { Role } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,7 +10,7 @@ export default function UserButton({ name, role }: { userId: string, name: strin
     return (
         <DropdownMenu >
             <DropdownMenuTrigger className=' outline-none'>
-                <Image height={55} className=' rounded-full object-cover shadow-sm aspect-square' src={userImage} alt='' />
+                <Image height={35} className=' rounded-full object-cover shadow-sm aspect-square' src={userImage} alt='' />
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
                 <DropdownMenuLabel>

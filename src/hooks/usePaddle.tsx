@@ -29,6 +29,7 @@ export default function usePaddle() {
           const res = await createCredit(user_id, volume_id, type)
           const user = await getUserById(user_id)
           const volumeRes = await getVolumeById(volume_id)
+         
           if (res.success && user && volumeRes.success) {
             if (type === "SUBSCRIPTION") {
               const html = await render(<SubscriptionMail name={user.name!} email={user.email!} amount={volumeRes.volume.amount} credit={volumeRes.volume.credit} perDayCredit={Math.floor(volumeRes.volume.credit / 30)} createdAt={new Date().toISOString()} type={volumeRes.volume.type} />)
@@ -41,6 +42,7 @@ export default function usePaddle() {
 
             }
             window.location.href = `${process.env.NEXT_PUBLIC_APP_URL}/payment/success?transactionId=${data.data?.transaction_id}`
+            
           } else {
             notFound()
           }

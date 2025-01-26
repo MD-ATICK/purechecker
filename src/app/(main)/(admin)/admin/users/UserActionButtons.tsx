@@ -31,7 +31,7 @@ export default function UserActionButtons({ userId, banned }: { userId: string, 
         return (
             // <div className=' flex items-center justify-center gap-2'>
             <LoadingButton size={'icon'} className=' bg-green-600' disabled={isPending} isPending={isPending} onClick={onclick}>
-                <Image alt='' className=' invert-0 dark:invert' src={unBanUserImage} height={18} />
+                <Image alt='' className=' ' src={unBanUserImage} height={18} />
             </LoadingButton>
             // </div>
         )
@@ -41,7 +41,7 @@ export default function UserActionButtons({ userId, banned }: { userId: string, 
         return (
             // <div className=' flex items-center justify-center gap-2'>
             <LoadingButton size={'icon'} className=' bg-red-600' disabled={isPending} isPending={isPending} onClick={onclick}>
-                <Image alt='' className=' invert-0 dark:invert' src={banUserImage} height={18} />
+                <Image alt='' className=' ' src={banUserImage} height={18} />
             </LoadingButton>
             // </div>
         )

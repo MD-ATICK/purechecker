@@ -33,7 +33,7 @@ export default function UserAreaChart({ data }: UserAreaChartProps) {
                     </defs>
                     <XAxis dataKey="Day" style={{ fontSize: '10px', fontWeight: '500' }} />
                     <YAxis style={{ fontSize: '12px', fontWeight: '500' }} />
-                    <Tooltip contentStyle={{ fontSize: '16px', borderRadius: "10px", background: "black" }} />
+                    <Tooltip contentStyle={{ fontSize: '16px', borderRadius: "10px", background: "white" }} />
 
                     <Area type="monotone" dataKey="Users" stroke="#005ac9" fill="url(#colorCount)" />
                 </AreaChart>

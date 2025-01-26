@@ -104,9 +104,9 @@ export default function LoginForm() {
 
         {/* or line */}
         <div className=' flex items-center gap-3'>
-          <div className=' bg-muted flex-1  h-px' />
+          <div className=' bg-primary/20 flex-1  h-px' />
           <span className=' font-medium text-xs'>OR</span>
-          <div className=' bg-muted flex-1  h-px' />
+          <div className=' bg-primary/20 flex-1  h-px' />
         </div>
 
         {/* Google login button */}

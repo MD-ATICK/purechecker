@@ -4,16 +4,13 @@ import { getUserById } from '@/actions/users'
 import logo from '@/assets/logo.png'
 import { getUser } from '@/lib/getUser'
 import { useUserStore } from '@/store/useUserStore'
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { BeatLoader } from 'react-spinners'
-import BannedMessage from '../BannedMessage'
 import CreditBox from '../CreditBox'
 import MenuSheet from '../MenuSheet'
-import NotVerifiedMessage from '../NotVerifiedMessage'
 import UserButton from '../UserButton'
 import { Button } from './button'
 
@@ -24,18 +21,12 @@ export default function PoweredNavbar() {
 
     const { setUser, user, isAuthPending } = useUserStore()
     const [isPending, setIsPending] = useState(true);
-    // const [isPending, startTransition] = useTransition()
 
 
     useEffect(() => {
         const call = async () => {
             const user = await getUser()
             if (user && user.id) {
-                // if (user.subscriptionId) {
-                //   await checkSubscription({ userId: user.id, subscriptionId: user.subscriptionId })
-                // }
-
-                // * extra work by next-auth and mongodb user validation
                 const getUser = await getUserById(user.id)
                 if (!getUser) {
                     await logout()
@@ -49,46 +40,13 @@ export default function PoweredNavbar() {
         call()
     }, [setUser]);
 
-    const currentPath = usePathname(); // Get the current path
-
-    // Helper function to check if the current route matches the button's route
-    const isActive = (path: string) => currentPath === path ? 'bg-muted' : '';
-
-
-    // useEffect(() => {
-    //   const getCredit = async () => {
-    //     startTransition(async () => {
-    //       const getUser = await getUserById(user.id)
-    //       toast.success('call')
-    //       if (!getUser) {
-    //         await logout()
-    //       } else if (getUser) {
-    //         setUser(getUser)
-    //       }
-    //     })
-    //   }
-    //   getCredit()
-    // }, [userId, setUser]);
+    const currentPath = usePathname();
+    const isActive = (path: string) => currentPath === path ? 'bg-primary text-white' : '';
     return (
         <>
             {
                 !hideNavbar &&
-                <motion.div
-
-                    initial={{
-                        opacity: 0,
-                        scale: 0.95,
-                        filter: 'blur(5px)',
-                    }}
-                    animate={{
-                        opacity: 1,
-                        scale: 1,
-                        filter: 'blur(0px)',
-                    }}
-                    transition={{ duration: 0.5 }}
-                    className={``}
-                >
-                    <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg h-16 flex justify-between items-center">
+                    <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg shadow-primary/10 h-20 flex justify-between items-center">
                         <main className=' container mx-auto flex items-center justify-between'>
 
                             {/* LOGO */}
@@ -132,15 +90,9 @@ export default function PoweredNavbar() {
                             </nav>
 
 
-                            {/* ACTIONS BUTTON */}
                             <div className=' flex items-center gap-2'>
                                 <MenuSheet className=' lg:hidden' />
 
-                                {/* comment mode toggle because of jamela. in future, i will uncomment again. */}
-                                {/* {
-            user &&
-            <ModeToggle />
-          } */}
                                 {
                                     user && user.id && <div className=' flex items-center justify-center gap-2 sm:gap-4'>
                                         <CreditBox userId={user.id} />
@@ -174,14 +126,6 @@ export default function PoweredNavbar() {
 
                         </main>
                     </div>
-                    {
-                        user?.email && !user.emailVerified &&
-                        <NotVerifiedMessage email={user.email} />
-                    }
-                    {user?.banned &&
-                        <BannedMessage />
-                    }
-                </motion.div >
             }
         </>
     )

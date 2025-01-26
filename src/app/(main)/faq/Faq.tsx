@@ -9,7 +9,7 @@ export default function Faq() {
     return (
         <div className=" container mx-auto text-center py-6 px-2">
             <h1 className=" text-2xl md:text-3xl">Frequently Asked Questions</h1>
-            <Accordion type="single" collapsible className=" py-6 px-2">
+            <Accordion type="single" collapsible className=" py-6 px-2 space-y-2">
                 <AccordionItem value="item-1">
                     <AccordionTrigger>What is Pure Checker?</AccordionTrigger>
                     <AccordionContent>

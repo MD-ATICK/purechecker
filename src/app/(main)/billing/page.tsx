@@ -83,13 +83,13 @@ export default function Page() {
                   <span className="h-5 mt-2 aspect-square rounded-full bg-yellow-600"></span>
                   <h2 className=" font-bold">     No Active Subscription</h2>
                 </div>
-                <p className=" text-sm text-gray-300">You have buy a plan to get ultimate features.</p>
+                <p className=" text-sm text-gray-500">You have buy a plan to get ultimate features.</p>
               </div>
 
 
               {/* subscription info box */}
               <div className=" flex flex-col justify-center gap-2 items-center">
-                <p className=" text-center text-sm text-gray-300">
+                <p className=" text-center text-sm text-gray-500">
                   Upgrade to a plan for daily email verifications. Verify more emails with additional credits. Explore our subscription options to enhance your experience!
                 </p>
                 <br />
@@ -121,7 +121,7 @@ export default function Page() {
                   <span className="h-5 mt-2 aspect-square rounded-full bg-green-600"></span>
                   <h2 className=" font-bold capitalize">{subscription.status} Subscription</h2>
                 </div>
-                <p className=" text-sm text-gray-300"> Stay up-to-date with your current plan and renewal details</p>
+                <p className=" text-sm text-gray-500"> Stay up-to-date with your current plan and renewal details</p>
               </div>
 
 

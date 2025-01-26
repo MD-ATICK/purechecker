@@ -13,7 +13,7 @@ export default async function page() {
   }
 
   return (
-    <div className=" p-[1.5vw] space-y-5">
+    <div className=" p-[1.5vw] space-y-5 h-screen">
       <div className=" flex flex-col gap-4 md:flex-row justify-between items-center">
         <div className="flex-1">
           <h1 className=" text-lg font-bold">Copy User Id</h1>

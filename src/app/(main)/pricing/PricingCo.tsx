@@ -10,16 +10,16 @@ export default async function PricingCo({ route, heading }: { route?: "ADMIN" | 
     const subscriptions = await db.volume.findMany({ where: { type: "SUBSCRIPTION" }, orderBy: { credit: 'desc' } })
 
     return (
-        <div>
+        <div className=" py-6">
             {
                 heading &&
                 <h1 className=" text-center py-3" >{heading}</h1>
             }
             <div className=" container mx-auto mt-4 flex justify-center items-center">
                 <Tabs defaultValue="purchase" className=" w-full">
-                    <TabsList className=" w-full h-12 md:h-16">
-                        <TabsTrigger value="purchase" className=" w-1/2">Pay as You go</TabsTrigger>
-                        <TabsTrigger value="subscription" className=" w-1/2">Monthly Subscription</TabsTrigger>
+                    <TabsList className=" w-2/3 mx-auto border border-primary h-12 md:h-16">
+                        <TabsTrigger value="purchase" className=" text-black w-1/2">Pay as You go</TabsTrigger>
+                        <TabsTrigger value="subscription" className="  text-black w-1/2">Monthly Subscription</TabsTrigger>
                     </TabsList>
                     <TabsContent value="purchase">
                         <Purchase route={route} purchases={purchases} />

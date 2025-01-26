@@ -26,7 +26,7 @@ export default async function CreditHistoryPage() {
   return (
       <div>
           <Table>
-              <TableCaption>A list of Orders.</TableCaption>
+              <TableCaption>A list of Credit History.</TableCaption>
               <TableHeader>
                   <TableRow className=" font-medium">
                       <TableHead className="w-[100px]">No</TableHead>

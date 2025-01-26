@@ -8,7 +8,7 @@ export default async function HeaderStats() {
     const emailsData = await getTotalVerifyEmails()
 
     return (
-        <div className=" md:h-32 w-full grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-6">
+        <div className=" md:h-48 p-6 bg-sky-50 w-full grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-6">
             <div className=" h-full w-full p-2 flex flex-col justify-between md:p-4 border-b-2 md:border-r-2 md:border-b-0">
                 <h2 className=" text-lg md:text-xl font-bold">Users</h2>
                 <div className=" flex items-end justify-between pr-4">

@@ -5,7 +5,8 @@ import { Button } from '../ui/button'
 
 export default function EmailVerificationApi() {
     return (
-        <div className=' container mx-auto flex flex-col md:flex-row justify-center items-center py-6 md:py-8'>
+        <div className=' bg-sky-50'>
+        <div className=' container mx-auto flex flex-col md:flex-row justify-center items-center py-10 md:py-16'>
             <div className=' flex-1 flex  w-full justify-center items-center'>
                 <div className='w-full relative aspect-[16/11]'>
                     <Image alt='' src={apiImage} fill sizes='700px' className=' w-full object-cover rounded-xl' />
@@ -19,6 +20,7 @@ export default function EmailVerificationApi() {
                 <Button variant={"default"}>Get Your Api Key</Button>
                 </Link>
             </div>
+        </div>
         </div>
     )
 }

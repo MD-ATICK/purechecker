@@ -20,7 +20,7 @@ export default function MenuSheet({ className }: { className?: string }) {
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant={'outline'} className='' size={'icon'}>
-                        <Image alt="" src={menuImage} height={18} />
+                        <Image alt="" className=' invert' src={menuImage} height={18} />
                     </Button>
                 </SheetTrigger>
                 <SheetContent className=' flex justify-center gap-4 items-center flex-col'>

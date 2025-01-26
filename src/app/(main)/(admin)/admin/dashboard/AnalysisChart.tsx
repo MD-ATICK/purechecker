@@ -11,7 +11,7 @@ export default async function AnalysisChart() {
     }
 
     return (
-        <div className=" my-[5vw]">
+        <div className="  p-2 md:p-8">
               <h2 className=" text-xl md:text-2xl font-bold">See Users Analytics</h2>
               <p className=" text-sm mb-5 text-muted-foreground">The dashboard provides insights on last <span className=" text-sky-500 font-semibold">14 days</span> users through an area chart for efficient monitoring.</p>
             <UserAreaChart data={data} />

@@ -15,7 +15,7 @@ export default function BuyNowButton({ type, volumeId, paddlePriceId }: { paddle
     if (!user || !user.id) {
         return  (
             <Link href={'/login'}>
-                <Button>Login</Button>
+                <Button >Login</Button>
             </Link>
         );
     }
@@ -62,7 +62,7 @@ export default function BuyNowButton({ type, volumeId, paddlePriceId }: { paddle
             }
             {
                 type === "SUBSCRIPTION" &&
-                <LoadingButton isPending={isPending} disabled={isPending || (user.subscriptionId ? true : false)} onClick={buyHandler}>
+                <LoadingButton  isPending={isPending} disabled={isPending || (user.subscriptionId ? true : false)} onClick={buyHandler}>
                     {
                         user.subscriptionId ? 'Subscribed' : "Subscribe Now"
                     }

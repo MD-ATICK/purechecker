@@ -14,21 +14,30 @@ enum Role {
 
 // user, credit , email verify object , valume , subscription, blog
 
+model Anonymous {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  localIp   String
+  credit    Int      @default(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model User {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
-  username        String?       @unique
-  email           String?       @unique
-  emailVerified   DateTime?
-  password        String?
-  image           String?
-  banned          Boolean       @default(false)
-  role            Role          @default(USER)
-  verifyEmails    VerifyEmail[]
-  credits         Credit[]
-  blogs           Blog[]
-  volumes         Volume[]
-  apis            ApiToken[]
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  username      String?       @unique
+  email         String?       @unique
+  ip            String?
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  banned        Boolean       @default(false)
+  role          Role          @default(USER)
+  verifyEmails  VerifyEmail[]
+  credits       Credit[]
+  blogs         Blog[]
+  volumes       Volume[]
+  apis          ApiToken[]
 
   accounts      Account[]
   sessions      Session[]
@@ -122,7 +131,7 @@ type EmailDataDashboard {
 model userDashboardData {
   id                  String               @id @default(auto()) @map("_id") @db.ObjectId
   userId              String               @db.ObjectId
-  apiUsagesEmails      EmailDataDashboard[]
+  apiUsagesEmails     EmailDataDashboard[]
   deliverableEmails   EmailDataDashboard[]
   undeliverableEmails EmailDataDashboard[]
   createdAt           DateTime             @default(now())

@@ -42,7 +42,7 @@ export default function EmailVerifyAreaChart({ data }: EmailVerifyAreaChartProps
                     </defs>
                     <XAxis dataKey="day" style={{ fontSize: '10px', fontWeight: '500' }} />
                     <YAxis style={{ fontSize: '12px', fontWeight: '500' }} />
-                    <Tooltip contentStyle={{ fontSize: '16px', borderRadius: "10px", background: "black" }} />
+                    <Tooltip contentStyle={{ fontSize: '16px', borderRadius: "10px", background: "white" }} />
 
                     <Area type="monotone" dataKey="deliverable" stroke="#00c30d" fill="url(#colorDeliverable)" />
                     <Area type="monotone" dataKey="unDeliverable" stroke="#FF5000" fill="url(#colorUndeliverable)" />

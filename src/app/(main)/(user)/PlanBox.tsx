@@ -22,7 +22,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger className=' outline-none w-full'>
-                <div className=' cursor-pointer flex md:px-3 h-12  justify-center md:justify-between gap-2 bg-secondary/80 mb-2 items-center rounded-lg w-full'>
+                <div className=' cursor-pointer flex md:px-3 h-12  justify-center md:justify-between gap-2 shadow-lg bg-primary/40 mb-2 items-center rounded-lg w-full'>
                     <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
                     <div className=' hidden md:flex w-full items-center justify-between'>
                         <div className=' text-start'>
@@ -33,7 +33,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                     </div>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end' className=' p-2 bg-secondary min-w-[280px] ' >
+            <DropdownMenuContent align='end' className=' p-2 min-w-[280px] ' >
 
                 <div className=' cursor-pointer flex md:px-3 h-12 justify-between gap-2  items-center rounded-lg w-full'>
                     <Image src={user.image || defaultUserImage} height={30} className=' rounded-md object-cover aspect-square' width={30} alt='' />
@@ -42,7 +42,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                             <p className=' font-semibold text-sm'>{user.name}</p>
                             <p className=' font-medium -mt-2 text-xs'>{user.email}</p>
                         </div>
-                        <Image alt='' src={unfold} height={15} width={15} className=' invert' />
+                        <Image alt='' src={unfold} height={15} width={15} className='' />
                     </div>
                 </div>
                 <Separator />
@@ -52,7 +52,7 @@ export default async function PlanBox({ user }: { user: ExtendedUser }) {
                     !user.subscriptionId &&
                     <Link href={'/pricing'}>
                         <DropdownMenuItem className='flex h-9 items-center gap-3'>
-                            <Image alt='' src={priceTag} height={15} width={15} className=' invert' />
+                            <Image alt='' src={priceTag} height={15} width={15} className='' />
                             <p className=' text-start text-sm'>Buy Credit</p>
                         </DropdownMenuItem>
                     </Link>
