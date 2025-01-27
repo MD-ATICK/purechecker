@@ -8,6 +8,7 @@ import jobImage from "@/assets/job.png"; // Assuming this image exists
 import pricingImage from "@/assets/price-tag.png";
 import settingsImage from "@/assets/setting.png";
 import usersImage from "@/assets/user.png";
+import anonymousImage from "@/assets/anonymous.png";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -77,7 +78,7 @@ export default function AdminSideBarRoutes() {
           href={"/admin/anonymous-users"}
           className="h-full w-full flex justify-start items-center gap-4"
         >
-          <Image alt="" className=" invert" src={usersImage} height={20} />
+          <Image alt="" className=" invert" src={anonymousImage} height={20} />
           <p className="hidden lg:block">Anonymous Users</p>
         </Link>
       </Button>

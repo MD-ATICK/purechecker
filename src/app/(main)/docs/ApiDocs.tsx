@@ -17,7 +17,7 @@ export default function ApiDocs() {
     return (
         <div className=" py-10 space-y-2 ">
 
-            <div className="  text-yellow-400 text-xs sm:text-sm flex text-start gap-3">
+            <div className="  text-yellow-500 text-xs sm:text-sm flex text-start gap-3">
                 <div className=" h-4 aspect-square">
                     <Info size={16} className="" />
                 </div>
@@ -26,7 +26,7 @@ export default function ApiDocs() {
                 </span>
             </div>
 
-            <div className="  text-yellow-400 text-xs sm:text-sm flex text-start gap-3">
+            <div className="  text-yellow-500 text-xs sm:text-sm flex text-start gap-3">
                 <div className=" h-4 aspect-square">
                     <Info size={16} className="" />
                 </div>

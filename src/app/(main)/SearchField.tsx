@@ -31,7 +31,7 @@ export default function EmailCheckerField() {
   }>();
 
   const { credit, setCredit } = useCreditStore();
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false)
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
   const onsubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,15 +40,16 @@ export default function EmailCheckerField() {
       console.log(user);
       if (!user || !user.id) {
         const { data, message, popup } = await anonymousUserCheck({
-          email: search,
+          email: search
         });
+        console.log({ data, message, popup });
         if (popup) {
-          setIsPopUpOpen(true)
+          setIsPopUpOpen(true);
           return;
         }
         if (data && message) {
+          setOpen(true);
           setResult(data);
-          // toast.success(message);
         }
         return;
       }
@@ -101,16 +102,23 @@ export default function EmailCheckerField() {
       </Button> */}
       {/* Dialog */}
       <Dialog open={isPopUpOpen} onOpenChange={setIsPopUpOpen}>
-          <DialogContent>
-            <div className=" flex justify-center items-center text-center flex-col">
-              <DialogTitle className=" font-bold text-3xl text-red-500">Verify Failed 💔</DialogTitle>
-              <p className=" text-muted-foreground">Your have been used <span className=" font-bold text-primary">20/20</span> of your free credit. Please register to get free <span className=" font-bold text-primary">100</span> credit</p>
-              <br />
-              <Link href={'/login'} className=" w-1/2">
-                <Button className=" w-full">Login</Button>
-              </Link>
-            </div>
-          </DialogContent>
+        <DialogContent>
+          <div className=" flex justify-center items-center text-center flex-col">
+            <DialogTitle className=" font-bold text-3xl text-red-500">
+              Verify Failed 💔
+            </DialogTitle>
+            <p className=" text-muted-foreground">
+              Your have been used{" "}
+              <span className=" font-bold text-primary">20/20</span> of your
+              free credit. Please register to get free{" "}
+              <span className=" font-bold text-primary">100</span> credit
+            </p>
+            <br />
+            <Link href={"/login"} className=" w-1/2">
+              <Button className=" w-full">Login</Button>
+            </Link>
+          </div>
+        </DialogContent>
       </Dialog>
       <form onSubmit={onsubmit} className="w-full flex items-center gap-1">
         <Input
@@ -149,7 +157,9 @@ export default function EmailCheckerField() {
           <DialogContent
             className={cn(
               "w-[95%] md:min-w-[60%] p-6 md:p-10 rounded-xl border-[4px]",
-              result.isExist ? " border-green-500 bg-green-50" : "border-destructive bg-red-50"
+              result.isExist
+                ? " border-green-500 bg-green-50"
+                : "border-destructive bg-red-50"
             )}
           >
             <div className=" w-full space-y-3 md:space-y-8">
@@ -289,8 +299,8 @@ export default function EmailCheckerField() {
               </div>
               <Button
                 onClick={() => setOpen(false)}
-                variant={"secondary"}
-                className=" h-12 w-full"
+                variant={"destructive"}
+                className=" h-12 w-full border-none"
               >
                 Cancel
               </Button>

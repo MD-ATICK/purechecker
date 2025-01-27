@@ -13,6 +13,10 @@ export const getAllAnonymousUsers = async () => {
 export const anonymousUserCheck = async ({ email }: { email: string }) => {
   const ip = await fetch("https://api.ipify.org").then((res) => res.text());
 
+  if (!ip) {
+    return { error: "Something went wrong" };
+  }
+
   const anonymousUser = await db.anonymous.findFirst({
     where: { localIp: ip || "127.0.0.1" },
   });
@@ -40,7 +44,7 @@ export const anonymousUserCheck = async ({ email }: { email: string }) => {
 
   await db.anonymous.create({
     data: {
-      localIp: ip,
+      localIp: ip || "127.0.0.1",
     },
   });
 
