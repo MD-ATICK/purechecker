@@ -190,7 +190,7 @@ export const smtpClientCheck = async ({
         ? "Email address does not exist"
         : (error as Error).message.toLowerCase().includes("mailbox unavailable")
         ? "Mailbox is temporarily unavailable"
-        : "Not Ok",
+        : "NOT OK",
     };
   }
 };

@@ -19,7 +19,7 @@ export default async function AnonymousUsersTable() {
         <TableHeader>
           <TableRow className=" font-medium">
             <TableHead className="w-[50px]">No</TableHead>
-            <TableHead className=" text-center">Ip</TableHead>
+            <TableHead className=" text-center">Device</TableHead>
             <TableHead className=" text-center">Limit</TableHead>
             <TableHead className=" text-center">Credit_Have</TableHead>
             <TableHead className=" text-center">Credit_Used</TableHead>
@@ -34,7 +34,7 @@ export default async function AnonymousUsersTable() {
                   {index + 1}
                 </TableCell>
                 <TableCell className="font-medium text-center text-xs">
-                  {au.localIp}
+                  {au.device}
                 </TableCell>
                 <TableCell className="font-medium text-center text-xs">20</TableCell>
                 <TableCell className="font-medium text-center text-xs">

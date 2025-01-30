@@ -1,7 +1,7 @@
 "use client"
 import emailImage from '@/assets/email.png';
 import locationImage from '@/assets/location.png';
-import logo from '@/assets/logo.png';
+import whiteLogo from '@/assets/logo-white.png';
 import viberImage from '@/assets/viber.png';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,8 +21,8 @@ export default function Footer() {
                     <div className=" container mx-auto px-3">
                         <div className="flex flex-col md:flex-row gap-6 justify-between items-start w-full py-[2vw]">
                             <div className=' space-y-2 flex-1'>
-                                <div className='flex items-center gap-2'>
-                                    <Image alt='' className=' bg-white p-1 rounded-sm' src={logo} height={40} />
+                                <div className='flex items-center gap-1'>
+                                    <Image alt='' className='' src={whiteLogo} height={35} />
                                     <h1 className=" font-bold text-2xl md:text-2xl">PureChecker</h1>
                                 </div>
                                 <div className=' space-y-2 md:space-y-4 md:py-8'>
@@ -65,7 +65,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <div className=" h-[1px] mt-4 w-full bg-sky-100"></div>
-                        <p className=" text-secondary text-center text-sm py-6">©2025 <Link className=' hover:underline text-sky-200' href={'https://purechecker.com'}>Purechecker.com</Link>. All rights reserved.</p>
+                        <p className=" text-gray-200 text-center text-sm py-6">©2025 <Link className=' hover:underline text-white' href={'https://purechecker.com'}>Purechecker.com</Link>. All rights reserved.</p>
                     </div>
                 </div>
             }

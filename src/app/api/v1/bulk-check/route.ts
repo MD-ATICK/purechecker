@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
         // Use for loop instead of map to handle async code properly
         for (const email of bulkEmails) {
-            const { data } = await emailCheck({ email, userId, apiTokenId: apiToken.id, forApi: true }) // Push the result into the initialized array
+            const { data } = await emailCheck({ email: email.trim(), userId, apiTokenId: apiToken.id, forApi: true }) // Push the result into the initialized array
             if (data) {
                 results.push(data)
             }

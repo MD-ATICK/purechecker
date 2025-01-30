@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <main className=" flex h-full md:h-screen items-center justify-center md:p-6 font-medium text-sm">
+    <main className=" flex h-full md:h-screen items-center justify-center md:p-4 font-medium text-sm">
       <div className=" bg-secondary shadow-2xl flex flex-col-reverse md:flex-row h-full md:max-h-[95%] w-full max-w-[64rem] md:rounded-2xl overflow-hidden border">
         <div className=" w-full md:w-1/2 h-full p-[5vw] md:p-[2.5vw] flex flex-col gap-3">
           <div className=" space-y-2">
@@ -18,8 +18,8 @@ export default function LoginPage() {
               <Image
                 alt=""
                 src={loginImage}
-                width={60}
-                height={60}
+                width={55}
+                height={55}
                 className=" object-cover"
               />
             </Link>

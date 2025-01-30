@@ -16,7 +16,7 @@ enum Role {
 
 model Anonymous {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  localIp   String
+  device   String
   credit    Int      @default(19)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -72,7 +72,7 @@ export default function DownloadDialog({ checkEmails , isChecking}: {isChecking?
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button disabled={isChecking || false} className='' variant={'outline'} size={'icon'}>
-                    <Image alt='' src={downloadImage} className='' height={25} />
+                    <Image alt='' src={downloadImage} className=' invert' height={25} />
                 </Button>
             </DialogTrigger>
             <DialogContent>

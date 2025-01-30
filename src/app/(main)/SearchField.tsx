@@ -1,5 +1,6 @@
 "use client";
 import { singleCheckEmailVerify } from "@/actions/emailVerify";
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -40,7 +41,7 @@ export default function EmailCheckerField() {
       console.log(user);
       if (!user || !user.id) {
         const { data, message, popup } = await anonymousUserCheck({
-          email: search
+          email: search,
         });
         console.log({ data, message, popup });
         if (popup) {
@@ -63,7 +64,7 @@ export default function EmailCheckerField() {
       }
 
       const res = await singleCheckEmailVerify({
-        email: search,
+        email: search.trim(),
         userId: user.id as string,
       });
       if (res.data) {
@@ -114,9 +115,14 @@ export default function EmailCheckerField() {
               <span className=" font-bold text-primary">100</span> credit
             </p>
             <br />
-            <Link href={"/login"} className=" w-1/2">
-              <Button className=" w-full">Login</Button>
-            </Link>
+            <div>
+              <Link href={"/login"} className=" w-1/2">
+                <Button className=" w-full">Login</Button>
+              </Link>
+              <Link href={"/signup"} className=" w-1/2">
+                <Button className=" w-full">Sign Up</Button>
+              </Link>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
@@ -148,7 +154,7 @@ export default function EmailCheckerField() {
           disabled={isPending || !search.length}
           className=" h-12 md:h-14 text-xs md:text-sm"
         >
-          {isPending ? "Verifying" : "Verify Email"}
+          {isPending ? <Loading className=" text-white" /> : "Verify Email"}
         </Button>
       </form>
 
@@ -300,7 +306,7 @@ export default function EmailCheckerField() {
               <Button
                 onClick={() => setOpen(false)}
                 variant={"destructive"}
-                className=" h-12 w-full border-none"
+                className=" h-12 w-full"
               >
                 Cancel
               </Button>

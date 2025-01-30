@@ -78,7 +78,7 @@ export default function AdminSideBarRoutes() {
           href={"/admin/anonymous-users"}
           className="h-full w-full flex justify-start items-center gap-4"
         >
-          <Image alt="" className=" invert" src={anonymousImage} height={20} />
+          <Image alt="" className="" src={anonymousImage} height={20} />
           <p className="hidden lg:block">Anonymous Users</p>
         </Link>
       </Button>

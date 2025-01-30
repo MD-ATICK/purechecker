@@ -51,7 +51,7 @@ export default function PendingFileCard({ file, userId }: PendingFileCardProps) 
       setProcessingEmails(prev => [...prev, { uploadFileId: file.id, enter: file.enterEmails.length, checked: 0, status: "PENDING" }])
 
       for (const email of file.enterEmails) {
-        const res = await emailCheck({ email, userId, uploadFileId: file.id });
+        const res = await emailCheck({ email: email.trim(), userId, uploadFileId: file.id });
         if (isCancelLoop.current) {
           return;
         }

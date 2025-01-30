@@ -24,7 +24,7 @@ export default function LoadingButton({ isPending, disabled, className, ...props
                     disabled={disabled || isPending}
                     {...props}
                 >
-                    {isPending ? <Loading /> : props.children}
+                    {isPending ? <Loading className=" text-white" /> : props.children}
                 </Button>
             )
         }

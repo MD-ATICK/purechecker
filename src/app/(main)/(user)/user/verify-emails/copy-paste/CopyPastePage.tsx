@@ -104,7 +104,7 @@ export default function CopyPastePage() {
                     <div className=" py-2 flex justify-end items-center">
                         <Button disabled={completeValue !== undefined} type="submit">{
                             completeValue ? <>
-                                {completeValue.checked}/{completeValue.enter} <Loading />
+                                {completeValue.checked}/{completeValue.enter} <Loading className=" text-white" />
                             </>
                                 :
                                 "Check"

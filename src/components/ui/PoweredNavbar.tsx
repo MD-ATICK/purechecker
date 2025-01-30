@@ -8,11 +8,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { BeatLoader } from 'react-spinners'
 import CreditBox from '../CreditBox'
 import MenuSheet from '../MenuSheet'
 import UserButton from '../UserButton'
 import { Button } from './button'
+import Loading from '../Loading'
 
 export default function PoweredNavbar() {
 
@@ -100,7 +100,7 @@ export default function PoweredNavbar() {
                                     </div>
                                 }
                                 {
-                                    (isPending || isAuthPending) && <BeatLoader color='blue' size={15} />
+                                    (isPending || isAuthPending) && <Loading />
                                 }
                                 {!isPending && !isAuthPending && !user && (
                                     <div className='md:flex hidden items-center gap-3'>

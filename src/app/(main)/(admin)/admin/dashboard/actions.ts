@@ -114,7 +114,7 @@ export const getTotalPayments = async () => {
     })
 
     const statsPercent = (((currentMonthPayments._sum.amount ?? 0) - (previousMonthPayments._sum.amount ?? 0)) / (previousMonthPayments._sum.amount ?? 0))
-    return { payments: payments._sum.amount, statsPercent: previousMonthPayments._sum.amount === null ? (100 * (currentMonthPayments._sum.amount || 0)) : statsPercent };
+    return { payments: payments._sum.amount || 0, statsPercent: previousMonthPayments._sum.amount === null ? (100 * (currentMonthPayments._sum.amount || 0)) : statsPercent };
 
 
 

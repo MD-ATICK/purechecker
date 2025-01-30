@@ -16,6 +16,7 @@ export default function UserButton({ name, role }: { userId: string, name: strin
                 <DropdownMenuLabel>
                     Hi, @{name || "John Due"}
                 </DropdownMenuLabel>
+                {role === "ADMIN" && <div className=' text-xs py-1 px-2 my-2 rounded-full bg-primary/10 text-primary w-fit'>Admin</div>}
                 <Link href={`/${role === "ADMIN" ? "admin" : "user"}/dashboard`}>
                     <DropdownMenuItem>
                         Dashboard

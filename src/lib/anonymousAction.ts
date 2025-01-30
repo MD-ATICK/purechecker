@@ -2,6 +2,7 @@
 
 import { anonymousUserEmailCheck } from "@/actions/emailVerify";
 import { db } from "./prisma";
+import { headers } from "next/headers";
 
 export const getAllAnonymousUsers = async () => {
   return await db.anonymous.findMany({
@@ -11,14 +12,14 @@ export const getAllAnonymousUsers = async () => {
 };
 
 export const anonymousUserCheck = async ({ email }: { email: string }) => {
-  const ip = await fetch("https://api.ipify.org").then((res) => res.text());
-
-  if (!ip) {
+  // const ip = await fetch("https://api.ipify.org").then((res) => res.text());
+  const device = await (await headers()).get("user-agent") || "Unknown";
+  if (!device) {
     return { error: "Something went wrong" };
   }
 
   const anonymousUser = await db.anonymous.findFirst({
-    where: { localIp: ip || "127.0.0.1" },
+    where: { device: device },
   });
 
   if (anonymousUser) {
@@ -30,7 +31,7 @@ export const anonymousUserCheck = async ({ email }: { email: string }) => {
     const { data } = await anonymousUserEmailCheck({ email });
 
     await db.anonymous.update({
-      where: { id: anonymousUser.id, localIp: ip },
+      where: { id: anonymousUser.id, device: device },
       data: {
         credit: anonymousUser.credit - 1,
       },
@@ -44,7 +45,7 @@ export const anonymousUserCheck = async ({ email }: { email: string }) => {
 
   await db.anonymous.create({
     data: {
-      localIp: ip || "127.0.0.1",
+      device,
     },
   });
 

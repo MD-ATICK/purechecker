@@ -16,7 +16,7 @@ export default function SignUpPage() {
                 <div className=' w-full md:w-1/2 h-full p-[6vw] md:p-[3vw] flex flex-col gap-4'>
                     <div className=' space-y-1'>
                         <Link href={'/'}>
-                            <Image alt='' src={signUpImage} width={60} height={60} className=' object-cover' />
+                            <Image alt='' src={signUpImage} width={55} height={55} className=' object-cover' />
                         </Link>
                         <h1 className=' font-bold text-2xl md:text-3xl'>Sign Up</h1>
                         <p className=' text-sm md:text-[15px] text-gray-400'>Sign up and get 100 free Credit</p>
