@@ -4,6 +4,7 @@ import { useUserStore } from '@/store/useUserStore'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '../ui/button'
+import { motion } from 'framer-motion'
 
 export default function HowToUse() {
 
@@ -20,21 +21,21 @@ export default function HowToUse() {
             <div className='flex z-0 py-4 md:py-20 w-full px-2 md:px-[4vw] flex-col-reverse md:flex-row gap-y-12 items-center justify-center'>
                 <div className='  w-full md:flex-[0.6] space-y-8 md:space-y-12 text-start flex flex-col'>
                     <div className=' space-y-3'>
-                        <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
+                        <div className='  flex items-center gap-3 font-bold text-2xl md:text-3xl'>
                         <div className=' h-7 md:h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>1</div>
                             Create a FREE account
                         </div>
                         <p className=' text-xs md:text-sm text-muted-foreground'>Get 100 email verifications for FREE.</p>
                     </div>
                     <div className=' space-y-3'>
-                        <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
+                        <div className='  flex items-center gap-3 font-bold text-2xl md:text-3xl'>
                         <div className=' h-7 md:h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>2</div>
 
                             Upload your dirty list</div>
                         <p className=' text-xs md:text-sm text-muted-foreground'>We accept CSV, XLS, TXT and other formats</p>
                     </div>
                     <div className=' space-y-3'>
-                        <div className='  flex items-center gap-3 font-bold text-xl md:text-2xl'>
+                        <div className='  flex items-center gap-3 font-bold text-2xl md:text-3xl'>
                         <div className=' h-7 md:h-10 aspect-square flex justify-center items-center text-primary bg-blue-100 font-bold text-lg md:text-2xl rounded-full'>3</div>
 
                             Download a clean list
@@ -45,9 +46,9 @@ export default function HowToUse() {
                         <Button className=' w-2/3 h-12 '>Try It Now</Button>
                     </Link>
                 </div>
-                <div className=' flex-1 w-full aspect-[16/9] relative'>
+                <motion.div initial={{ opacity: 0, x : 80 }} whileInView={{ opacity: 1, x : 0 }} transition={{ duration: 0.5 }} className=' flex-1 w-full aspect-[16/9] relative'>
                     <Image alt='' fill sizes='800px' className=' z-0 object-cover rounded-xl' src={dashboardImage} />
-                </div>
+                </motion.div>
             </div>
         </div>
         </div>

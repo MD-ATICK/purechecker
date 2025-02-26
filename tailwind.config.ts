@@ -15,6 +15,9 @@ const config: Config = {
   		screens: {
   			'2xl': '1360px'
   		},
+		fontFamily : {
+			sans : 'var(--font-mont)'
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

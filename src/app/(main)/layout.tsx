@@ -1,8 +1,7 @@
 import { auth } from "@/auth";
-import BannedMessage from "@/components/BannedMessage";
+import AdditionalMessage from "@/components/AdditionalMessage";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import NotVerifiedMessage from "@/components/NotVerifiedMessage";
 import React from "react";
 
 export default async function Layout({
@@ -15,13 +14,15 @@ export default async function Layout({
 
   return (
     <div className=" relative">
-      {/* <SessionProvider session={session}> */}
-      {session?.user.banned ? <BannedMessage /> : null}
-      {session?.user.email && session?.user.emailVerified === null ? (
-        <NotVerifiedMessage email={session.user.email!} />
-      ) : null}
+      {session && (
+        <AdditionalMessage
+          email={session.user.email!}
+          verified={session?.user.emailVerified ? true : false}
+          banned={session?.user.banned || false}
+        />
+      )}
       <Navbar />
-      {children}F
+      {children}
       <Footer />
       {/* </SessionProvider> */}
     </div>

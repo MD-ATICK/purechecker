@@ -42,7 +42,7 @@ export default function Testimonial() {
   return (
     <div className=" bg-secondary">
       <div className="container w-full overflow-hidden text-center mx-auto md:py-16">
-        <h2>Testimonial</h2>
+        <h1>Testimonial</h1>
         <p className="text-gray-500 text-sm sm:text-lg">
           Accurate bulk email validation shouldn&apos;t cost a fortune. Rated
           4.5/5 on

@@ -1,11 +1,11 @@
 import Banner from '@/components/Banner';
-import Faq from './Faq';
+import Faqs from './Faqs';
 
 export default function page() {
     return (
         <>
             <Banner name='FAQS' desc='Find answers to frequently asked questions about Pure Checker’s' />
-            <Faq />
+            <Faqs />
         </>
     )
 }

@@ -3,11 +3,16 @@ import TawkToChat from "@/components/TalkToChat";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import {  Montserrat, Space_Grotesk} from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const montserrat = Montserrat({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'], display : 'swap', weight : 'variable' , variable : '--font-mont' })
+const Grotesk = Space_Grotesk({
+  display : 'swap',
+  weight : ['300', '400', '500', '600', '700'],
+  subsets : ['latin'],
+})
 
 
 export const metadata: Metadata = {
@@ -116,7 +121,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${montserrat.className} antialiased font-medium bg-white dark:bg-background`}
+        className={`${Grotesk.className} ${montserrat.variable} antialiased font-medium bg-white dark:bg-background`}
       >
         <ThemeProvider
           attribute="class"

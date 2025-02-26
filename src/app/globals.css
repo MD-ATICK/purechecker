@@ -80,6 +80,7 @@ p {
     --chart-5: 27 87% 67%;
   }
 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -108,6 +109,20 @@ p {
   }
 }
 
+.bgAnimate{
+  background-color: #fcfeff;
+opacity: 0.8;
+background-image: radial-gradient(#444cf7 0.5px, #fcfeff 0.5px);
+background-size: 10px 10px;
+}
+
+.line {
+  @apply overflow-hidden
+}
+
+.word {
+  @apply translate-y-full
+}
 
 
 @layer base {

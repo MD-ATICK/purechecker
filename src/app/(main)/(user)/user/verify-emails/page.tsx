@@ -8,8 +8,8 @@ export default function VerifyEmails() {
     return (
         <div className=" p-3 md:px-6">
             <div className="">
-                <h1 className=" text-2xl font-bold">Change your profile</h1>
-                <p className="  text-sm text-muted-foreground">Update your profile information to keep your account details accurate and up to date.</p>
+                <h1 className=" text-3xl font-[900]">Bulk Emails Verify</h1>
+                <p className="  text-sm text-muted-foreground">Upload your bulk emails file or copy and paste them here.</p>
             </div>
 
             <div className=" py-8 grid grid-cols-1 md:grid-cols-2 gap-8 ">

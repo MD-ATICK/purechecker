@@ -11,6 +11,7 @@ import { useUserStore } from "@/store/useUserStore";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
+import {motion} from 'framer-motion'
 
 export default function EmailCheckerField() {
   const [search, setSearch] = useState("");
@@ -126,12 +127,12 @@ export default function EmailCheckerField() {
           </div>
         </DialogContent>
       </Dialog>
-      <form onSubmit={onsubmit} className="w-full flex items-center gap-1">
+      <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay : 0.5}} onSubmit={onsubmit} className="w-full flex items-center gap-1">
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Enter your email"
-          className="  border-2 border-primary h-12 md:h-14 w-full"
+          className="  border-2 font-bold border-primary h-14 text-lg w-full"
         />
         {/* <LoadingButton
           isPending={isPending}
@@ -152,11 +153,11 @@ export default function EmailCheckerField() {
         <Button
           type="submit"
           disabled={isPending || !search.length}
-          className=" h-12 md:h-14 text-xs md:text-sm"
+          className=" h-14 text-xs md:text-sm"
         >
-          {isPending ? <Loading className=" text-white" /> : "Verify Email"}
+          {isPending ? <Loading className=" text-white" /> : "Verify"}
         </Button>
-      </form>
+      </motion.form>
 
       {result && (
         <Dialog open={open} onOpenChange={setOpen}>

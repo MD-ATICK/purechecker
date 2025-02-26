@@ -46,13 +46,13 @@ export default function PoweredNavbar() {
         <>
             {
                 !hideNavbar &&
-                    <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg shadow-primary/10 h-20 flex justify-between items-center">
+                    <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg h-20 flex justify-between items-center">
                         <main className=' container mx-auto flex items-center justify-between'>
 
                             {/* LOGO */}
-                            <Link href={'/'} className='flex items-center gap-2'>
+                            <Link href={'/'} className='flex font-sans items-center gap-2'>
                                 <Image alt='' src={logo} height={30} />
-                                <h1 className=" font-bold mb-3 text-lg sm:text-2xl">PureChecker</h1>
+                                 <p className=' font-bold text-2xl'>PureChecker</p>
                             </Link>
 
                             {/* NAV ITEMS */}
