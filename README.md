@@ -1,4 +1,4 @@
-# PureChecker - The Best Email Verification Tool
+# PureChecker - The Best Email Verification Tool yet
 
 ![PureChecker Logo](public/logo.png)
 
