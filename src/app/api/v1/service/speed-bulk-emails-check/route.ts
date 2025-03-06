@@ -48,6 +48,6 @@ export async function POST(req: NextRequest) {
   }
 
   return new Response(JSON.stringify({ checkedEmails }), {
-    status: 201,
+    status: 200,
   });
 }
