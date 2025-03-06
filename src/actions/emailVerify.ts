@@ -40,6 +40,36 @@ export const anonymousUserEmailCheck = async ({email}:{email: string}) => {
   }
 };
 
+export const ServiceEmailCheck = async ({email}:{email : string}) => {
+  const domain = email.split("@")[1];
+  const free = isFreeDomain(domain);
+  const role = inferRole(email) || "user";
+  const isDisposable = isDisposableEmail(domain);
+  const mxRecords = await getMxRecords(domain);
+
+   const smtpExists = await smtpClientCheck({
+      email,
+      mxRecord: mxRecords[0]?.exchange,
+    });
+ 
+  const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
+
+  return {
+    email,
+    domain,
+    reason: smtpExists.message,
+    isExist: smtpExists.result,
+    isValidSyntax: isValidSyntax(email),
+    isValidDomain: mxRecords.length > 0 ? true : false,
+    riskLevel,
+    mxRecords,
+    isDisposable,
+    free,
+    role
+  }
+
+};
+
 // singleBulkEmailVerify
 export const emailCheck = async ({
   email,
