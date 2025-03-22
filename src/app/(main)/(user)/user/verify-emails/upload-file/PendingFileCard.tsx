@@ -58,7 +58,6 @@ export default function PendingFileCard({
         return toast.error(haveCredit.error);
       }
 
-      // todo: remove processingEmails and its state form useFileStore()
       setProcessingEmails((prev) => [
         ...prev,
         {
@@ -153,12 +152,12 @@ export default function PendingFileCard({
   };
 
   useEffect(() => {
-    // window.addEventListener("beforeunload", handleBeforeUpload);
+    window.addEventListener("beforeunload", handleBeforeUpload);
     fileEmailVerifyHandler();
 
-    // return () => {
-    //   window.removeEventListener("beforeunload", handleBeforeUpload);
-    // };
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUpload);
+    };
   }, []);
 
   return (
