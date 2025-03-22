@@ -10,7 +10,6 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  console.log("check", session);
 
   return (
     <div className=" relative">

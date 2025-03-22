@@ -112,7 +112,7 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
           )
         }
       </DialogTrigger>
-      <DialogContent className=" h-[90vh]  max-w-4xl overflow-y-scroll">
+      <DialogContent className=" h-[100vh]  max-w-8xl overflow-y-scroll">
         <DialogTitle>
           Add Blog
         </DialogTitle>

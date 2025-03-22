@@ -11,6 +11,8 @@ import { BulkDownloadEmailType } from "@/utils/BulkConvertFile";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import ResultPart from "./ResultPart";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
 
 
 export default function CopyPastePage() {
@@ -96,8 +98,8 @@ export default function CopyPastePage() {
             {/* PART - 1 */}
             <div className="  md:sticky top-3 left-0 flex-1">
                 <div className="">
-                    <h1 className=" text-2xl font-bold">Paste Your Email</h1>
-                    <p className="  text-xs text-muted-foreground">Paste your email addresses here to quickly verify their validity and ensure they’re ready for use.</p>
+                    <h1 className=" text-2xl font-bold flex items-center gap-2"> <Link href="/user/verify-emails"><ChevronLeft className=" size-7 cursor-pointer" /></Link> Paste Your Email</h1>
+                    <p className="  text-sm mb-2 text-muted-foreground">Paste your email addresses here to quickly verify their validity and ensure they’re ready for use.</p>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <Textarea disabled={isPending} value={value} onChange={(e) => setValue(e.target.value)} placeholder="Paste your emails here" rows={15} />

@@ -119,6 +119,7 @@ export default async function RootLayout({
           id="structured-data"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <meta name="msvalidate.01" content="819F838DC2F377A719BC54DA7C97D6D0" />
       </head>
       <body
         className={`${Grotesk.className} ${montserrat.variable} antialiased font-medium bg-white dark:bg-background`}

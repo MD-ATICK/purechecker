@@ -39,12 +39,10 @@ export default function EmailCheckerField() {
     e.preventDefault();
     try {
       setIsPending(true);
-      console.log(user);
       if (!user || !user.id) {
         const { data, message, popup } = await anonymousUserCheck({
           email: search,
         });
-        console.log({ data, message, popup });
         if (popup) {
           setIsPopUpOpen(true);
           return;
@@ -94,7 +92,6 @@ export default function EmailCheckerField() {
   //   const domain = email?.split("@")[1];
   //   const mxRecords = await getMxRecords(domain);
   //   const res = await smtpClientCheck({ email, mxRecord: mxRecords[0]?.exchange })
-  //   console.log(res)
   // };
 
   return (

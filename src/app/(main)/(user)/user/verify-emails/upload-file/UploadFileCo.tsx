@@ -15,6 +15,8 @@ import { toast } from 'sonner';
 import { createUploadFile, getUploadFilesByUserId } from './actions';
 import CompletedFiles from './CompletedFiles';
 import PendingFiles from './PendingFiles';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
 
 export interface processingEmailProps {
   uploadFileId: string,
@@ -106,7 +108,7 @@ export default function UploadFileCo({ userId }: { userId: string }) {
 
         {/* TITLE AND DESC */}
         <div className="">
-          <h1 className="text-2xl font-bold">Upload File</h1>
+        <h1 className=" text-2xl font-bold flex items-center gap-2"> <Link href="/user/verify-emails"><ChevronLeft className=" size-7 cursor-pointer" /></Link> Upload File </h1>
           <p className="text-xs text-muted-foreground">
             Upload your <b>.pdf</b>, <b>.csv</b>, or <b>.xlsx</b> file to easily verify email addresses in bulk and receive detailed results.
           </p>

@@ -109,6 +109,16 @@ p {
   }
 }
 
+
+table{
+  width: 80vw !important;
+}
+tr,td,th{
+  border: 1px solid rgb(219, 219, 219) !important;
+  width: 50vw !important;
+  height: 40px !important;
+}
+
 .bgAnimate{
   background-color: #fcfeff;
 opacity: 0.8;
