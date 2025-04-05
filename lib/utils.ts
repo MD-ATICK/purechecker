@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import crypto from 'crypto';
 import { formatDate, formatDistanceToNowStrict } from 'date-fns';
 import { twMerge } from "tailwind-merge";
+import freeDomains from "free-email-domains";
+
 
 import { userDashboardData } from "@prisma/client";
 import disposableDomains from 'disposable-email-domains';
@@ -75,6 +77,25 @@ export function cn(...inputs: ClassValue[]) {
 
 export function generateRandomToken(size = 32) {
   return crypto.randomBytes(size).toString('hex'); // Default size is 32 bytes
+}
+
+export function isFreeDomain(domain: string): boolean {
+  return freeDomains.includes(domain);
+}
+
+export function inferRole(email: string) {
+  const prefix = email.split("@")[0];
+  let role = "user";
+
+  if (
+    prefix.startsWith("admin") ||
+    prefix.startsWith("info") ||
+    prefix.startsWith("support")
+  ) {
+    role = "admin";
+  }
+
+  return role;
 }
 
 export function formatRelativeDate(from: Date) {

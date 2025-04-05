@@ -1,72 +1,35 @@
 "use client"
-import apisImage from '@/assets/api.png';
-import ordersImage from '@/assets/checkout.png';
-import dashboardImage from '@/assets/dashboard-small.png';
-import historyImage from '@/assets/history.png';
-import pricingImage from '@/assets/price-tag.png';
-import settingImage from '@/assets/setting.png';
-import emailImage from '@/assets/verify-email.png';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // Use for getting the current path
+import { Button } from "@/components/ui/button";
+import { userDashboardRoutes } from "@/lib/contants";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation"; // Use for getting the current path
 
 export default function SideBarRoute() {
-    const currentPath = usePathname(); // Get the current path
+  const currentPath = usePathname(); // Get the current path
 
-    // Helper function to check if the current route matches the button's route
-    const isActive = (route: string) => currentPath === route ? "bg-primary/20" : "";
+  return (
+    <div className="w-full flex flex-col gap-2">
+      {userDashboardRoutes.map(({ href, icon, label }) => {
+        const isActive = currentPath === href;
 
-    return (
-        <div className="w-full flex flex-col gap-2">
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/dashboard')}`}>
-                <Link href={'/user/dashboard'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={dashboardImage} height={20} />
-                    <p className='hidden lg:block'>Dashboard</p>
-                </Link>
-            </Button>
-
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/verify-emails')}`}>
-                <Link href={'/user/verify-emails'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={emailImage} height={20} />
-                    <p className='hidden lg:block'>Verify Emails</p>
-                </Link>
-            </Button>
-
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/orders')}`}>
-                <Link href={'/user/orders'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={ordersImage} height={20} />
-                    <p className='hidden lg:block'>Orders</p>
-                </Link>
-            </Button>
-
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/credit-history')}`}>
-                <Link href={'/user/credit-history'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={historyImage} height={20} />
-                    <p className='hidden lg:block'>Credit History</p>
-                </Link>
-            </Button>
-
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/pricing')}`}>
-                <Link href={'/user/pricing'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={pricingImage} height={20} />
-                    <p className='hidden lg:block'>Pricing</p>
-                </Link>
-            </Button>
-
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/api')}`}>
-                <Link href={'/user/api'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={apisImage} height={20} />
-                    <p className='hidden lg:block'>API</p>
-                </Link>
-            </Button>
-
-            <Button variant={'secondary'} className={`gap-2 p-2.5 h-10 lg:h-14 w-full ${isActive('/user/settings')}`}>
-                <Link href={'/user/settings'} className='h-full w-full flex justify-start items-center gap-4'>
-                    <Image alt='' className='' src={settingImage} height={20} />
-                    <p className='hidden lg:block'>Settings</p>
-                </Link>
-            </Button>
-        </div>
-    );
+        return (
+          <Button
+            key={label}
+            variant={'outline'}
+            className={cn("gap-2 p-2.5 h-10 lg:h-14 w-full hover:bg-primary hover:text-white duration-300 transition-all ease-linear", isActive && 'bg-primary text-white')}
+          >
+            <Link
+              href={href}
+              className="h-full w-full flex justify-start items-center gap-4"
+            >
+              {/* <Image alt="" className="" src={dashboardImage} height={20} /> */}
+              {icon}
+              <p className="hidden lg:block">{label}</p>
+            </Link>
+          </Button>
+        );
+      })}
+    </div>
+  );
 }

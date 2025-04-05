@@ -14,7 +14,7 @@ export default function UserSideBar({ className, user }: { className?: string, u
     }
 
     return (
-        <div className={cn(className, " lg:px-2 min-w-[50px] overflow-hidden h-screen p-1 z-50 bg-secondary flex flex-col justify-between items-start")}>
+        <div className={cn(className, " lg:px-2 min-w-[50px] overflow-hidden h-screen p-1 z-50 bg-white bg-gradient-to-tr to-white via-sky-100 from-white flex flex-col justify-between items-start")}>
             <Link href={'/'} className='flex items-center gap-2 p-1 '>
                 <Image alt='' src={logo} height={30} />
                 <h1 className=" hidden lg:block font-bold pb-2 text-2xl">PureChecker</h1>
