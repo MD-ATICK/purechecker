@@ -3,6 +3,7 @@ import { logout } from '@/actions/logout'
 import { useUserStore } from '@/store/useUserStore'
 import { signOut } from 'next-auth/react'
 import { DropdownMenuItem } from './ui/dropdown-menu'
+import { LogOutIcon } from 'lucide-react'
 
 export default function LogoutButton() {
 
@@ -15,7 +16,7 @@ export default function LogoutButton() {
       setNullUser()
       // await logout()
     }}>
-      Logout
+      <LogOutIcon /> Logout
     </DropdownMenuItem>
   )
 }

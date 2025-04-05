@@ -15,7 +15,7 @@ export default function BuyNowButton({ type, volumeId, paddlePriceId }: { paddle
     if (!user || !user.id) {
         return  (
             <Link href={'/login'}>
-                <Button >Login</Button>
+                <Button >Buy Credits</Button>
             </Link>
         );
     }

@@ -1,5 +1,5 @@
 "use client"
-import dashboardImage from '@/assets/dashboard-banner.png'
+import dashboardImage from '@/assets/dashboard.png'
 import { useUserStore } from '@/store/useUserStore'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,7 +11,7 @@ export default function HowToUse() {
     const { user } = useUserStore()
 
     return (
-        <div className='bg-sky-50'>
+        <div className='bg-sky-50 overflow-hidden'>
         <div className=' container z-10  md:py-[3.4vw] mx-auto text-center'>
             <div className=' text-center w-full p-4 md:w-3/5 mx-auto space-y-6'>
                 <h1 className=' text-3xl md:text-5xl font-bold leading-10'>How to Use Pure Checker&apos;s <br /> <span className=' text-primary'>Bulk Email</span> Checker</h1>
@@ -47,7 +47,7 @@ export default function HowToUse() {
                     </Link>
                 </div>
                 <motion.div initial={{ opacity: 0, x : 80 }} whileInView={{ opacity: 1, x : 0 }} transition={{ duration: 0.5 }} className=' flex-1 w-full aspect-[16/9] relative'>
-                    <Image alt='' fill sizes='800px' className=' z-0 object-cover rounded-xl' src={dashboardImage} />
+                    <Image alt='' fill sizes='800px' className=' z-0 object-cover' src={dashboardImage} />
                 </motion.div>
             </div>
         </div>

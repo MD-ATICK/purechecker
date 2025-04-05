@@ -87,6 +87,8 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
   };
 
 
+  
+
   useEffect(() => {
     if (typeof image === "string") {
       form.setValue("image", image, {
@@ -120,7 +122,7 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
           Add a new blog post to share your insights and engage with your audience!
         </DialogDescription>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-4 my-4">
+          <form onSubmit={form.handleSubmit(onsubmit)} className=" space-y-10 my-4">
             <div className=" space-y-2">
               <FormField
                 control={form.control}
@@ -205,7 +207,7 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
               name="htmlContent"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className=" flex items-center gap-1">Html Content <FormMessage /></FormLabel>
+                  <FormLabel className=" flex items-center gap-1">Content <FormMessage /></FormLabel>
                   <FormControl>
                     <TipTapEditor description={field.value} onChange={field.onChange} />
                   </FormControl>
@@ -222,7 +224,6 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
                   {/* Input for adding new tag */}
                   <div className="flex flex-col items-start mt-3 gap-2">
                     <FormLabel className=" flex items-center gap-1">Tags <FormMessage /></FormLabel>
-                    <FormDescription>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis, earum.</FormDescription>
                     <Input
                       placeholder="Enter a tag"
                       onKeyDown={(e) => {

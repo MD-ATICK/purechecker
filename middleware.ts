@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
-import authConfig from "../auth.config";
 import { authRoutes, default_login_redirect } from "./routes";
+import authConfig from "./auth.config";
 const { auth } = NextAuth(authConfig)
 
 // middleware is unlocked for matcher route. 

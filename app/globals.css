@@ -143,3 +143,8 @@ background-size: 10px 10px;
     @apply bg-background text-foreground;
   }
 }
+ 
+.editor-link {
+  color: #000854;
+  text-decoration-line: underline;
+}

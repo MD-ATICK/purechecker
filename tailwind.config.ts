@@ -1,14 +1,14 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from 'tailwindcss-animate';
-import { withUt } from "uploadthing/tw";
 
 
-const config: Config = {
+export default {
     darkMode: ["class"],
     content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+		"./pages/**/*.{js,ts,jsx,tsx,mdx}",
+		"./components/**/*.{js,ts,jsx,tsx,mdx}",
+		"./app/**/*.{js,ts,jsx,tsx,mdx}",
+		"./features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
@@ -90,7 +90,7 @@ const config: Config = {
   	}
   },
   plugins: [tailwindcssAnimate],
-};
+} satisfies Config
 
-export default withUt({ ...config, content: ["./src/**/*.{ts,tsx,mdx}"], });
+// export default withUt({ ...config, content: ["./**/*.{ts,tsx,mdx}"], });
 
