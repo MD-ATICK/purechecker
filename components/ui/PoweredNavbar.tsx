@@ -45,7 +45,7 @@ export default function PoweredNavbar() {
   return (
     <>
       {!hideNavbar && (
-        <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg h-20 flex justify-between items-center">
+        <div className=" sticky top-0 left-0 px-2 w-full backdrop-blur-lg bg-white z-50 dark:bg-secondary shadow-lg h-16 md:h-20 flex justify-between items-center">
           <main className=" container mx-auto flex items-center justify-between">
             {/* LOGO */}
             <Link href={"/"} className="flex font-sans items-center gap-2">

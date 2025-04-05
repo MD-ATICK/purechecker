@@ -26,7 +26,7 @@ export default async function UploadFile() {
               <p>fileId : {file.id}</p>
               <p>file Size : {file.fileSize / 1000}</p>
               <p>Status : {file.status} </p>
-              <p>Status : {file.enterEmails.length} </p>
+              <p>Emails  : {file.enterEmails.length} </p>
               {file.status === "COMPLETED" && (
                 <CompleteFileToDownload fileId={file.id} />
               )}

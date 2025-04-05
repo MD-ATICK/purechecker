@@ -4,6 +4,7 @@ import { generateXLSX } from "@/utils/BulkConvertFile";
 import { CheckCheck } from "lucide-react";
 import React, { useTransition } from "react";
 import { getVerifyEmailsByFileId } from "./actions";
+import DownloadFileDrawer from "./components/download-file-drawer";
 
 export default function CompleteFileToDownload({ fileId }: { fileId: string }) {
   const randomTenDigit = () => {
@@ -29,8 +30,9 @@ export default function CompleteFileToDownload({ fileId }: { fileId: string }) {
       </div>
 
       <Button onClick={handleDownload} disabled={isPending}>
-        {isPending ? "Downloading..." : "Download"}
+        {isPending ? "Downloading..." : "skip"}
       </Button>
+      <DownloadFileDrawer fileId={fileId} />
     </div>
   );
 }

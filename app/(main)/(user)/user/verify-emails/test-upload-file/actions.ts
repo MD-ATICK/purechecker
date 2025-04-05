@@ -45,9 +45,24 @@ export const parsingFileEmailCheck = async (email: string) => {
   };
 };
 
-export const getVerifyEmailsByFileId = async (fileId: string) => {
+export const getVerifyEmailsByFileId = async ({
+  fileId,
+  filter,
+}: {
+  fileId: string;
+  filter: "all" | "deliverable" | "undeliverable" | "disposable";
+}) => {
   const data = await db.verifyEmail.findMany({
-    where: { uploadFileId: fileId },
+    where: {
+      uploadFileId: fileId,
+      isDisposable: filter === "disposable" ? true : undefined,
+      isExist:
+        filter === "deliverable"
+          ? true
+          : filter === "undeliverable"
+          ? false
+          : undefined,
+    },
   });
 
   return { data };

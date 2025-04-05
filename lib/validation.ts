@@ -82,8 +82,6 @@ export type ForgotPasswordValues = z.infer<typeof ForgotPasswordSchema>
 
 export const DownloadEmailSchema = z.object({
   type: z.enum(['pdf', 'xlsx', 'csv']),
-  take: requiredNumber,
-  skip: requiredNumber,
   fileName: requiredString,
   filter: z.enum(['all', 'deliverable', 'undeliverable', 'disposable'])
 })
