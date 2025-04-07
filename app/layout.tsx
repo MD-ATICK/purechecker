@@ -3,7 +3,7 @@ import TawkToChat from "@/components/TalkToChat";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import {  Montserrat, Space_Grotesk} from "next/font/google";
+import {  Figtree, Montserrat, Space_Grotesk} from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 

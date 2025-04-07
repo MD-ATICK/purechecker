@@ -24,10 +24,7 @@ export async function GET(req: NextRequest) {
       where: {
         userId,
         secretKey,
-      },
-      include: {
-        verifyEmails: true,
-      },
+      }
     });
 
     if (!apiToken) {
@@ -42,6 +39,10 @@ export async function GET(req: NextRequest) {
       apiTokenId: apiToken.id,
       forApi: true,
     });
+
+
+    
+
     if (error) {
       return new Response(JSON.stringify({ error }), {
         status: 401,

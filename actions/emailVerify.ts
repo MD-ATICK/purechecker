@@ -5,8 +5,9 @@ import dns from "dns";
 import freeDomains from "free-email-domains";
 import net from "net";
 import { SMTPClient } from "smtp-client";
+import axios from "axios";
 
-export const anonymousUserEmailCheck = async ({email}:{email: string}) => {
+export const anonymousUserEmailCheck = async ({ email }: { email: string }) => {
   try {
     const domain = email.split("@")[1];
     const free = isFreeDomain(domain);
@@ -40,18 +41,18 @@ export const anonymousUserEmailCheck = async ({email}:{email: string}) => {
   }
 };
 
-export const ServiceEmailCheck = async ({email}:{email : string}) => {
+export const ServiceEmailCheck = async ({ email }: { email: string }) => {
   const domain = email.split("@")[1];
   const free = isFreeDomain(domain);
   const role = inferRole(email) || "user";
   const isDisposable = isDisposableEmail(domain);
   const mxRecords = await getMxRecords(domain);
 
-   const smtpExists = await smtpClientCheck({
-      email,
-      mxRecord: mxRecords[0]?.exchange,
-    });
- 
+  const smtpExists = await smtpClientCheck({
+    email,
+    mxRecord: mxRecords[0]?.exchange,
+  });
+
   const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
 
   return {
@@ -65,9 +66,8 @@ export const ServiceEmailCheck = async ({email}:{email : string}) => {
     mxRecords,
     isDisposable,
     free,
-    role
-  }
-
+    role,
+  };
 };
 
 // singleBulkEmailVerify
@@ -285,6 +285,15 @@ export const singleCheckEmailVerify = async ({
 
     const user = await db.user.findFirst({ where: { id: userId } });
     if (!user || !user.id) return { error: "Please login first to get access" };
+
+    if (user.zapierWebhookUrl) {
+      console.log("run zapier webhook validate");
+
+      await axios.post(user.zapierWebhookUrl, {
+        type: "validate",
+        userId: user.id,
+      });
+    }
 
     if (!user?.emailVerified)
       return { error: "Please verify your email first" };
