@@ -3,12 +3,12 @@ import TawkToChat from "@/components/TalkToChat";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import {  Figtree, Montserrat, Space_Grotesk} from "next/font/google";
+import {  Figtree, Montserrat} from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
 const montserrat = Montserrat({ subsets: ['latin'], display : 'swap', weight : 'variable' , variable : '--font-mont' })
-const Grotesk = Space_Grotesk({
+const Grotesk = Figtree({
   display : 'swap',
   weight : ['300', '400', '500', '600', '700'],
   subsets : ['latin'],
