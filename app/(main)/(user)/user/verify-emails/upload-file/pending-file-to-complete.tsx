@@ -8,11 +8,11 @@ import { toast } from "sonner";
 export default function PendingFileToComplete({
   fileId,
   enterEmails,
-  userId
+  userId,
 }: {
   fileId: string;
   enterEmails: string[];
-  userId : string
+  userId: string;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -45,10 +45,8 @@ export default function PendingFileToComplete({
 
   return (
     <div>
-      {isPending && "Parsing"}
-      <br />
       <Button onClick={handleFileUpload} disabled={isPending}>
-        Again
+        {isPending ? "Parsing" : "Again"}
       </Button>
     </div>
   );

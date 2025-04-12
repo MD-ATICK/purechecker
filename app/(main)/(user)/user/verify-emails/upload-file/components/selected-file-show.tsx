@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
 import React, { Dispatch, SetStateAction, useTransition } from "react";
-import { createUploadFile } from "../../upload-file/actions";
 import { useUserStore } from "@/store/useUserStore";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Delete } from "lucide-react";
+import { Trash, Upload } from "lucide-react";
+import Image from "next/image";
+import pdfImage from "@/assets/pdf.png";
+import { createUploadFile } from "../../upload-file-old/actions";
 
 export default function SelectedFileShow({
   selectedFiles,
@@ -44,41 +45,60 @@ export default function SelectedFileShow({
 
   return (
     <div className=" space-y-4">
-      <div className=" space-y-4">
+      <div className=" space-y-2">
         {selectedFiles.map((file) => {
           return (
             <div
               key={file.name}
-              className=" p-4 bg-gray-100 border-2 rounded-xl"
+              className=" bg-primary/10 p-4 rounded-xl flex justify-between items-center"
             >
-              <p>{file.name}</p>
-              <p>{(file.size / 1000).toFixed(1)} kb</p>
-              <p>{format(file.lastModified, "dd MM yyyy")}</p>
+              <div className="flex items-center gap-4">
+                <Image src={pdfImage} height={30} width={30} alt="pdf" />
+                <div>
+                  <p className=" font-semibold ">{file.name}</p>
+                  <p className=" font-[600] text-sm text-gray-500">
+                    ({(file.size / 1000).toFixed(1)} kb)
+                  </p>
+                </div>
+              </div>
               <Button
+                size={"icon"}
+                variant={"destructive"}
                 onClick={() =>
                   setSelectedFiles((prev) =>
                     prev.filter((pv) => pv.name !== file.name)
                   )
                 }
               >
-                <Delete />
+                <Trash />
               </Button>
             </div>
           );
         })}
       </div>
-      <br />
-      <Button
-        variant={"destructive"}
-        onClick={() => setSelectedFiles([])}
-        disabled={isPending}
-      >
-        Remove All
-      </Button>
-      <br />
-      <Button onClick={uploadSelectedFiles} disabled={isPending}>
-        {isPending ? "Parsing" : "Upload"}
-      </Button>
+      {selectedFiles.length > 0 && (
+        <div className=" flex items-center gap-2 justify-end w-full">
+          <Button
+            variant={"destructive"}
+            onClick={() => setSelectedFiles([])}
+            disabled={isPending}
+          >
+            <Trash />
+            Remove All
+          </Button>
+          <br />
+          <Button onClick={uploadSelectedFiles} disabled={isPending}>
+            {isPending ? (
+              "Parsing"
+            ) : (
+              <span className="flex items-center gap-2">
+                {" "}
+                <Upload /> Upload
+              </span>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

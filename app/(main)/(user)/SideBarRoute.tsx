@@ -11,7 +11,7 @@ export default function SideBarRoute() {
   return (
     <div className="w-full flex flex-col gap-2">
       {userDashboardRoutes.map(({ href, icon, label }) => {
-        const isActive = currentPath === href;
+        const isActive = currentPath.includes(href);
 
         return (
           <Button

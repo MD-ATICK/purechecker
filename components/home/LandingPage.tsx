@@ -22,7 +22,7 @@ export default function LandingPage() {
   }, [scope, animate]);
 
   return (
-    <div className=" bg-gradient-to-tr from-white to-white via-sky-200">
+    <div className="">
     <div className=" h-[calc(100vh-100px)] flex flex-col w-full p-4 md:w-[60%] mx-auto gap-10 md:gap-16  justify-center items-center">
       <div className=" space-y-2 md:space-y-4 text-center">
         <motion.div

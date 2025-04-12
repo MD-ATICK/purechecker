@@ -129,7 +129,7 @@ export default function EmailCheckerField() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Enter your email"
-          className="  border-2 font-bold border-primary h-14 text-lg w-full"
+          className="  border-2 font-bold bg-white border-primary h-14 text-lg w-full"
         />
         {/* <LoadingButton
           isPending={isPending}

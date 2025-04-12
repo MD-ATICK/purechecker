@@ -76,7 +76,12 @@ export default function DownloadFileDrawer({ fileId }: { fileId: string }) {
         </DrawerTrigger>
         <DrawerContent>
           <div className="p-3 md:max-w-2xl mx-auto">
-            <DialogTitle className=" font-serif">Download File</DialogTitle>
+            <DialogTitle className=" font-bold">
+              <div className="flex items-center gap-3">
+               <div className=" h-9 aspect-square flex justify-center items-center rounded-md bg-primary/10 text-primary"><Download size={20} /></div> 
+               <h1 className=" mb-4">Download File</h1>
+              </div>
+            </DialogTitle>
             <DialogDescription>
               Download your email verification results as a file for easy
               access, review, and record-keeping.

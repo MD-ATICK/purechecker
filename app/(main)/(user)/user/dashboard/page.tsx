@@ -33,7 +33,7 @@ export default async function UserDashboard() {
   const last30DaysDashboardData : getLast30DayMailVerifyData[] = getLast30dayDashboardData(dashboardData)
 
   return (
-    <div className="  flex flex-col-reverse md:flex-row items-start gap-6 ">
+    <div className="  flex flex-col-reverse bg-gradient-to-t lg:bg-gradient-to-r to-gray-600/10 via-gray-600/10 lg:via-white lg:to-gray-600/10  from-white md:flex-row items-start gap-6 ">
       <div className=" space-y-20 flex-grow">
         <div className=" p-3">
           <h2 className="font-bold">See Your Usage Analytics By Area Chart</h2>
