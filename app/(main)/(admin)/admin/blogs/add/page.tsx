@@ -1,3 +1,3 @@
 export default function AddBlog() {
-	return <div>AddBlog new</div>;
+	return <div>AddBlog</div>;
 }
