@@ -74,9 +74,9 @@ model Blog {
   image       String
   title       String
   slug        String   @default("not-found")
-  category    String
+  category    String?
   description String
-  tags        String[]
+  tags        String[] @default([])
   htmlContent String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
