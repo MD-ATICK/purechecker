@@ -69,32 +69,17 @@ export async function POST(req: NextRequest) {
 			(enterEmails as string[]).map(async email => {
 				const parseData = parsingFileEmailCheck(email);
 				if (apiToken.User?.zapierBulkWebhookUrl) {
-					await fetchWithRetry(apiToken.User.zapierBulkWebhookUrl, parseData);
+					await fetch(apiToken.User?.zapierBulkWebhookUrl, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(parseData),
+					});
 				}
 				return parseData;
 			}),
 		);
-		const fetchWithRetry = async (
-			url: string,
-			data: Promise<(typeof parseEmails)[0]>,
-		) => {
-			try {
-				await fetch(url, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(data),
-				});
-			} catch (error) {
-				return new Response(
-					JSON.stringify({ error: (error as Error).message }),
-					{
-						status: 401,
-					},
-				);
-			}
-		};
 
 		await db.verifyEmail.createMany({
 			data: parseEmails
