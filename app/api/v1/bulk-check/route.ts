@@ -66,20 +66,20 @@ export async function POST(req: NextRequest) {
 		}
 
 		const parseEmails = await Promise.all(
-			(enterEmails as string[]).map(email => {
+			(enterEmails as string[]).map(async email => {
 				const parseData = parsingFileEmailCheck(email);
 				if (apiToken.User?.zapierBulkWebhookUrl) {
-					fetchWithRetry(apiToken.User.zapierBulkWebhookUrl, parseData);
+					await fetchWithRetry(apiToken.User.zapierBulkWebhookUrl, parseData);
 				}
 				return parseData;
 			}),
 		);
-		const fetchWithRetry = (
+		const fetchWithRetry = async (
 			url: string,
 			data: Promise<(typeof parseEmails)[0]>,
 		) => {
 			try {
-				fetch(url, {
+				await fetch(url, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
