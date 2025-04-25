@@ -1,15 +1,15 @@
-import { emailCheck } from "@/actions/emailVerify";
+import { parsingFileEmailCheck } from "@/app/(main)/(user)/user/verify-emails/upload-file/actions";
 import { db } from "@/lib/prisma";
-import { VerifyEmail } from "@prisma/client";
+import { EmailDataDashboard } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
 	try {
 		const userId = req.headers.get("x-user-id");
 		const secretKey = req.headers.get("x-secret-key");
-		const bulkEmails: string[] = await req.json();
+		const enterEmails: string[] = await req.json();
 
-		if (bulkEmails.length === 0) {
+		if (enterEmails.length === 0) {
 			return new Response(JSON.stringify({ error: "Email is not valid" }), {
 				status: 401,
 			});
@@ -27,11 +27,11 @@ export async function POST(req: NextRequest) {
 				secretKey,
 			},
 			include: {
-				verifyEmails: true,
+				User: true,
 			},
 		});
 
-		if (!apiToken) {
+		if (!apiToken || !apiToken.userId) {
 			return new Response(JSON.stringify({ error: "Unauthorized token" }), {
 				status: 401,
 			});
@@ -40,25 +40,20 @@ export async function POST(req: NextRequest) {
 		if (
 			apiToken &&
 			apiToken.apiRequestLimit &&
-			apiToken.apiRequestLimit < bulkEmails.length
+			apiToken.apiRequestLimit < enterEmails.length
 		) {
 			return new Response(
-				JSON.stringify({ error: "you have reached your limit" }),
+				JSON.stringify({
+					error: `you have reached your limit of ${apiToken.apiRequestLimit}`,
+				}),
 				{
 					status: 401,
 				},
 			);
 		}
 
-		const user = await db.user.findUnique({ where: { id: userId } });
-		if (!user || !user.id) {
-			return new Response(JSON.stringify({ error: "Invalid Headers Sent" }), {
-				status: 401,
-			});
-		}
-
 		const isUserHaveCredit = await db.credit.findFirst({
-			where: { userId: user.id, credit: { gt: bulkEmails.length } },
+			where: { userId: apiToken.userId, credit: { gt: enterEmails.length } },
 		});
 
 		if (!isUserHaveCredit) {
@@ -70,44 +65,27 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		const results: VerifyEmail[] = []; // Initialize the results array
-
-		// Use for loop instead of map to handle async code properly
-		for (const email of bulkEmails) {
-			const { data } = await emailCheck({
-				email: email.trim(),
-				userId,
-				apiTokenId: apiToken.id,
-				forApi: true,
-			}); // Push the result into the initialized array
-			if (data) {
-				results.push(data);
-			}
-		}
-
-		// Decrease the credit after processing all emails
-		await db.credit.update({
-			where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
-			data: {
-				credit: isUserHaveCredit.credit - bulkEmails.length,
-			},
-		});
-
-		if (user.zapierBulkWebhookUrl) {
+		const parseEmails = await Promise.all(
+			(enterEmails as string[]).map(email => {
+				const parseData = parsingFileEmailCheck(email);
+				if (apiToken.User?.zapierBulkWebhookUrl) {
+					fetchWithRetry(apiToken.User.zapierBulkWebhookUrl, parseData);
+				}
+				return parseData;
+			}),
+		);
+		const fetchWithRetry = (
+			url: string,
+			data: Promise<(typeof parseEmails)[0]>,
+		) => {
 			try {
-				// Send the data to the respective Zapier webhook URL
-				const response = await fetch(user.zapierBulkWebhookUrl, {
+				fetch(url, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(results),
+					body: JSON.stringify(data),
 				});
-				console.log({ message: "Gone bulk", body: await response.json() });
-
-				if (!response.ok) {
-					throw new Error("Error sending data to Zapier webhook");
-				}
 			} catch (error) {
 				return new Response(
 					JSON.stringify({ error: (error as Error).message }),
@@ -116,9 +94,63 @@ export async function POST(req: NextRequest) {
 					},
 				);
 			}
-		}
+		};
 
-		return new Response(JSON.stringify({ data: results }), {
+		await db.verifyEmail.createMany({
+			data: parseEmails
+				.filter(pe => pe && typeof pe === "object")
+				.map(pe => ({ ...pe, userId })),
+		});
+
+		await db.credit.update({
+			where: { userId, credit: { gt: enterEmails.length } },
+			data: {
+				credit: {
+					decrement: (enterEmails as string[]).length,
+				},
+			},
+		});
+
+		const deliverableEmails: EmailDataDashboard[] = parseEmails
+			.filter(pe => pe.isExist)
+			.map(pe => ({
+				email: pe.email,
+				type: "DELIVERABLE",
+				checkedAt: new Date(),
+			}));
+
+		const undeliverableEmails: EmailDataDashboard[] = parseEmails
+			.filter(pe => pe.isExist)
+			.map(pe => ({
+				email: pe.email,
+				type: "UNDELIVERABLE",
+				checkedAt: new Date(),
+			}));
+
+		const apiUsageEmails: EmailDataDashboard[] = parseEmails.map(pe => ({
+			email: pe.email,
+			type: "API_USAGE",
+			checkedAt: new Date(),
+		}));
+
+		await db.userDashboardData.updateMany({
+			where: {
+				userId,
+			},
+			data: {
+				deliverableEmails: {
+					push: deliverableEmails,
+				},
+				undeliverableEmails: {
+					push: undeliverableEmails,
+				},
+				apiUsagesEmails: {
+					push: apiUsageEmails,
+				},
+			},
+		});
+
+		return new Response(JSON.stringify({ data: parseEmails }), {
 			status: 200,
 		});
 	} catch (error) {

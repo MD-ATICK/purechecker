@@ -6,7 +6,6 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
 	const { fileId, enterEmails, userId } = await req.json();
 
-	console.log({ fileId, enterEmails, userId });
 	if (!fileId || !enterEmails || !userId) {
 		return new Response(JSON.stringify({ error: "FileId not provided" }), {
 			status: 401,
