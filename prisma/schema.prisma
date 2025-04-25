@@ -23,22 +23,23 @@ model Anonymous {
 }
 
 model User {
-  id               String        @id @default(auto()) @map("_id") @db.ObjectId
-  name             String?
-  zapierWebhookUrl String?
-  username         String?       @unique
-  email            String?       @unique
-  ip               String?
-  emailVerified    DateTime?
-  password         String?
-  image            String?
-  banned           Boolean       @default(false)
-  role             Role          @default(USER)
-  verifyEmails     VerifyEmail[]
-  credits          Credit[]
-  blogs            Blog[]
-  volumes          Volume[]
-  apis             ApiToken[]
+  id                     String        @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String?
+  zapierSingleWebhookUrl String?
+  zapierBulkWebhookUrl   String?
+  username               String?       @unique
+  email                  String?       @unique
+  ip                     String?
+  emailVerified          DateTime?
+  password               String?
+  image                  String?
+  banned                 Boolean       @default(false)
+  role                   Role          @default(USER)
+  verifyEmails           VerifyEmail[]
+  credits                Credit[]
+  blogs                  Blog[]
+  volumes                Volume[]
+  apis                   ApiToken[]
 
   accounts      Account[]
   sessions      Session[]

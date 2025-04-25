@@ -1,114 +1,130 @@
 import { emailCheck } from "@/actions/emailVerify";
 import { db } from "@/lib/prisma";
 import { VerifyEmail } from "@prisma/client";
-import axios from "axios";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  try {
-    const userId = req.headers.get("x-user-id");
-    const secretKey = req.headers.get("x-secret-key");
-    const bulkEmails: string[] = await req.json();
+	try {
+		const userId = req.headers.get("x-user-id");
+		const secretKey = req.headers.get("x-secret-key");
+		const bulkEmails: string[] = await req.json();
 
-    if (bulkEmails.length === 0) {
-      return new Response(JSON.stringify({ error: "Email is not valid" }), {
-        status: 401,
-      });
-    }
+		if (bulkEmails.length === 0) {
+			return new Response(JSON.stringify({ error: "Email is not valid" }), {
+				status: 401,
+			});
+		}
 
-    if (!userId || !secretKey) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-      });
-    }
+		if (!userId || !secretKey) {
+			return new Response(JSON.stringify({ error: "Unauthorized" }), {
+				status: 401,
+			});
+		}
 
-    const apiToken = await db.apiToken.findFirst({
-      where: {
-        userId,
-        secretKey,
-      },
-      include: {
-        verifyEmails: true,
-      },
-    });
+		const apiToken = await db.apiToken.findFirst({
+			where: {
+				userId,
+				secretKey,
+			},
+			include: {
+				verifyEmails: true,
+			},
+		});
 
-    if (!apiToken) {
-      return new Response(JSON.stringify({ error: "Unauthorized token" }), {
-        status: 401,
-      });
-    }
+		if (!apiToken) {
+			return new Response(JSON.stringify({ error: "Unauthorized token" }), {
+				status: 401,
+			});
+		}
 
-    if (
-      apiToken &&
-      apiToken.apiRequestLimit &&
-      apiToken.apiRequestLimit < bulkEmails.length
-    ) {
-      return new Response(
-        JSON.stringify({ error: "you have reached your limit" }),
-        {
-          status: 401,
-        }
-      );
-    }
+		if (
+			apiToken &&
+			apiToken.apiRequestLimit &&
+			apiToken.apiRequestLimit < bulkEmails.length
+		) {
+			return new Response(
+				JSON.stringify({ error: "you have reached your limit" }),
+				{
+					status: 401,
+				},
+			);
+		}
 
-    const user = await db.user.findUnique({ where: { id: userId } });
-    if (!user || !user.id) {
-      return new Response(JSON.stringify({ error: "Invalid Headers Sent" }), {
-        status: 401,
-      });
-    }
+		const user = await db.user.findUnique({ where: { id: userId } });
+		if (!user || !user.id) {
+			return new Response(JSON.stringify({ error: "Invalid Headers Sent" }), {
+				status: 401,
+			});
+		}
 
-    const isUserHaveCredit = await db.credit.findFirst({
-      where: { userId: user.id, credit: { gt: bulkEmails.length } },
-    });
+		const isUserHaveCredit = await db.credit.findFirst({
+			where: { userId: user.id, credit: { gt: bulkEmails.length } },
+		});
 
-    if (!isUserHaveCredit) {
-      return new Response(
-        JSON.stringify({ error: "you don't have enough credit" }),
-        {
-          status: 401,
-        }
-      );
-    }
+		if (!isUserHaveCredit) {
+			return new Response(
+				JSON.stringify({ error: "you don't have enough credit" }),
+				{
+					status: 401,
+				},
+			);
+		}
 
-    const results: VerifyEmail[] = []; // Initialize the results array
+		const results: VerifyEmail[] = []; // Initialize the results array
 
-    // Use for loop instead of map to handle async code properly
-    for (const email of bulkEmails) {
-      const { data } = await emailCheck({
-        email: email.trim(),
-        userId,
-        apiTokenId: apiToken.id,
-        forApi: true,
-      }); // Push the result into the initialized array
-      if (data) {
-        results.push(data);
-      }
-    }
+		// Use for loop instead of map to handle async code properly
+		for (const email of bulkEmails) {
+			const { data } = await emailCheck({
+				email: email.trim(),
+				userId,
+				apiTokenId: apiToken.id,
+				forApi: true,
+			}); // Push the result into the initialized array
+			if (data) {
+				results.push(data);
+			}
+		}
 
-    if (user.zapierWebhookUrl) {
-        console.log('run zapier webhook bulk-check')
-      await axios.post(user.zapierWebhookUrl, {
-        type: "bulk-check",
-        userId: user.id,
-      });
-    }
+		// Decrease the credit after processing all emails
+		await db.credit.update({
+			where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
+			data: {
+				credit: isUserHaveCredit.credit - bulkEmails.length,
+			},
+		});
 
-    // Decrease the credit after processing all emails
-    await db.credit.update({
-      where: { id: isUserHaveCredit.id, userId: user.id, credit: { gt: 0 } },
-      data: {
-        credit: isUserHaveCredit.credit - bulkEmails.length,
-      },
-    });
+		if (user.zapierBulkWebhookUrl) {
+			try {
+				// Send the data to the respective Zapier webhook URL
+				const response = await fetch(user.zapierBulkWebhookUrl, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(results),
+				});
+				console.log({ message: "Gone bulk", body: await response.json() });
 
-    return new Response(JSON.stringify({ data: results }), {
-      status: 200,
-    });
-  } catch (error) {
-    console.log(error);
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-    });
-  }
+				if (!response.ok) {
+					throw new Error("Error sending data to Zapier webhook");
+				}
+			} catch (error) {
+				return new Response(
+					JSON.stringify({ error: (error as Error).message }),
+					{
+						status: 401,
+					},
+				);
+			}
+		}
+
+		return new Response(JSON.stringify({ data: results }), {
+			status: 200,
+		});
+	} catch (error) {
+		console.log(error);
+		return new Response(JSON.stringify({ error: (error as Error).message }), {
+			status: 500,
+		});
+	}
 }
