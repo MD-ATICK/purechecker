@@ -15,12 +15,27 @@ export async function GET() {
 				riskLevel: true,
 				free: true,
 				role: true,
-				mxRecords: true,
 			},
 		});
-		return new Response(JSON.stringify(data), {
-			status: 200,
-		});
+		return new Response(
+			JSON.stringify(
+				data.map(item => ({
+					email: item.email,
+					domain: item.domain,
+					reason: item.reason,
+					isExist: item.isExist ? "yes" : "no",
+					isValidSyntax: item.isValidSyntax ? "yes" : "no",
+					isValidDomain: item.isValidDomain ? "yes" : "no",
+					riskLevel: item.riskLevel,
+					isDisposable: item.isDisposable ? "yes" : "no",
+					free: item.free ? "yes" : "no",
+					role: item.role,
+				})),
+			),
+			{
+				status: 200,
+			},
+		);
 	} catch (error) {
 		return new Response(
 			JSON.stringify({ error: "Wrong api key" + (error as Error).message }),

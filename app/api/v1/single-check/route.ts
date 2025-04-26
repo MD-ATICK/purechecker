@@ -48,9 +48,19 @@ export async function GET(req: NextRequest) {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(data),
+					body: JSON.stringify({
+						email: data.email,
+						domain: data.domain,
+						reason: data.reason,
+						isExist: data.isExist ? "yes" : "no",
+						isValidSyntax: data.isValidSyntax ? "yes" : "no",
+						isValidDomain: data.isValidDomain ? "yes" : "no",
+						riskLevel: data.riskLevel,
+						isDisposable: data.isDisposable ? "yes" : "no",
+						free: data.free ? "yes" : "no",
+						role: data.role,
+					}),
 				});
-				console.log({ message: "Gone", body: await response.json() });
 
 				if (!response.ok) {
 					throw new Error("Error sending data to Zapier webhook");

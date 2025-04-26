@@ -66,20 +66,32 @@ export async function POST(req: NextRequest) {
 		}
 
 		const parseEmails = await Promise.all(
-			(enterEmails as string[]).map(async email => {
-				const parseData = parsingFileEmailCheck(email);
-				if (apiToken.User?.zapierBulkWebhookUrl) {
-					await fetch(apiToken.User?.zapierBulkWebhookUrl, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(parseData),
-					});
-				}
-				return parseData;
-			}),
+			(enterEmails as string[]).map(email => parsingFileEmailCheck(email)),
 		);
+
+		parseEmails.map(async data => {
+			if (apiToken.User?.zapierBulkWebhookUrl) {
+				console.log("webhook", apiToken.User?.zapierBulkWebhookUrl);
+				await fetch(apiToken.User?.zapierBulkWebhookUrl, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						email: data.email,
+						domain: data.domain,
+						reason: data.reason,
+						isExist: data.isExist ? "yes" : "no",
+						isValidSyntax: data.isValidSyntax ? "yes" : "no",
+						isValidDomain: data.isValidDomain ? "yes" : "no",
+						riskLevel: data.riskLevel,
+						isDisposable: data.isDisposable ? "yes" : "no",
+						free: data.free ? "yes" : "no",
+						role: data.role,
+					}),
+				});
+			}
+		});
 
 		await db.verifyEmail.createMany({
 			data: parseEmails
