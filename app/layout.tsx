@@ -3,15 +3,15 @@ import TawkToChat from "@/components/TalkToChat";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Figtree, Montserrat } from "next/font/google";
+import { Figtree, Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-const montserrat = Montserrat({
+const montserrat = Roboto({
 	subsets: ["latin"],
 	display: "swap",
-	weight: "variable",
-	variable: "--font-mont",
+	weight: ["100", "300", "400", "500", "700", "900"],
+	variable: "--font-roboto",
 });
 const Grotesk = Figtree({
 	display: "swap",

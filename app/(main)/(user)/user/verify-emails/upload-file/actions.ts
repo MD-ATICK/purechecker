@@ -2,68 +2,68 @@
 import { getMxRecords, smtpClientCheck } from "@/actions/emailVerify";
 import { db } from "@/lib/prisma";
 import {
-  getRiskLevel,
-  inferRole,
-  isDisposableEmail,
-  isFreeDomain,
-  isValidSyntax,
+	getRiskLevel,
+	inferRole,
+	isDisposableEmail,
+	isFreeDomain,
+	isValidSyntax,
 } from "@/lib/utils";
 
 export const getFiles = async (userId?: string) => {
-  if (!userId) {
-    return { error: "UnAuthorized!" };
-  }
-  const files = await db.uploadFile.findMany({ where: { userId } });
-  return { files };
+	if (!userId) {
+		return { error: "UnAuthorized!" };
+	}
+	const files = await db.uploadFile.findMany({ where: { userId } });
+	return { files };
 };
 
 export const parsingFileEmailCheck = async (email: string) => {
-  const domain = email.split("@")[1];
-  const free = isFreeDomain(domain);
-  const role = inferRole(email) || "user";
-  const isDisposable = isDisposableEmail(domain);
-  const mxRecords = await getMxRecords(domain);
+	const domain = email.split("@")[1];
+	const free = isFreeDomain(domain);
+	const role = inferRole(email) || "user";
+	const isDisposable = isDisposableEmail(domain);
+	const mxRecords = await getMxRecords(domain);
 
-  const smtpExists = await smtpClientCheck({
-    email,
-    mxRecord: mxRecords[0]?.exchange,
-  });
-  const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
+	const smtpExists = await smtpClientCheck({
+		email,
+		mxRecord: mxRecords[0]?.exchange,
+	});
+	const riskLevel = getRiskLevel(isDisposable, smtpExists.result);
 
-  return {
-    email,
-    domain,
-    reason: smtpExists.message,
-    isExist: smtpExists.result,
-    isValidSyntax: isValidSyntax(email),
-    isValidDomain: mxRecords.length > 0 ? true : false,
-    riskLevel,
-    mxRecords,
-    isDisposable,
-    free,
-    role,
-  };
+	return {
+		email,
+		domain,
+		reason: smtpExists.message,
+		isExist: smtpExists.result,
+		isValidSyntax: isValidSyntax(email),
+		isValidDomain: mxRecords.length > 0 ? true : false,
+		riskLevel,
+		mxRecords,
+		isDisposable,
+		free,
+		role,
+	};
 };
 
 export const getVerifyEmailsByFileId = async ({
-  fileId,
-  filter,
+	fileId,
+	filter,
 }: {
-  fileId: string;
-  filter: "all" | "deliverable" | "undeliverable" | "disposable";
+	fileId: string;
+	filter: "all" | "deliverable" | "undeliverable" | "disposable";
 }) => {
-  const data = await db.verifyEmail.findMany({
-    where: {
-      uploadFileId: fileId,
-      isDisposable: filter === "disposable" ? true : undefined,
-      isExist:
-        filter === "deliverable"
-          ? true
-          : filter === "undeliverable"
-          ? false
-          : undefined,
-    },
-  });
+	const data = await db.verifyEmail.findMany({
+		where: {
+			uploadFileId: fileId,
+			isDisposable: filter === "disposable" ? true : undefined,
+			isExist:
+				filter === "deliverable"
+					? true
+					: filter === "undeliverable"
+					? false
+					: undefined,
+		},
+	});
 
-  return { data };
+	return { data };
 };

@@ -9,7 +9,7 @@ export default function AdminSideBarRoutes() {
 	const currentPath = usePathname(); // Get the current path
 
 	return (
-		<div className='w-full flex flex-col gap-2'>
+		<div className='w-full flex flex-col gap-2 overflow-auto max-h-[80vh]'>
 			{adminDashboardRoutes.map(({ href, icon, label }) => {
 				const isActive = currentPath.includes(href);
 

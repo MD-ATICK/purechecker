@@ -59,6 +59,7 @@ export async function GET(req: NextRequest) {
 						isDisposable: data.isDisposable ? "yes" : "no",
 						free: data.free ? "yes" : "no",
 						role: data.role,
+						created_at: data.createdAt.toISOString(),
 					}),
 				});
 

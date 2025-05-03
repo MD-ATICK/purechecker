@@ -71,23 +71,24 @@ enum VolumeType {
 }
 
 model Blog {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  image       String
-  title       String
-  slug        String   @default("not-found")
-  category    String?
-  description String
-  tags        String[] @default([])
-  htmlContent String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  User        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String?  @db.ObjectId
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  image         String
+  title         String
+  slug          String   @default("not-found")
+  categories    String[] @default([])
+  subCategories String[] @default([])
+  description   String
+  tags          String[] @default([])
+  htmlContent   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  User          User?    @relation(fields: [userId], references: [id])
+  userId        String?  @db.ObjectId
 }
 
 model Credit {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  User      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User      User       @relation(fields: [userId], references: [id])
   userId    String     @unique @db.ObjectId
   credit    Int        @default(0)
   paymentId String?
@@ -107,7 +108,7 @@ model Volume {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   paddlePriceId  String
-  User           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User           User           @relation(fields: [userId], references: [id])
   userId         String         @db.ObjectId
   subscriptions  Subscription[]
   purchases      Purchase[]
@@ -167,7 +168,7 @@ model VerifyEmail {
   mxRecords     MxRecord[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  User          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User          User        @relation(fields: [userId], references: [id])
   userId        String      @db.ObjectId
   ApiToken      ApiToken?   @relation(fields: [apiTokenId], references: [id])
   apiTokenId    String?     @db.ObjectId
@@ -216,10 +217,10 @@ model Order {
 
 model Purchase {
   id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  User                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User                User     @relation(fields: [userId], references: [id])
   userId              String   @db.ObjectId
   volumeId            String   @db.ObjectId
-  volume              Volume   @relation(fields: [volumeId], references: [id], onDelete: Cascade)
+  volume              Volume   @relation(fields: [volumeId], references: [id])
   paddleTransactionId String
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
@@ -234,10 +235,10 @@ enum billingCycleIntervalEnum {
 
 model Subscription {
   id                         String                   @id @default(auto()) @map("_id") @db.ObjectId
-  User                       User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User                       User                     @relation(fields: [userId], references: [id])
   userId                     String                   @db.ObjectId
   volumeId                   String                   @db.ObjectId
-  volume                     Volume                   @relation(fields: [volumeId], references: [id], onDelete: Cascade)
+  volume                     Volume                   @relation(fields: [volumeId], references: [id])
   paddleSubscriptionId       String
   subscriptionScheduleChange Boolean
   billingCycleInterval       billingCycleIntervalEnum
@@ -284,7 +285,7 @@ model Account {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerAccountId])
 }
@@ -294,7 +295,7 @@ model Session {
   sessionToken String   @unique
   userId       String   @db.ObjectId
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -320,7 +321,7 @@ model Authenticator {
   credentialBackedUp   Boolean
   transports           String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
 
   @@unique([userId, credentialID])
 }

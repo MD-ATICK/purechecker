@@ -36,7 +36,8 @@ export type VolumeValues = z.infer<typeof VolumeSchema>;
 export const BlogSchema = z.object({
 	image: requiredString,
 	title: requiredString,
-	category: optionalString,
+	categories: z.array(requiredString).optional(),
+	subCategories: z.array(requiredString).optional(),
 	tags: z.array(requiredString).optional(),
 	description: requiredString,
 	htmlContent: requiredString,

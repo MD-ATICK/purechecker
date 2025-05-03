@@ -30,6 +30,7 @@ export async function GET() {
 					isDisposable: item.isDisposable ? "yes" : "no",
 					free: item.free ? "yes" : "no",
 					role: item.role,
+					created_at: new Date().toISOString(),
 				})),
 			),
 			{

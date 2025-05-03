@@ -47,7 +47,7 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
 		defaultValues: {
 			image: "",
 			title: "",
-			category: "",
+			categories: [],
 			tags: [],
 			description: "",
 			htmlContent: "",
@@ -235,7 +235,7 @@ export default function BlogDialog({ blog }: { blog?: Blog }) {
 						/>
 						<FormField
 							control={form.control}
-							name='category'
+							name='categories'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className=' flex items-center gap-1'>

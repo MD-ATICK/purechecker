@@ -10,9 +10,70 @@ import {
 	PackageCheck,
 	PenTool,
 	Pickaxe,
+	Upload,
 	Users,
 } from "lucide-react";
+import mailChamp from "@/assets/mailChamp.png";
+import aweber from "@/assets/aweber.png";
+import mailerlite from "@/assets/mailerlite.png";
+import sendloop from "@/assets/sendloop.png";
+import sparkpost from "@/assets/sparkpost.png";
+import mailgun from "@/assets/mailgun.png";
+import gist from "@/assets/gist.svg";
+import hubspot from "@/assets/hubspot.svg";
+import suretriggers from "@/assets/suretriggers.png";
+import campaign from "@/assets/campaign-monitor.png";
+import zapier from "@/assets/zapier.svg";
 
+export const integrationsItems = [
+	{
+		name: "MailChamp",
+		icon: mailChamp,
+	},
+	{
+		name: "Aweber",
+		icon: aweber,
+	},
+	{
+		name: "Mailerlite",
+		icon: mailerlite,
+	},
+	{
+		name: "Gist",
+		icon: gist,
+	},
+	{
+		name: "Sendloop",
+		icon: sendloop,
+	},
+	{
+		name: "Sparkpost",
+		icon: sparkpost,
+	},
+	{
+		name: "Mailgun",
+		icon: mailgun,
+	},
+	{
+		name: "Hubspot",
+		icon: hubspot,
+	},
+	{
+		name: "Campaign Monitor",
+		icon: campaign,
+	},
+	{
+		name: "Sure Triggers",
+		icon: suretriggers,
+	},
+	{
+		name: "Zapier",
+		icon: zapier,
+	},
+	{
+		name: "More integrations coming soon",
+	},
+];
 // hello
 
 export const navRoutes = [
@@ -31,6 +92,10 @@ export const navRoutes = [
 	{
 		label: "Docs",
 		href: "/docs",
+	},
+	{
+		label: "Integrates",
+		href: "/integrates",
 	},
 	{
 		label: "Blog",
@@ -72,6 +137,11 @@ export const adminDashboardRoutes = [
 		href: "/admin/jobs",
 		label: "Jobs",
 		icon: <Pickaxe />,
+	},
+	{
+		href: "/admin/upload-files-history",
+		label: "Upload Files History",
+		icon: <Upload />,
 	},
 	{
 		href: "/admin/blogs",

@@ -27,7 +27,7 @@ interface TiptapEditorProps {
 	editor: Editor;
 }
 
-const TiptapEditor = ({ editor }: TiptapEditorProps) => {
+const Toolbar = ({ editor }: TiptapEditorProps) => {
 	// const [isUploading, setIsUploading] = useState(false);
 
 	// const handleImageUpload = useCallback(async (file: File) => {
@@ -480,4 +480,4 @@ const TiptapEditor = ({ editor }: TiptapEditorProps) => {
 	);
 };
 
-export default TiptapEditor;
+export default Toolbar;
