@@ -151,7 +151,7 @@ export default function NewBlogAdd() {
 	}
 
 	return (
-		<div className=' bg-gray-200 font-sans px-2  min-h-screen'>
+		<div className=' bg-gray-200 px-2  min-h-screen'>
 			<div className=' py-4 space-y-2'>
 				<div className='flex justify-between items-center'>
 					<p className=' text-primary font-semibold text-lg'>New Blog Create</p>

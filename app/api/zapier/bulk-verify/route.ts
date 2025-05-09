@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 	) {
 		return new Response(
 			JSON.stringify({
-				error: `you have reached your limit of ${apiToken.apiRequestLimit}`,
+				error: `You have reached your limit of ${apiToken.apiRequestLimit}`,
 			}),
 			{
 				status: 401,
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
 	if (!isUserHaveCredit) {
 		return new Response(
-			JSON.stringify({ error: "you don't have enough credit" }),
+			JSON.stringify({ error: "You don't have enough credit" }),
 			{
 				status: 401,
 			},
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
 		}));
 
 	const undeliverableEmails: EmailDataDashboard[] = parseEmails
-		.filter(pe => pe.isExist)
+		.filter(pe => !pe.isExist)
 		.map(pe => ({
 			email: pe.email,
 			type: "UNDELIVERABLE",

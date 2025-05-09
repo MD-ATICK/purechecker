@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 		}));
 
 	const undeliverableEmails: EmailDataDashboard[] = parseEmails
-		.filter(pe => pe.isExist)
+		.filter(pe => !pe.isExist)
 		.map(pe => ({
 			email: pe.email,
 			type: "UNDELIVERABLE",

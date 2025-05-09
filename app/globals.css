@@ -49,7 +49,7 @@ h2 {
 }
 
 p {
-	@apply min-h-4;
+	@apply min-h-4 font-medium;
 }
 
 @layer base {

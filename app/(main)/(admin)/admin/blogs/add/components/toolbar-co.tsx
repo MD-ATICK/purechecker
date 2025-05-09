@@ -27,6 +27,45 @@ export const ToolbarCo = ({ editor }: { editor: Editor }) => {
 				className='text-xs p-1 capitalize bg-gray-100 text-gray-500 border border-black'
 				onChange={e => {
 					const value = e.target.value;
+					if (value === "unset") {
+						editor.chain().focus().unsetFontFamily().run();
+					} else {
+						editor.chain().focus().setFontFamily(value).run();
+					}
+				}}
+				value={
+					editor.isActive("textStyle", { fontFamily: "Inter" })
+						? "Inter"
+						: editor.isActive("textStyle", {
+								fontFamily: '"Comic Sans MS", "Comic Sans"',
+						  })
+						? '"Comic Sans MS", "Comic Sans"'
+						: editor.isActive("textStyle", { fontFamily: "serif" })
+						? "serif"
+						: editor.isActive("textStyle", { fontFamily: "monospace" })
+						? "monospace"
+						: editor.isActive("textStyle", { fontFamily: "cursive" })
+						? "cursive"
+						: editor.isActive("textStyle", {
+								fontFamily: "var(--title-font-family)",
+						  })
+						? "var(--title-font-family)"
+						: "unset"
+				}
+			>
+				<option value='unset'>Default Font</option>
+				<option value='Inter'>Inter</option>
+				<option value='"Comic Sans MS", "Comic Sans"'>Comic Sans</option>
+				<option value='serif'>Serif</option>
+				<option value='monospace'>Monospace</option>
+				<option value='cursive'>Cursive</option>
+				<option value='var(--title-font-family)'>CSS Variable</option>
+			</select>
+
+			<select
+				className='text-xs p-1 capitalize bg-gray-100 text-gray-500 border border-black'
+				onChange={e => {
+					const value = e.target.value;
 					if (value === "0") {
 						editor.chain().focus().setParagraph().run();
 					} else {

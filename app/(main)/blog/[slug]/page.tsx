@@ -44,7 +44,7 @@ export default async function SingleBlog({ params }: PageProps) {
 	const { image, title, htmlContent, createdAt, slug } = data.blog;
 
 	return (
-		<div className=' max-w-5xl mx-auto p-2 font-sans space-y-6 py-4 md:py-10'>
+		<div className=' max-w-5xl mx-auto p-2 space-y-6 py-4 md:py-10'>
 			<Link
 				href={"/blog"}
 				className=' text-muted-foreground hover:text-white text-xs md:text-lg flex items-center gap-2'

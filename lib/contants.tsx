@@ -86,9 +86,10 @@ export const navRoutes = [
 		href: "/pricing",
 	},
 	{
-		label: "Contact Us",
-		href: "/contact-us",
+		label: "FAQ",
+		href: "/faq",
 	},
+
 	{
 		label: "Docs",
 		href: "/docs",
@@ -102,8 +103,8 @@ export const navRoutes = [
 		href: "/blog",
 	},
 	{
-		label: "FAQ",
-		href: "/faq",
+		label: "Contact Us",
+		href: "/contact-us",
 	},
 ];
 

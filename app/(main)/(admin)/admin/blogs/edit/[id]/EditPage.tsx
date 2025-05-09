@@ -26,6 +26,7 @@ import LoadingButton from "@/components/LoadingButton";
 import { getBlogById, updateBlog } from "../../actions";
 import { ToolbarCo } from "../../add/components/toolbar-co";
 import ArrayInput from "../../add/components/tags-input";
+import FontFamily from "@tiptap/extension-font-family";
 
 export default function EditPage() {
 	const [title, setTitle] = useState("");
@@ -96,6 +97,7 @@ export default function EditPage() {
 					},
 				},
 			}),
+			FontFamily,
 			ImageResize,
 			Color.configure({
 				types: ["textStyle"],
@@ -203,7 +205,7 @@ export default function EditPage() {
 	}
 
 	return (
-		<div className=' bg-gray-200 font-sans px-2  min-h-screen'>
+		<div className=' bg-gray-200 px-2  min-h-screen'>
 			<div className=' py-4 space-y-2'>
 				<div className='flex justify-between items-center'>
 					<p className=' text-primary font-semibold text-lg'>
@@ -214,7 +216,7 @@ export default function EditPage() {
 						onClick={handleSubmit}
 						className=' rounded-sm h-9'
 					>
-						+ Publish Blog
+						+ Edit Blog
 					</LoadingButton>
 				</div>
 				{image && (

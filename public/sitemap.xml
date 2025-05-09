@@ -31,9 +31,15 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://purechecker.com/terms</loc>
-    <lastmod>2025-01-07</lastmod>
-    <changefreq>yearly</changefreq>
+    <loc>https://purechecker.com/integrates</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://purechecker.com/blog</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
 </urlset>
